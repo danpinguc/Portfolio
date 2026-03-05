@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" class="page-scrollable">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- Head / Meta                                        -->
+<!-- ═══════════════════════════════════════ -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PARD + wkrm — Through the Forest</title>
+  <meta name="description" content="PARD + wkrm case study — dashboard design and user research for Austin Parks and Recreation's volunteer coordination system.">
+  <meta property="og:title" content="PARD + wkrm — Through the Forest">
+  <meta property="og:description" content="Dashboard design and user research for Austin Parks and Recreation's volunteer coordination system.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&family=Parkinsans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* ── PARD + wkrm: Dark Green Forest Theme ── */
+    body {
+      --accent: #3e9770;
+      --frost: #f5f0e8;
+      --frost-dim: #7a8c80;
+      --text-primary: #b7e4c7;
+      --text-dim: #f5f0e8;
+    }
+
+    /* ── 11. Vertical gap via flex on cs-inner ── */
+    .cs-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 27px;
+    }
+
+    /* Remove explicit margins that the gap now handles */
+    .cs-nav { margin-bottom: 0; }
+    .cs-hero-wrap { margin-bottom: 0; }
+    .cs-header { margin-bottom: 0; }
+    .cs-meta { margin-top: 0; margin-bottom: 0; }
+    .cs-body { margin-bottom: 0; }
+    .cs-quote { margin: 0; }
+    .cs-sep { margin: 0; }
+    .cs-section-title { margin-bottom: 0; }
+    .cs-image-row { margin-bottom: 0; }
+    .cs-back-bottom { margin-top: 0; }
+
+    /* ── 1. Number + Title side-by-side ── */
+    .cs-header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .cs-title-row {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      gap: 16px;
+    }
+
+    .cs-number {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 400;
+      font-size: 48px;
+      color: #e8c27a;
+      opacity: 1;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      margin-top: 0;
+    }
+
+    .cs-title {
+      font-family: 'Parkinsans', sans-serif;
+      font-weight: 600;
+      font-size: 48px;
+      color: var(--frost);
+      letter-spacing: 0;
+      margin-top: 0;
+    }
+
+    .cs-title .title-plus {
+      font-family: 'IBM Plex Mono', monospace;
+      font-style: italic;
+      font-weight: 600;
+      font-size: 48px;
+    }
+
+    .cs-title .title-wkrm {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      font-size: 48px;
+    }
+
+    /* ── 10. Role line ── */
+    .cs-role {
+      color: #7a8c80;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 300;
+      font-size: 10.88px;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2.176px;
+      margin-top: 0;
+    }
+
+    .cs-role strong {
+      color: #b7e4c7;
+      font-weight: 400;
+    }
+
+    .cs-role::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #3e9770;
+    }
+
+    /* ── Description ── */
+    .cs-desc {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 300;
+      font-size: 13.12px;
+      color: #f5f0e8;
+    }
+
+    /* ── 3. Meta callouts: single row ── */
+    .cs-meta {
+      display: flex;
+      justify-content: space-between;
+      grid-template-columns: unset;
+      gap: 0;
+    }
+
+    /* ── 4. Meta label & value fonts ── */
+    .cs-meta-item {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.88px;
+    }
+
+    .cs-meta-label {
+      color: #7a8c80;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 300;
+      font-size: 10.88px;
+      text-transform: uppercase;
+    }
+
+    .cs-meta-value {
+      color: #f5f0e8;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 300;
+      font-size: 10.88px;
+    }
+
+    /* ── 6. Section heading trailing lines ── */
+    .cs-section-title {
+      font-family: 'Parkinsans', sans-serif;
+      font-weight: 600;
+      font-size: 25.6px;
+      color: #b7e4c7;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 1.024px;
+    }
+
+    .cs-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #3e9770;
+    }
+
+    /* ── Body text ── */
+    .cs-body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 300;
+      font-size: 13.12px;
+      color: #f5f0e8;
+    }
+
+    /* ── 5. Quotes ── */
+    .cs-quote {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 300;
+      font-style: normal;
+      font-size: 13.12px;
+      color: #52b788;
+      border-left: 1.714px solid #e8c27a;
+      padding-left: 16px;
+      opacity: 0.8;
+      line-height: 1.7;
+    }
+
+    /* ── 7. Separator before tags ── */
+    .cs-sep {
+      background: #3e9770;
+      height: 1px;
+      opacity: 1;
+    }
+
+    .cs-img-wrap {
+      border-color: #3e9770;
+    }
+
+    /* ── 8. Tags ── */
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 300;
+      font-size: 10.88px;
+      border: 0.571px solid #3e9770;
+      padding: 7px 15px;
+      color: #f5f0e8;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .tag:hover {
+      background: rgba(62, 151, 112, 0.15);
+      border-color: #52b788;
+      color: #f5f0e8;
+    }
+
+    /* ── 9. Back button ── */
+    .cs-back {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 300;
+      font-size: 10.88px;
+      border: 0.571px solid #3e9770;
+      padding: 9px 20px;
+      color: #f5f0e8;
+    }
+
+    .cs-back:hover {
+      border-color: #52b788;
+      color: #f5f0e8;
+    }
+
+    .gallery-back,
+    .letterbox-name,
+    .letterbox-contact {
+      color: #f5f0e8;
+    }
+  </style>
+</head>
+<body class="page-scrollable" style="background:#1b3a2d;">
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Custom Cursor Elements                             -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="mouse-glow"></div>
+  <div id="custom-cursor">
+    <div class="cursor-ring cursor-dot"></div>
+    <div class="cursor-ring cursor-ring-1"></div>
+    <div class="cursor-ring cursor-ring-2"></div>
+    <div class="cursor-ring cursor-ring-3"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Letterbox Header                                   -->
+  <!-- ═══════════════════════════════════════ -->
+  <header class="letterbox letterbox-top">
+    <a href="../index.html" class="letterbox-name" style="text-decoration:none;">Daniel Colcock</a>
+    <a href="mailto:danpinguc@colcock.com" class="letterbox-contact">Contact</a>
+  </header>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Case Study Content                                 -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="cs-inner">
+
+    <!-- Navigation -->
+    <div class="cs-nav">
+      <a href="../index.html" class="cs-back">&larr; Back</a>
+    </div>
+
+    <!-- Hero Image -->
+    <div class="cs-hero-wrap"><img class="cs-hero-img" src="../Photos/Pardwkrm/CoverPhoto.jpeg" alt="PARD + wkrm project proposal presentation setup"></div>
+
+    <!-- Project Header -->
+    <div class="cs-header">
+      <div class="cs-title-row">
+        <span class="cs-number">01</span>
+        <h2 class="cs-title">PARD <span class="title-plus">+</span> <span class="title-wkrm">wkrm</span></h2>
+      </div>
+      <p class="cs-role">My role: <strong>Dashboard Design, User Research &amp; Synthesis, Presentation</strong></p>
+    </div>
+
+    <!-- Description & Metadata -->
+    <p class="cs-desc">Led dashboard design and user research for Austin Parks &amp; Recreation&rsquo;s volunteer coordination system. Conducted stakeholder interviews, in-the-field volunteering, and ecosystem mapping to uncover workflow breakdowns across divisions.</p>
+    <div class="cs-meta">
+      <div class="cs-meta-item"><span class="cs-meta-label">Timeline</span><span class="cs-meta-value">15 weeks</span></div>
+      <div class="cs-meta-item"><span class="cs-meta-label">Team</span><span class="cs-meta-value">10 designers</span></div>
+      <div class="cs-meta-item"><span class="cs-meta-label">Tools</span><span class="cs-meta-value">Figma, Adobe Suite, Miro</span></div>
+      <div class="cs-meta-item"><span class="cs-meta-label">Course</span><span class="cs-meta-value">wkrm Studio, UT Austin</span></div>
+    </div>
+    <div class="cs-sep"></div>
+
+    <!-- Section: The Problem -->
+    <h3 class="cs-section-title">The Problem</h3>
+    <p class="cs-body">PARD managed volunteers through scattered email chains, Wufoo forms, and informal networks. There was no centralized system &mdash; staff spent hours tracking sign-ups, hours went unreported, and underserved parks lacked visibility.</p>
+    <div class="cs-image-row cs-image-pair">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/KickoffMeeting.jpg" alt="Kickoff meeting with PARD stakeholders" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/PostKickoffDiscussion.png" alt="Post-kickoff discussion and synthesis" loading="lazy"></div>
+    </div>
+
+    <!-- Section: User Research -->
+    <h3 class="cs-section-title">User Research</h3>
+    <p class="cs-body">I co-led stakeholder interviews with PARD&rsquo;s Community Services and Engagement teams, uncovering key workflow breakdowns. I also volunteered at &ldquo;It&rsquo;s My Park Day&rdquo; to observe the check-in process firsthand &mdash; seeing where sign-ups stalled and how communication broke down in real time.</p>
+    <div class="cs-image-row cs-image-pair">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/JourneyMappingWithClient.jpg" alt="Journey mapping session with PARD client" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/IMG_3711.JPG.jpg" alt="Research synthesis and stakeholder mapping" loading="lazy"></div>
+    </div>
+
+    <!-- Section: Dashboard Design -->
+    <!-- Order: paragraph → full mockup → pair of screens (matches Figma) -->
+    <h3 class="cs-section-title">Dashboard Design</h3>
+    <p class="cs-body">I designed a Figma prototype of a centralized dashboard focused on clarity and data visibility &mdash; with calendar views, shift tracking, and an equity heat map. I focused on limiting cognitive load, reducing navigation depth, and making data both useful and readable.</p>
+    <div class="cs-image-row">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/DashboardSketch.jpg" alt="Early dashboard wireframe sketch" loading="lazy"></div>
+    </div>
+    <div class="cs-image-row">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/DashboardMockup.png" alt="Full dashboard mockup" loading="lazy"></div>
+    </div>
+    <div class="cs-image-row cs-image-pair">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/Dashboard1.png" alt="Dashboard screens — heat map, data dashboard, calendar" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/Dashboard2.png" alt="Dashboard screens — spreadsheet, approval, event tracking" loading="lazy"></div>
+    </div>
+
+    <!-- Section: Outcome -->
+    <h3 class="cs-section-title">Outcome</h3>
+    <p class="cs-body">We presented to PARD&rsquo;s executive leadership, framing our work around four pillars: making volunteering visible, accessible, actionable, and engaging.</p>
+    <div class="cs-image-row cs-image-pair">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/FinalPresentation.jpg" alt="Final presentation to PARD leadership" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/GroupShot.jpg" alt="Full project team" loading="lazy"></div>
+    </div>
+
+    <!-- Client Quotes -->
+    <div class="cs-quote">&ldquo;Your work was worthwhile &hellip; your insights and concepts will likely make their way into city-wide initiatives.&rdquo;</div>
+    <div class="cs-quote">&ldquo;Many of the PARD staff stayed at the Rec Center and discussed your work for almost 45 minutes.&rdquo;</div>
+
+    <!-- Tags & Footer Navigation -->
+    <div class="cs-sep"></div>
+    <div class="cs-tags">
+      <span class="tag">dashboard design</span>
+      <span class="tag">user research</span>
+      <span class="tag">figma</span>
+      <span class="tag">journey mapping</span>
+      <span class="tag">ecosystem mapping</span>
+    </div>
+    <a href="../index.html" class="cs-back cs-back-bottom">&larr; Back</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Scripts                                            -->
+  <!-- ═══════════════════════════════════════ -->
+  <script src="../js/cursor.js"></script>
+</body>
+</html>

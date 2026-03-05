@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" class="page-scrollable">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SideWalks — Through the Forest</title>
+  <meta name="description" content="SideWalks case study — a location-based app connecting seniors with younger walking companions through shared movement.">
+  <meta property="og:title" content="SideWalks — Through the Forest">
+  <meta property="og:description" content="A location-based app connecting seniors with younger walking companions through shared movement.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* ── SideWalks: Light / Clean Theme ── */
+    body {
+      --accent: #4a90e2;
+      --frost: #2e2e2e;
+      --frost-dim: #5a5a5a;
+      --text-primary: #2e2e2e;
+      --text-dim: #4a4a4a;
+    }
+
+    /* ── Layout: gap-based spacing ── */
+    .cs-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 27px;
+    }
+
+    /* Reset margins that the base CSS adds — gap handles spacing now */
+    .cs-inner .cs-nav { margin-bottom: 0; }
+    .cs-inner .cs-hero-wrap { margin-bottom: 0; }
+    .cs-inner .cs-header { margin-bottom: 0; }
+    .cs-inner .cs-sep { margin: 0; }
+    .cs-inner .cs-meta { margin-top: 0; margin-bottom: 0; }
+    .cs-inner .cs-back-bottom { margin-top: 0; }
+
+    /* ── Number + Title: side-by-side ── */
+    .cs-header-row {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+    }
+
+    .cs-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: 80px;
+      color: #4a90e2;
+      opacity: 1;
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+
+    .cs-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 48px;
+      color: #2e2e2e;
+      margin-top: 0;
+    }
+
+    /* ── Role line with trailing gradient ── */
+    .cs-role {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 10.88px;
+      color: #2e2e2e;
+      letter-spacing: 2.176px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 0;
+    }
+
+    .cs-role::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, #4a90e2, transparent);
+    }
+
+    .cs-role strong {
+      color: #2e2e2e;
+      font-weight: 400;
+    }
+
+    /* ── Description ── */
+    .cs-desc {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 13.12px;
+      color: #2e2e2e;
+      line-height: 24.272px;
+    }
+
+    /* ── Meta callouts: single row ── */
+    .cs-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .cs-meta-item {
+      font-family: 'Inter', sans-serif;
+      font-size: 10.88px;
+      line-height: 1.6;
+    }
+
+    .cs-meta-label {
+      font-weight: 600;
+      color: #4a90e2;
+      letter-spacing: 1.632px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .cs-meta-value {
+      font-weight: 300;
+      color: #2e2e2e;
+    }
+
+    /* ── Separator lines: 2px gradient ── */
+    .cs-sep {
+      height: 2px;
+      background: linear-gradient(90deg, #4a90e2, #2e2e2e, transparent);
+      opacity: 1;
+    }
+
+    /* ── Image placeholders ── */
+    .cs-img {
+      border-radius: 4px;
+      background: #d8d8d8;
+    }
+
+    .cs-img-wrap {
+      border-color: rgba(0, 0, 0, 0.08);
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.08),
+        0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    /* ── Hero image container ── */
+    .cs-hero-wrap {
+      border-color: rgba(0, 0, 0, 0.08);
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.08),
+        0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    /* ── Tags ── */
+    .tag {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 9.28px;
+      color: #2e2e2e;
+      letter-spacing: 1.6704px;
+      text-transform: uppercase;
+      border: 0.571px solid #2e2e2e;
+      padding: 0.4rem 0.9rem;
+    }
+
+    .tag:hover {
+      background: rgba(74, 144, 226, 0.1);
+      border-color: #4a90e2;
+      color: #2e2e2e;
+    }
+
+    /* ── Back button ── */
+    .cs-back {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 9.6px;
+      color: #2e2e2e;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+      border: 0.571px solid #2e2e2e;
+      padding: 9px 20px;
+    }
+
+    .cs-back:hover {
+      border-color: #4a90e2;
+      color: #4a90e2;
+    }
+
+    /* ── Letterbox ── */
+    .letterbox-name,
+    .letterbox-contact {
+      color: #2e2e2e;
+    }
+
+    /* Mouse glow toned down on light bg */
+    #mouse-glow {
+      opacity: 0.03;
+    }
+
+    /* Cursor rings darker for light bg */
+    .cursor-ring {
+      border-color: rgba(46, 46, 46, 0.4) !important;
+    }
+
+    .cursor-dot {
+      background: rgba(46, 46, 46, 0.6) !important;
+    }
+  </style>
+</head>
+<body class="page-scrollable" style="background:#ededed;">
+
+  <div id="mouse-glow"></div>
+  <div id="custom-cursor">
+    <div class="cursor-ring cursor-dot"></div>
+    <div class="cursor-ring cursor-ring-1"></div>
+    <div class="cursor-ring cursor-ring-2"></div>
+    <div class="cursor-ring cursor-ring-3"></div>
+  </div>
+
+  <header class="letterbox letterbox-top">
+    <a href="../index.html" class="letterbox-name" style="text-decoration:none;">Daniel Colcock</a>
+    <a href="mailto:danpinguc@colcock.com" class="letterbox-contact">Contact</a>
+  </header>
+
+  <div class="cs-inner">
+
+    <!-- Navigation -->
+    <div class="cs-nav">
+      <a href="../index.html" class="cs-back">&larr; Back</a>
+    </div>
+
+    <!-- Placeholder: hero image not yet added -->
+    <div class="cs-hero-wrap"><div class="cs-hero-img" aria-hidden="true"></div></div>
+
+    <!-- Project Header -->
+    <div class="cs-header">
+      <div class="cs-header-row">
+        <span class="cs-number">02</span>
+        <h2 class="cs-title">SideWalks</h2>
+      </div>
+      <p class="cs-role">My role: <strong>Interaction Design &amp; DESIGN Research</strong></p>
+    </div>
+
+    <!-- Description & Metadata -->
+    <p class="cs-desc">A location-based app connecting seniors with younger generations as walking companions &mdash; sparking meaningful conversations through shared movement. Part of a larger research project on aging and the elderly.</p>
+    <div class="cs-meta">
+      <div class="cs-meta-item"><span class="cs-meta-label">Timeline</span><span class="cs-meta-value">15 weeks</span></div>
+      <div class="cs-meta-item"><span class="cs-meta-label">Type</span><span class="cs-meta-value">Interaction Design</span></div>
+      <div class="cs-meta-item"><span class="cs-meta-label">Tools</span><span class="cs-meta-value">Figma</span></div>
+      <div class="cs-meta-item"><span class="cs-meta-label">Semester</span><span class="cs-meta-value">Spring 2025</span></div>
+    </div>
+    <div class="cs-sep"></div>
+
+    <!-- Image placeholders (no images yet) -->
+    <div class="cs-image-row"><div class="cs-img" aria-hidden="true"></div></div>
+    <div class="cs-image-row cs-image-pair"><div class="cs-img" aria-hidden="true"></div><div class="cs-img" aria-hidden="true"></div></div>
+    <div class="cs-image-row"><div class="cs-img" aria-hidden="true"></div></div>
+
+    <!-- Tags & Footer -->
+    <div class="cs-sep"></div>
+    <div class="cs-tags">
+      <span class="tag">Interaction Design</span>
+      <span class="tag">User Research</span>
+      <span class="tag">Figma</span>
+      <span class="tag">Prototyping</span>
+    </div>
+    <a href="../index.html" class="cs-back cs-back-bottom">&larr; Back</a>
+  </div>
+
+  <script src="../js/cursor.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+/* ===================================================
+   CUSTOM CURSOR + MOUSE GLOW (shared across all pages)
+   =================================================== */
+
+// ─────────────────────────────────────────
+// Constants & Configuration
+// ─────────────────────────────────────────
+// Selector string for all elements that trigger the hover-expand cursor state.
+// Add new interactive element types here — one place to maintain.
+const INTERACTIVE_SELECTOR = 'a, button, [data-href], .project-title, .project-img, .forest-path, .tag';
+
+// ─────────────────────────────────────────
+// DOM Elements
+// ─────────────────────────────────────────
+const mouseGlow = document.getElementById('mouse-glow');
+const customCursor = document.getElementById('custom-cursor');
+const cursorDot = customCursor.querySelector('.cursor-dot');
+const cursorRing1 = customCursor.querySelector('.cursor-ring-1');
+const cursorRing2 = customCursor.querySelector('.cursor-ring-2');
+const cursorRing3 = customCursor.querySelector('.cursor-ring-3');
+
+// ─────────────────────────────────────────
+// Mouse Tracking & Interpolation
+// ─────────────────────────────────────────
+// Current mouse position, updated on every mousemove.
+const mousePos = { x: 0, y: 0 };
+let cursorVisible = false;
+
+// Previous-frame position for velocity calculation (squeeze effect).
+let prevMouseX = 0, prevMouseY = 0;
+
+// Smoothed velocity — lerped each frame to avoid jitter in the oval deformation.
+let smoothVx = 0, smoothVy = 0;
+
+// ─────────────────────────────────────────
+// Event Listeners — Mouse Movement
+// ─────────────────────────────────────────
+// Tracks raw mouse position and positions the radial glow div directly.
+// Also reveals the cursor on first movement (hidden until mouse enters viewport).
+document.addEventListener('mousemove', (e) => {
+  mousePos.x = e.clientX;
+  mousePos.y = e.clientY;
+  mouseGlow.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+  mouseGlow.style.opacity = '1';
+  if (!cursorVisible) {
+    cursorVisible = true;
+    customCursor.style.opacity = '1';
+  }
+});
+
+// ─────────────────────────────────────────
+// Animation Loop
+// ─────────────────────────────────────────
+// rAF loop that positions the dot and 3 rings every frame.
+// - Dot follows mouse exactly with velocity-based squeeze (oval deformation).
+// - Rings add slow organic jitter via sin/cos waves on slightly different
+//   frequencies, giving a "breathing" feel.
+// - All positioning uses GPU-composited transforms (no left/top).
+let time = 0;
+let cursorRAF;
+function animateCursor() {
+  time += 0.02;
+
+  // Calculate mouse velocity for squeeze effect
+  const rawVx = mousePos.x - prevMouseX;
+  const rawVy = mousePos.y - prevMouseY;
+  prevMouseX = mousePos.x;
+  prevMouseY = mousePos.y;
+
+  // Smooth velocity for fluid oval deformation
+  smoothVx += (rawVx - smoothVx) * 0.15;
+  smoothVy += (rawVy - smoothVy) * 0.15;
+
+  // Squeeze opposite to movement direction (compress along movement axis)
+  const maxSqueeze = 0.22;
+  const sensitivity = 0.018;
+  const sx = 1 - Math.min(Math.abs(smoothVx) * sensitivity, maxSqueeze);
+  const sy = 1 - Math.min(Math.abs(smoothVy) * sensitivity, maxSqueeze);
+
+  // All elements follow mouse directly — use transform for GPU-composited positioning
+  cursorDot.style.transform = `translate(${mousePos.x}px, ${mousePos.y}px) translate(-50%, -50%) scaleX(${sx}) scaleY(${sy})`;
+  // Rings get slow organic jitter using sin waves
+  cursorRing1.style.transform = `translate(${mousePos.x + Math.sin(time * 1.1) * 0.4}px, ${mousePos.y + Math.cos(time * 1.3) * 0.4}px) translate(-50%, -50%) scaleX(${sx}) scaleY(${sy})`;
+  cursorRing2.style.transform = `translate(${mousePos.x + Math.sin(time * 0.9 + 2) * 0.6}px, ${mousePos.y + Math.cos(time * 1.1 + 2) * 0.6}px) translate(-50%, -50%) scaleX(${sx}) scaleY(${sy})`;
+  cursorRing3.style.transform = `translate(${mousePos.x + Math.sin(time * 0.7 + 4) * 0.8}px, ${mousePos.y + Math.cos(time * 0.8 + 4) * 0.8}px) translate(-50%, -50%) scaleX(${sx}) scaleY(${sy})`;
+
+  cursorRAF = requestAnimationFrame(animateCursor);
+}
+cursorRAF = requestAnimationFrame(animateCursor);
+
+// ─────────────────────────────────────────
+// Visibility / Lifecycle
+// ─────────────────────────────────────────
+// Pause the cursor rAF loop when the tab is backgrounded to save CPU,
+// and resume it when the user returns.
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    cancelAnimationFrame(cursorRAF);
+  } else {
+    cursorRAF = requestAnimationFrame(animateCursor);
+  }
+});
+
+// ─────────────────────────────────────────
+// Hover Detection
+// ─────────────────────────────────────────
+// Delegates hover state via event bubbling — toggles .hovering class on the
+// cursor container when the mouse enters/leaves any interactive element
+// matched by INTERACTIVE_SELECTOR.
+document.addEventListener('mouseover', (e) => {
+  if (e.target.closest(INTERACTIVE_SELECTOR)) {
+    customCursor.classList.add('hovering');
+  }
+});
+document.addEventListener('mouseout', (e) => {
+  if (e.target.closest(INTERACTIVE_SELECTOR)) {
+    customCursor.classList.remove('hovering');
+  }
+});

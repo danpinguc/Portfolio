@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- Head / Meta                                        -->
+<!-- ═══════════════════════════════════════ -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — Through the Forest</title>
+  <meta name="description" content="Portfolio of Daniel Colcock, design student at UT Austin. UX design, typography, and creative projects.">
+  <meta property="og:title" content="Portfolio — Through the Forest">
+  <meta property="og:description" content="Portfolio of Daniel Colcock, design student at UT Austin. UX design, typography, and creative projects.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Skip Link (accessibility)                          -->
+  <!-- ═══════════════════════════════════════ -->
+  <a href="#scroll-container" class="skip-link">Skip to content</a>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Loading Screen                                     -->
+  <!-- Halves shrink to letterbox-h on load;              -->
+  <!-- rings mirror the custom cursor shape.              -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="loader">
+    <div class="loader-half loader-top"></div>
+    <div class="loader-half loader-bottom"></div>
+    <div class="loader-rings" id="loader-rings">
+      <div class="loader-dot"></div>
+      <div class="loader-ring loader-ring-1"></div>
+      <div class="loader-ring loader-ring-2"></div>
+      <div class="loader-ring loader-ring-3"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Fixed Atmospheric Layers                           -->
+  <!-- Sky gradient, stars, ambient glow,                 -->
+  <!-- path glow, vignette, grain, scratches              -->
+  <!-- — all fixed-position, behind content.              -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="sky"></div>
+  <div id="stars"></div>
+  <div id="ambient-glow"></div>
+  <div id="path-glow"></div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Snow & Flicker Canvases                            -->
+  <!-- snow-canvas: 150 stop-motion flakes                -->
+  <!-- film-flicker: random dust/scratch marks            -->
+  <!-- Both run continuous rAF loops in main.js           -->
+  <!-- ═══════════════════════════════════════ -->
+  <canvas id="snow-canvas"></canvas>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Custom Cursor Elements                             -->
+  <!-- Dot + 3 concentric rings, positioned               -->
+  <!-- by cursor.js. mouse-glow is the radial             -->
+  <!-- gradient that follows the pointer.                 -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="mouse-glow"></div>
+  <div id="custom-cursor">
+    <div class="cursor-ring cursor-dot"></div>
+    <div class="cursor-ring cursor-ring-1"></div>
+    <div class="cursor-ring cursor-ring-2"></div>
+    <div class="cursor-ring cursor-ring-3"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Post-Processing Overlays                           -->
+  <!-- Vignette, film flicker canvas, grain,              -->
+  <!-- and scratch textures — stacked on top              -->
+  <!-- of everything via z-index.                         -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="vignette"></div>
+  <canvas id="film-flicker"></canvas>
+  <div id="grain"></div>
+  <div id="scratches"></div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Forest SVG Layers — Parallax Trunks                -->
+  <!-- 4 layers at increasing parallax rates:             -->
+  <!--   far  (0.08) — thin, faint, 600vw                 -->
+  <!--   mid  (0.2)  — medium weight, 600vw               -->
+  <!--   near (0.4)  — thicker, 720vw                     -->
+  <!--   front(0.65) — widest/darkest, 840vw              -->
+  <!-- Each contains hand-placed <rect> trunks            -->
+  <!-- with slight rotations for organic feel.            -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- FAR trunks (thin, faint, deep in forest) -->
+  <svg id="trunks-far" class="forest-layer" viewBox="0 0 6000 1000" preserveAspectRatio="none" style="width:600vw;height:100vh;">
+    <g fill="#2a2250">
+      <rect x="80" y="50" width="8" height="950" transform="rotate(-1, 84, 500)"/>
+      <rect x="240" y="30" width="10" height="970" transform="rotate(0.5, 245, 500)"/>
+      <rect x="420" y="60" width="7" height="940" transform="rotate(-0.8, 423, 500)"/>
+      <rect x="580" y="20" width="9" height="980" transform="rotate(0.3, 584, 500)"/>
+      <rect x="760" y="45" width="8" height="955" transform="rotate(-0.5, 764, 500)"/>
+      <rect x="950" y="35" width="10" height="965" transform="rotate(0.7, 955, 500)"/>
+      <rect x="1120" y="55" width="7" height="945" transform="rotate(-1.2, 1123, 500)"/>
+      <rect x="1300" y="25" width="9" height="975" transform="rotate(0.4, 1304, 500)"/>
+      <rect x="1480" y="50" width="8" height="950" transform="rotate(-0.6, 1484, 500)"/>
+      <rect x="1650" y="40" width="10" height="960" transform="rotate(1, 1655, 500)"/>
+      <rect x="1830" y="60" width="7" height="940" transform="rotate(-0.3, 1833, 500)"/>
+      <rect x="2010" y="30" width="9" height="970" transform="rotate(0.8, 2014, 500)"/>
+      <rect x="2180" y="50" width="8" height="950" transform="rotate(-0.9, 2184, 500)"/>
+      <rect x="2370" y="35" width="10" height="965" transform="rotate(0.2, 2375, 500)"/>
+      <rect x="2550" y="45" width="7" height="955" transform="rotate(-0.7, 2553, 500)"/>
+      <rect x="2720" y="20" width="9" height="980" transform="rotate(1.1, 2724, 500)"/>
+      <rect x="2900" y="55" width="8" height="945" transform="rotate(-0.4, 2904, 500)"/>
+      <rect x="3080" y="40" width="10" height="960" transform="rotate(0.6, 3085, 500)"/>
+      <rect x="3260" y="30" width="7" height="970" transform="rotate(-1, 3263, 500)"/>
+      <rect x="3440" y="50" width="9" height="950" transform="rotate(0.3, 3444, 500)"/>
+      <rect x="3620" y="35" width="8" height="965" transform="rotate(-0.5, 3624, 500)"/>
+      <rect x="3800" y="60" width="10" height="940" transform="rotate(0.9, 3805, 500)"/>
+      <rect x="3980" y="25" width="7" height="975" transform="rotate(-0.8, 3983, 500)"/>
+      <rect x="4160" y="45" width="9" height="955" transform="rotate(0.5, 4164, 500)"/>
+      <rect x="4340" y="40" width="8" height="960" transform="rotate(-1.1, 4344, 500)"/>
+      <rect x="4520" y="50" width="10" height="950" transform="rotate(0.7, 4525, 500)"/>
+      <rect x="4700" y="30" width="7" height="970" transform="rotate(-0.3, 4703, 500)"/>
+      <rect x="4880" y="55" width="9" height="945" transform="rotate(1, 4884, 500)"/>
+      <rect x="5060" y="35" width="8" height="965" transform="rotate(-0.6, 5064, 500)"/>
+      <rect x="5240" y="20" width="10" height="980" transform="rotate(0.4, 5245, 500)"/>
+      <rect x="5420" y="45" width="7" height="955" transform="rotate(-0.9, 5423, 500)"/>
+      <rect x="5600" y="40" width="9" height="960" transform="rotate(0.8, 5604, 500)"/>
+      <rect x="5780" y="50" width="8" height="950" transform="rotate(-0.2, 5784, 500)"/>
+    </g>
+  </svg>
+
+  <!-- MID trunks (medium weight) -->
+  <svg id="trunks-mid" class="forest-layer" viewBox="0 0 6000 1000" preserveAspectRatio="none" style="width:600vw;height:100vh;">
+    <g fill="#231c42">
+      <rect x="150" y="0" width="14" height="1000" transform="rotate(-1.5, 157, 500)"/>
+      <rect x="380" y="0" width="16" height="1000" transform="rotate(0.8, 388, 500)"/>
+      <rect x="620" y="0" width="12" height="1000" transform="rotate(-0.5, 626, 500)"/>
+      <rect x="850" y="0" width="15" height="1000" transform="rotate(1.2, 857, 500)"/>
+      <rect x="1090" y="0" width="13" height="1000" transform="rotate(-0.8, 1096, 500)"/>
+      <rect x="1320" y="0" width="16" height="1000" transform="rotate(0.5, 1328, 500)"/>
+      <rect x="1560" y="0" width="14" height="1000" transform="rotate(-1, 1567, 500)"/>
+      <rect x="1790" y="0" width="12" height="1000" transform="rotate(1.5, 1796, 500)"/>
+      <rect x="2030" y="0" width="15" height="1000" transform="rotate(-0.3, 2037, 500)"/>
+      <rect x="2260" y="0" width="13" height="1000" transform="rotate(0.7, 2266, 500)"/>
+      <rect x="2500" y="0" width="16" height="1000" transform="rotate(-1.2, 2508, 500)"/>
+      <rect x="2730" y="0" width="14" height="1000" transform="rotate(0.4, 2737, 500)"/>
+      <rect x="2970" y="0" width="12" height="1000" transform="rotate(-0.9, 2976, 500)"/>
+      <rect x="3200" y="0" width="15" height="1000" transform="rotate(1, 3207, 500)"/>
+      <rect x="3440" y="0" width="13" height="1000" transform="rotate(-0.6, 3446, 500)"/>
+      <rect x="3670" y="0" width="16" height="1000" transform="rotate(1.3, 3678, 500)"/>
+      <rect x="3910" y="0" width="14" height="1000" transform="rotate(-0.7, 3917, 500)"/>
+      <rect x="4140" y="0" width="12" height="1000" transform="rotate(0.5, 4146, 500)"/>
+      <rect x="4380" y="0" width="15" height="1000" transform="rotate(-1.1, 4387, 500)"/>
+      <rect x="4610" y="0" width="13" height="1000" transform="rotate(0.8, 4616, 500)"/>
+      <rect x="4850" y="0" width="16" height="1000" transform="rotate(-0.4, 4858, 500)"/>
+      <rect x="5080" y="0" width="14" height="1000" transform="rotate(1.2, 5087, 500)"/>
+      <rect x="5320" y="0" width="12" height="1000" transform="rotate(-0.8, 5326, 500)"/>
+      <rect x="5550" y="0" width="15" height="1000" transform="rotate(0.6, 5557, 500)"/>
+      <rect x="5780" y="0" width="13" height="1000" transform="rotate(-1, 5786, 500)"/>
+    </g>
+  </svg>
+
+  <!-- NEAR trunks (thicker, darker) -->
+  <svg id="trunks-near" class="forest-layer" viewBox="0 0 7200 1000" preserveAspectRatio="none" style="width:720vw;height:100vh;">
+    <g fill="#1c1635">
+      <rect x="100" y="0" width="22" height="1000" transform="rotate(-2, 111, 500)"/>
+      <rect x="450" y="0" width="18" height="1000" transform="rotate(1.5, 459, 500)"/>
+      <rect x="780" y="0" width="24" height="1000" transform="rotate(-1, 792, 500)"/>
+      <rect x="1120" y="0" width="20" height="1000" transform="rotate(2, 1130, 500)"/>
+      <rect x="1460" y="0" width="22" height="1000" transform="rotate(-1.5, 1471, 500)"/>
+      <rect x="1800" y="0" width="18" height="1000" transform="rotate(0.8, 1809, 500)"/>
+      <rect x="2140" y="0" width="24" height="1000" transform="rotate(-2.2, 2152, 500)"/>
+      <rect x="2480" y="0" width="20" height="1000" transform="rotate(1.2, 2490, 500)"/>
+      <rect x="2820" y="0" width="22" height="1000" transform="rotate(-0.7, 2831, 500)"/>
+      <rect x="3160" y="0" width="18" height="1000" transform="rotate(1.8, 3169, 500)"/>
+      <rect x="3500" y="0" width="24" height="1000" transform="rotate(-1.3, 3512, 500)"/>
+      <rect x="3840" y="0" width="20" height="1000" transform="rotate(0.5, 3850, 500)"/>
+      <rect x="4180" y="0" width="22" height="1000" transform="rotate(-1.8, 4191, 500)"/>
+      <rect x="4520" y="0" width="18" height="1000" transform="rotate(2.2, 4529, 500)"/>
+      <rect x="4860" y="0" width="24" height="1000" transform="rotate(-0.5, 4872, 500)"/>
+      <rect x="5200" y="0" width="20" height="1000" transform="rotate(1.5, 5210, 500)"/>
+      <rect x="5540" y="0" width="22" height="1000" transform="rotate(-1.2, 5551, 500)"/>
+      <rect x="5880" y="0" width="18" height="1000" transform="rotate(0.8, 5889, 500)"/>
+      <rect x="6220" y="0" width="24" height="1000" transform="rotate(-2, 6232, 500)"/>
+      <rect x="6560" y="0" width="20" height="1000" transform="rotate(1, 6570, 500)"/>
+      <rect x="6900" y="0" width="22" height="1000" transform="rotate(-0.8, 6911, 500)"/>
+    </g>
+  </svg>
+
+  <!-- FRONT trunks (very close, widest, darkest) -->
+  <svg id="trunks-front" class="forest-layer" viewBox="0 0 8400 1000" preserveAspectRatio="none" style="width:840vw;height:100vh;">
+    <g fill="#120e22">
+      <rect x="0" y="0" width="55" height="1000" transform="rotate(-3, 27, 500)"/>
+      <rect x="600" y="0" width="45" height="1000" transform="rotate(2.5, 622, 500)"/>
+      <rect x="1250" y="0" width="50" height="1000" transform="rotate(-2, 1275, 500)"/>
+      <rect x="1900" y="0" width="42" height="1000" transform="rotate(3, 1921, 500)"/>
+      <rect x="2550" y="0" width="48" height="1000" transform="rotate(-2.5, 2574, 500)"/>
+      <rect x="3200" y="0" width="55" height="1000" transform="rotate(2, 3227, 500)"/>
+      <rect x="3850" y="0" width="45" height="1000" transform="rotate(-3, 3872, 500)"/>
+      <rect x="4500" y="0" width="50" height="1000" transform="rotate(2.5, 4525, 500)"/>
+      <rect x="5150" y="0" width="42" height="1000" transform="rotate(-2, 5171, 500)"/>
+      <rect x="5800" y="0" width="48" height="1000" transform="rotate(3, 5824, 500)"/>
+      <rect x="6450" y="0" width="55" height="1000" transform="rotate(-2.5, 6477, 500)"/>
+      <rect x="7100" y="0" width="45" height="1000" transform="rotate(2, 7122, 500)"/>
+      <rect x="7750" y="0" width="50" height="1000" transform="rotate(-3, 7775, 500)"/>
+    </g>
+  </svg>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Forest SVG Layers — Snow Ground                    -->
+  <!-- 3 layered drift SVGs parallaxing with              -->
+  <!-- the first 3 trunk layers (far/mid/near)            -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- Far snow ground (highest horizon line, lightest) -->
+  <svg id="snow-ground-far" viewBox="0 0 6000 300" preserveAspectRatio="none" style="width:600vw;height:22vh;">
+    <defs>
+      <linearGradient id="snow-far-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#7585a8"/>
+        <stop offset="40%" stop-color="#6a78a0"/>
+        <stop offset="100%" stop-color="#5a6890"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,80 C100,60 200,90 350,70 C500,50 600,85 800,65 C1000,50 1100,80 1300,60 C1500,45 1600,75 1800,55 C2000,40 2100,70 2300,50 C2500,35 2600,65 2800,48 C3000,35 3100,60 3300,45 C3500,30 3600,55 3800,40 C4000,25 4100,50 4300,35 C4500,20 4600,48 4800,30 C5000,18 5100,45 5300,28 C5500,15 5700,40 5800,30 L6000,25 L6000,300 L0,300 Z" fill="url(#snow-far-grad)"/>
+  </svg>
+
+  <!-- Mid snow ground (with snow mounds/drifts) -->
+  <svg id="snow-ground-mid" viewBox="0 0 6000 250" preserveAspectRatio="none" style="width:600vw;height:18vh;">
+    <defs>
+      <linearGradient id="snow-mid-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8090b5"/>
+        <stop offset="30%" stop-color="#7585a8"/>
+        <stop offset="100%" stop-color="#607095"/>
+      </linearGradient>
+    </defs>
+    <!-- Undulating snow surface with mounds -->
+    <path d="M0,100 C80,85 150,95 250,70 Q320,50 400,65 C500,80 560,55 650,45 Q740,35 830,50 C920,65 980,40 1080,35 Q1170,28 1260,42 C1350,55 1420,30 1520,25 Q1610,18 1700,35 C1790,48 1860,22 1960,18 Q2050,12 2140,28 C2230,40 2300,18 2400,15 Q2490,10 2580,22 C2670,35 2740,12 2840,10 Q2930,6 3020,18 C3110,28 3180,8 3280,6 Q3370,2 3460,14 C3550,24 3620,5 3720,4 Q3810,1 3900,10 C3990,18 4060,3 4160,2 Q4250,0 4340,8 C4430,14 4500,2 4600,1 Q4700,0 4800,6 C4900,10 4980,1 5080,0 Q5200,0 5300,4 C5400,8 5500,1 5600,0 L6000,0 L6000,250 L0,250 Z" fill="url(#snow-mid-grad)"/>
+  </svg>
+
+  <!-- Near snow ground (closest, largest drifts with warm highlights) -->
+  <svg id="snow-ground-near" viewBox="0 0 7200 200" preserveAspectRatio="none" style="width:720vw;height:14vh;">
+    <defs>
+      <linearGradient id="snow-near-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#95a5c8"/>
+        <stop offset="20%" stop-color="#8898b8"/>
+        <stop offset="60%" stop-color="#7585a8"/>
+        <stop offset="100%" stop-color="#5a6890"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,60 Q120,30 250,50 C380,70 450,20 580,15 Q700,8 830,30 C960,50 1030,10 1160,8 Q1290,4 1420,25 C1550,42 1620,8 1750,5 Q1880,2 2010,18 C2140,32 2210,5 2340,3 Q2470,0 2600,14 C2730,26 2800,4 2930,2 Q3060,0 3190,10 C3320,18 3390,2 3520,1 Q3650,0 3780,8 C3910,14 3980,1 4110,0 Q4250,0 4380,6 C4510,10 4580,0 4710,0 Q4850,0 4980,4 C5110,8 5180,0 5310,0 Q5440,0 5570,3 C5700,6 5770,0 5900,0 Q6030,0 6160,2 C6290,4 6360,0 6500,0 L7200,0 L7200,200 L0,200 Z" fill="url(#snow-near-grad)"/>
+  </svg>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Scroll Container                                   -->
+  <!-- Flex row of 100vw sections, moved by               -->
+  <!-- transform: translateX() in main.js.                -->
+  <!-- No native scroll — entirely custom JS.             -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="scroll-container" tabindex="-1">
+
+    <!-- ─────────────────────────────────── -->
+    <!-- Section 0: Title                              -->
+    <!-- ─────────────────────────────────── -->
+    <section class="section title-section">
+      <div class="section-content">
+        <h1 class="main-title">
+          <span class="title-line title-small">Through</span>
+          <span class="title-line title-large">the Forest</span>
+        </h1>
+        <p class="subtitle">2026 design portfolio</p>
+        <div class="scroll-hint">Scroll to wander</div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────── -->
+    <!-- Section 1: About                              -->
+    <!-- ─────────────────────────────────── -->
+    <section class="section about-section">
+      <div class="lantern-glow" style="top: 20%; right: 15%;"></div>
+      <div class="section-content">
+        <span class="section-label reveal">About</span>
+        <h2 class="about-text stagger-text reveal">I'm interested in the satisfaction found in the wear of time — design that carries the digital artifacts of physical processes.</h2>
+        <p class="about-detail reveal">Senior Design student at the University of Texas at Austin, graduating Spring 2026. My focus is industrial design and UI/UX — from physical product form to user research and Figma prototyping. Currently seeking full-time roles where tangible craft meets digital interaction.</p>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────── -->
+    <!-- Section 2: Project 1 — PARD + wkrm            -->
+    <!-- ─────────────────────────────────── -->
+    <section class="section project-section" data-href="projects/pard-wkrm.html" tabindex="0" aria-label="View PARD + wkrm project">
+      <div class="section-content">
+        <div class="project-info reveal">
+          <span class="project-number">01</span>
+          <h3 class="project-title">PARD + wkrm</h3>
+          <div class="project-rule"></div>
+          <p class="project-desc">Led dashboard design and user research for Austin Parks & Rec's volunteer coordination system. Conducted stakeholder interviews, field research, and presented to executive leadership.</p>
+          <div class="project-tags">
+            <span class="tag">Dashboard Design</span>
+            <span class="tag">User Research</span>
+            <span class="tag">Figma</span>
+          </div>
+        </div>
+        <div class="project-gallery reveal">
+          <div class="project-img"><img class="project-img-inner" src="Photos/Pardwkrm/DashboardMockup.png" alt="PARD + wkrm dashboard mockup" loading="lazy"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────── -->
+    <!-- Section 3: Project 2 — SideWalks              -->
+    <!-- ─────────────────────────────────── -->
+    <section class="section project-section" data-href="projects/sidewalks.html" tabindex="0" aria-label="View SideWalks project">
+      <div class="lantern-glow" style="top: 25%; left: 10%;"></div>
+      <div class="section-content">
+        <div class="project-info reveal">
+          <span class="project-number">02</span>
+          <h3 class="project-title">SideWalks</h3>
+          <div class="project-rule"></div>
+          <p class="project-desc">A location-based app connecting seniors with younger generations as walking companions for casual strolls — sparking meaningful conversations through shared movement.</p>
+          <div class="project-tags">
+            <span class="tag">Interaction Design</span>
+            <span class="tag">Research</span>
+            <span class="tag">Figma</span>
+          </div>
+        </div>
+        <div class="project-gallery reveal">
+          <div class="project-img"><div class="project-img-inner"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────── -->
+    <!-- Section 4: Project 3 — Graffiti               -->
+    <!-- ─────────────────────────────────── -->
+    <section class="section project-section" data-href="projects/graffiti-type.html" tabindex="0" aria-label="View Graffiti Artists are Type Designers project">
+      <div class="section-content">
+        <div class="project-info reveal">
+          <span class="project-number">03</span>
+          <h3 class="project-title">Graffiti Artists are Type Designers</h3>
+          <div class="project-rule"></div>
+          <p class="project-desc">A handbound editorial book exploring how graffiti artists and type designers share the same iterative process of critique, form development, and letterform mastery. Features torn-image layouts, acrylic-painted covers, and screw-post binding.</p>
+          <div class="project-tags">
+            <span class="tag">Editorial Design</span>
+            <span class="tag">Book Binding</span>
+            <span class="tag">Typography</span>
+          </div>
+        </div>
+        <div class="project-gallery reveal">
+          <div class="project-img"><div class="project-img-inner"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────── -->
+    <!-- Section 5: Contact                            -->
+    <!-- ─────────────────────────────────── -->
+    <section class="section contact-section">
+      <div class="lantern-glow" style="top: 30%; left: 40%;"></div>
+      <div class="section-content">
+        <span class="section-label reveal">Get in Touch</span>
+        <h2 class="contact-heading stagger-text reveal">Let's walk<br>the same path</h2>
+        <div class="contact-links reveal">
+          <a href="mailto:danpinguc@colcock.com" class="contact-link">Email</a>
+          <a href="colcock_daniel_Resume_2025.pdf" class="contact-link" target="_blank" rel="noopener noreferrer">Resume</a>
+          <a href="https://www.linkedin.com/in/daniel-colcock/" class="contact-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://www.instagram.com/octoapplepie/" class="contact-link" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────── -->
+    <!-- Section 6: Gallery Path                       -->
+    <!-- Link to gallery.html with footprint           -->
+    <!-- SVG as a visual "continue" cue.               -->
+    <!-- ─────────────────────────────────── -->
+    <section class="section path-section">
+      <div class="section-content">
+        <a class="forest-path reveal" id="path-trigger" href="gallery.html" aria-label="Explore more work in gallery">
+          <span class="path-arrow">&#8595;</span>
+          <span class="path-label">Explore more work</span>
+          <svg class="forest-path-svg" viewBox="0 0 500 200" preserveAspectRatio="xMidYMax meet" fill="none">
+            <!-- Step 1: Left foot (closest) -->
+            <rect x="165" y="120" width="70" height="120" rx="28" fill="#1e2130" opacity="0.6" transform="rotate(-10,200,180)"/>
+            <!-- Step 2: Right foot (farther) -->
+            <rect x="284" y="63" width="52" height="90" rx="22" fill="#1e2130" opacity="0.45" transform="rotate(7,310,108)"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- End Scroll Container                               -->
+  <!-- ═══════════════════════════════════════ -->
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Letterbox Bars                                     -->
+  <!-- Fixed top header and bottom footer.                -->
+  <!-- Height set by --letterbox-h (48px).                -->
+  <!-- ═══════════════════════════════════════ -->
+  <header class="letterbox letterbox-top">
+    <span class="letterbox-name">Daniel Colcock</span>
+    <a href="mailto:danpinguc@colcock.com" class="letterbox-contact">Contact</a>
+  </header>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Navigation / Progress Bar                          -->
+  <!-- Dots + dashes for 7 sections.                      -->
+  <!-- Index derived from DOM order — no                  -->
+  <!-- data-index attributes needed.                      -->
+  <!-- ═══════════════════════════════════════ -->
+  <footer class="letterbox letterbox-bottom">
+    <nav class="progress-bar" id="progress-bar">
+      <button class="progress-dot active" aria-label="Go to intro"></button>
+      <span class="progress-dash"></span>
+      <button class="progress-dot" aria-label="Go to about"></button>
+      <span class="progress-dash"></span>
+      <button class="progress-dot" aria-label="Go to project 1"></button>
+      <span class="progress-dash"></span>
+      <button class="progress-dot" aria-label="Go to project 2"></button>
+      <span class="progress-dash"></span>
+      <button class="progress-dot" aria-label="Go to project 3"></button>
+      <span class="progress-dash"></span>
+      <button class="progress-dot" aria-label="Go to contact"></button>
+      <span class="progress-dash"></span>
+      <button class="progress-dot" aria-label="Go to gallery path"></button>
+    </nav>
+  </footer>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Scripts                                            -->
+  <!-- cursor.js: custom cursor (all pages)               -->
+  <!-- main.js: scroll engine, parallax,                  -->
+  <!--   snow, flicker, stars, reveals (this              -->
+  <!--   page only)                                       -->
+  <!-- ═══════════════════════════════════════ -->
+  <script src="js/cursor.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>

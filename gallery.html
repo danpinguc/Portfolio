@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" class="page-scrollable">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- Head / Meta                                        -->
+<!-- ═══════════════════════════════════════ -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selected Work — Through the Forest</title>
+  <meta name="description" content="Selected works gallery — Daniel Colcock. Illustrations, animations, photography, and mixed-media pieces.">
+  <meta property="og:title" content="Selected Work — Through the Forest">
+  <meta property="og:description" content="Selected works gallery — Daniel Colcock. Illustrations, animations, photography, and mixed-media pieces.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* ── Gallery: Deep Purple Theme ── */
+    .gallery-heading {
+      font-size: 32px;
+      font-weight: 300;
+      color: #ece8f4;
+      letter-spacing: 1.92px;
+    }
+
+    .gallery-back {
+      border: 0.571px solid #2a2250;
+      color: #ece8f4;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 9.6px;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+      padding: 8.571px 19.768px;
+    }
+
+    .gallery-back:hover {
+      color: #fff;
+      border-color: rgba(236, 232, 244, 0.25);
+    }
+
+    .gallery-rule {
+      background: #2a2250;
+    }
+
+    .gallery-item {
+      border: 0.571px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.45), 0px 1px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .gallery-item:nth-child(4n+1) {
+      background: linear-gradient(130deg, rgba(74, 69, 120, 0.7), rgba(19, 13, 32, 0.85));
+    }
+
+    .gallery-item:nth-child(4n+2) {
+      background: linear-gradient(123deg, rgba(74, 69, 120, 0.7), rgba(19, 13, 32, 0.85));
+    }
+
+    .gallery-item:nth-child(4n+3) {
+      background: linear-gradient(150deg, rgba(74, 69, 120, 0.7), rgba(19, 13, 32, 0.85));
+    }
+
+    .gallery-item:nth-child(4n+4) {
+      background: linear-gradient(143deg, rgba(74, 69, 120, 0.7), rgba(19, 13, 32, 0.85));
+    }
+  </style>
+</head>
+<body class="page-scrollable" style="background:#151127;">
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Custom Cursor Elements                             -->
+  <!-- Same dot + 3 rings as all other pages.             -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="mouse-glow"></div>
+  <div id="custom-cursor">
+    <div class="cursor-ring cursor-dot"></div>
+    <div class="cursor-ring cursor-ring-1"></div>
+    <div class="cursor-ring cursor-ring-2"></div>
+    <div class="cursor-ring cursor-ring-3"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Letterbox Header                                   -->
+  <!-- Fixed top bar with name + contact.                 -->
+  <!-- Name links back to index on inner pages.           -->
+  <!-- ═══════════════════════════════════════ -->
+  <header class="letterbox letterbox-top">
+    <a href="index.html" class="letterbox-name" style="text-decoration:none;">Daniel Colcock</a>
+    <a href="mailto:danpinguc@colcock.com" class="letterbox-contact">Contact</a>
+  </header>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Gallery Content                                    -->
+  <!-- Back link, heading, rule, then masonry             -->
+  <!-- grid of selected works. First 3 images             -->
+  <!-- load eagerly; rest use loading="lazy".             -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="gallery-inner">
+    <div class="gallery-header">
+      <a href="index.html" class="gallery-back">&larr; Back</a>
+      <h2 class="gallery-heading">Selected Work</h2>
+    </div>
+    <div class="gallery-rule"></div>
+
+    <!-- ─────────────────────────────────── -->
+    <!-- Gallery Grid                                  -->
+    <!-- Masonry layout via CSS columns.               -->
+    <!-- 15 items: illustrations, animations           -->
+    <!-- (GIF), photography, mixed-media.              -->
+    <!-- ─────────────────────────────────── -->
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="Photos/SelectedWorks/Armor.png" alt="Armor — digital illustration of protective gear"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/Sword.png" alt="Sword — digital illustration of a blade"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/HammerSmashFoundObject.png" alt="Hammer Smash — found object sculpture piece"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/YotonYo.png" alt="Yoton Yo — character illustration" loading="lazy"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/DyingRobit.gif" alt="Dying Robot — animated character loop" loading="lazy"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/Match-Collage.png" alt="Match Collage — mixed-media collage composition" loading="lazy"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/Telephone-pole.png" alt="Telephone Pole — urban landscape illustration" loading="lazy"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/FloatingTV.gif" alt="Floating TV — animated surreal object loop" loading="lazy"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/Glue.png" alt="Glue — product illustration study" loading="lazy"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/Manhole.jpg" alt="Manhole — urban photography" loading="lazy"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/CloudAnimation.gif" alt="Cloud Animation — animated sky loop" loading="lazy"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/Mimic.png" alt="Mimic — creature illustration" loading="lazy"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/Boat.jpg" alt="Boat — photography" loading="lazy"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/Axe.png" alt="Axe — digital illustration of a weapon" loading="lazy"></div>
+      <div class="gallery-item"><img src="Photos/SelectedWorks/Shoes.png" alt="Shoes — footwear illustration" loading="lazy"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Scripts                                            -->
+  <!-- cursor.js only — no main.js on inner               -->
+  <!-- pages (no parallax/snow/scroll engine).            -->
+  <!-- ═══════════════════════════════════════ -->
+  <script src="js/cursor.js"></script>
+</body>
+</html>

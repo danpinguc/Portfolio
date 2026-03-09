@@ -14,6 +14,12 @@ const INTERACTIVE_SELECTOR = 'a, button, [data-href], .project-title, .project-i
 // ─────────────────────────────────────────
 const mouseGlow = document.getElementById('mouse-glow');
 const customCursor = document.getElementById('custom-cursor');
+
+// Guard: if cursor markup is missing or device is touch-only, skip all cursor setup
+const isTouchDevice = 'ontouchstart' in window && matchMedia('(pointer: coarse)').matches;
+if (isTouchDevice && mouseGlow) mouseGlow.style.display = 'none';
+if (customCursor && !isTouchDevice) {
+
 const cursorDot = customCursor.querySelector('.cursor-dot');
 const cursorRing1 = customCursor.querySelector('.cursor-ring-1');
 const cursorRing2 = customCursor.querySelector('.cursor-ring-2');
@@ -25,6 +31,8 @@ const cursorRing3 = customCursor.querySelector('.cursor-ring-3');
 // Current mouse position, updated on every mousemove.
 const mousePos = { x: 0, y: 0 };
 let cursorVisible = false;
+// Track whether the current interaction is touch — suppress cursor for touch input
+let isTouching = false;
 
 // Previous-frame position for velocity calculation (squeeze effect).
 let prevMouseX = 0, prevMouseY = 0;
@@ -37,15 +45,38 @@ let smoothVx = 0, smoothVy = 0;
 // ─────────────────────────────────────────
 // Tracks raw mouse position and positions the radial glow div directly.
 // Also reveals the cursor on first movement (hidden until mouse enters viewport).
+// Suppress cursor for touch — touchstart sets flag, touchend clears it after
+// a short delay so the synthetic mousemove that follows a tap is ignored.
+document.addEventListener('touchstart', () => { isTouching = true; }, { passive: true });
+document.addEventListener('touchend', () => {
+  setTimeout(() => { isTouching = false; }, 400);
+}, { passive: true });
+
 document.addEventListener('mousemove', (e) => {
+  if (isTouching) return;
   mousePos.x = e.clientX;
   mousePos.y = e.clientY;
   mouseGlow.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-  mouseGlow.style.opacity = '1';
   if (!cursorVisible) {
     cursorVisible = true;
     customCursor.style.opacity = '1';
+    mouseGlow.style.opacity = '1';
   }
+});
+
+// Hide cursor and glow when mouse leaves the window
+document.documentElement.addEventListener('mouseleave', () => {
+  cursorVisible = false;
+  customCursor.style.opacity = '0';
+  mouseGlow.style.opacity = '0';
+});
+
+// Show cursor and glow when mouse re-enters the window
+document.documentElement.addEventListener('mouseenter', () => {
+  if (isTouching) return;
+  cursorVisible = true;
+  customCursor.style.opacity = '1';
+  mouseGlow.style.opacity = '1';
 });
 
 // ─────────────────────────────────────────
@@ -105,9 +136,8 @@ document.addEventListener('visibilitychange', () => {
 // ─────────────────────────────────────────
 // Hover Detection
 // ─────────────────────────────────────────
-// Delegates hover state via event bubbling — toggles .hovering class on the
-// cursor container when the mouse enters/leaves any interactive element
-// matched by INTERACTIVE_SELECTOR.
+// Event delegation: when mouse enters/leaves any interactive element
+// (or its child), toggle the .hovering class on the cursor.
 document.addEventListener('mouseover', (e) => {
   if (e.target.closest(INTERACTIVE_SELECTOR)) {
     customCursor.classList.add('hovering');
@@ -118,3 +148,5 @@ document.addEventListener('mouseout', (e) => {
     customCursor.classList.remove('hovering');
   }
 });
+
+} // end customCursor guard

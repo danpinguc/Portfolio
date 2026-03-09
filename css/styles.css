@@ -36,6 +36,28 @@
 }
 
 /* ─────────────────────────────────────────
+   Skip Link (visually hidden, appears on focus)
+   ───────────────────────────────────────── */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 16px;
+  z-index: 10000;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: 0 0 4px 4px;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* ─────────────────────────────────────────
    HTML & Body Defaults
    Main page: overflow hidden, horizontal scroll handled by JS
    ───────────────────────────────────────── */
@@ -47,12 +69,13 @@ html {
 }
 
 body {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   overflow: hidden;
   font-family: 'Inter', sans-serif;
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ─────────────────────────────────────────
@@ -83,7 +106,28 @@ body {
 #loader.split .loader-top { height: var(--letterbox-h); }
 #loader.split .loader-bottom { height: var(--letterbox-h); }
 
-#loader.done .loader-rings { opacity: 0; }
+/* ─────────────────────────────────────────
+   Page Exit Transition (inner pages)
+   Reverse of the loader split — two halves grow
+   from letterbox height to cover the screen.
+   ───────────────────────────────────────── */
+
+.page-exit-half {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 0;
+  background: #000;
+  z-index: 99999;
+  transition: height 0.5s ease-in;
+  pointer-events: none;
+}
+.page-exit-top { top: 0; }
+.page-exit-bottom { bottom: 0; }
+.page-exit-close .page-exit-top,
+.page-exit-close .page-exit-bottom { height: 50%; }
+
+#loader.done .loader-rings { opacity: 0; transition: opacity 0.35s ease; }
 
 .loader-rings {
   position: fixed;
@@ -139,6 +183,36 @@ body {
   82%  { width: 30px; height: 30px; opacity: 0.7; }
   92%  { width: 22px; height: 22px; opacity: 0.82; }
   100% { width: 20px; height: 20px; opacity: 0.85; }
+}
+
+.loader-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 52px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: rgba(220, 215, 225, 0.7);
+  white-space: nowrap;
+  transition: opacity 0.25s ease;
+}
+
+.loader-text span {
+  display: inline-block;
+  animation: loader-letter-wave 2s steps(8) infinite;
+}
+
+.loader-text.fade-out {
+  opacity: 0;
+}
+
+@keyframes loader-letter-wave {
+  0%        { transform: translateY(0);    opacity: 0.7; }
+  25%       { transform: translateY(-4px); opacity: 1; }
+  50%       { transform: translateY(0);    opacity: 0.7; }
+  100%      { transform: translateY(0);    opacity: 0.7; }
 }
 
 /* ─────────────────────────────────────────
@@ -532,7 +606,6 @@ body {
 .progress-bar {
   display: flex;
   align-items: center;
-  gap: 0;
 }
 
 .progress-dot {
@@ -542,7 +615,7 @@ body {
   background: rgba(122, 122, 154, 0.3);
   border: none;
   padding: 0;
-  transition: all 0.5s ease;
+  transition: background 0.5s ease, box-shadow 0.5s ease;
   flex-shrink: 0;
   position: relative;
 }
@@ -586,9 +659,10 @@ body {
   align-items: center;
   height: 100vh;
   padding: 2rem;
-  padding-top: 60px;
+  padding-top: calc(var(--letterbox-h) + 16px);
   padding-bottom: calc(var(--snow-ground-h) + var(--letterbox-h));
   text-align: center;
+  overflow: hidden;
 }
 
 /* ─────────────────────────────────────────
@@ -620,7 +694,6 @@ h1, h2, h3 {
   display: inline-block;
   transform: translateY(110%);
   transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
 }
 
 .stagger-text.visible .word-inner {
@@ -632,17 +705,28 @@ h1, h2, h3 {
    Full-viewport intro with animated title lines
    ───────────────────────────────────────── */
 
+/* Figma: Title section is left-aligned with 128px gap between heading block and scroll hint */
 .title-section .section-content {
-  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  padding-left: clamp(2rem, 15vw, 240px);
 }
 
+.title-block {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.1vw, 16px);
+  align-items: flex-start;
+}
+
+/* Figma: 96px Cormorant Garamond SemiBold, #cc2828, tracking 15.36px, uppercase */
 .main-title {
-  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-size: clamp(3rem, 6.5vw, 96px);
   font-weight: 600;
   color: var(--accent);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  line-height: 0.92;
+  letter-spacing: 0.16em;
+  line-height: 1.227;
   text-shadow: 0 0 60px rgba(204, 40, 40, 0.15);
 }
 
@@ -650,18 +734,19 @@ h1, h2, h3 {
   display: block;
 }
 
-.title-small {
-  font-size: 0.32em;
+/* Figma: 40.96px Cormorant Garamond Light, #9898b8, tracking 22.528px, uppercase — BELOW name */
+.title-role {
+  font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
-  letter-spacing: 0.55em;
+  font-size: clamp(1.4rem, 2.8vw, 40.96px);
   color: var(--frost-dim);
-  margin-bottom: 0.25em;
-  text-shadow: none;
+  text-transform: uppercase;
+  letter-spacing: 0.55em;
   opacity: 0;
 }
 
-.title-visible .title-small {
-  animation: fadeUp 1.8s ease-out 0.4s forwards;
+.title-visible .title-role {
+  animation: fadeUp 1.8s ease-out 1s forwards;
 }
 
 .title-large {
@@ -669,67 +754,56 @@ h1, h2, h3 {
 }
 
 .title-visible .title-large {
-  animation: fadeUp 1.8s ease-out 0.7s forwards;
+  animation: fadeUp 1.8s ease-out 0.5s forwards;
 }
 
+/* Figma: 12.8px Inter Light, #b8c0d8, tracking 7.68px, lowercase */
 .subtitle {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
-  font-size: clamp(0.62rem, 1vw, 0.8rem);
-  color: var(--frost-dim);
+  font-size: clamp(0.62rem, 0.87vw, 12.8px);
+  color: var(--frost);
   letter-spacing: 0.6em;
   text-transform: lowercase;
-  margin-top: 2.5rem;
   opacity: 0;
 }
 
 .title-visible .subtitle {
-  animation: fadeUp 2s ease-out 1.2s forwards;
+  animation: fadeUp 2s ease-out 1.3s forwards;
 }
 
-/* Decorative dashes flanking the subtitle */
-.subtitle::before,
-.subtitle::after {
-  content: '';
-  display: inline-block;
-  width: 28px;
-  height: 1px;
-  background: var(--frost-dim);
-  vertical-align: middle;
-  opacity: 0.3;
-}
-
-.subtitle::before { margin-right: 1.2em; }
-.subtitle::after { margin-left: 1.2em; }
-
+/* Figma: 9.28px Inter Light, #9898b8, tracking 3.248px, opacity 50%, bottom-right of section */
 .scroll-hint {
   position: absolute;
-  bottom: calc(var(--snow-ground-h) + var(--letterbox-h) + 4px);
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: calc(var(--snow-ground-h) + var(--letterbox-h) + 16px);
+  right: 15vw;
   font-family: 'Inter', sans-serif;
   font-weight: 300;
-  font-size: 0.58rem;
+  font-size: clamp(7.5px, 0.64vw, 9.28px);
   color: var(--frost-dim);
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  text-align: center;
-  text-indent: 0.35em;
+  text-align: right;
   opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.scroll-hint-arrow {
+  display: block;
+  font-size: 1rem;
+  opacity: 0.5;
 }
 
 .title-visible .scroll-hint {
-  animation: fadeUpCentered 1.5s ease-out 2s forwards, pulse 3s ease-in-out 3.5s infinite;
+  animation: fadeIn 1.5s ease-out 2s forwards, pulse 3s ease-in-out 3.5s infinite;
 }
 
-/* Arrow character below hint text */
-.scroll-hint::after {
-  content: '\2192';
-  display: block;
-  font-size: 1.1rem;
-  margin-top: 10px;
-  opacity: 0.4;
-  text-indent: 0;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 0.5; }
 }
 
 /* ─────────────────────────────────────────
@@ -739,11 +813,6 @@ h1, h2, h3 {
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeUpCentered {
-  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 @keyframes pulse {
@@ -756,38 +825,46 @@ h1, h2, h3 {
    Left-aligned text block with label, bio, detail
    ───────────────────────────────────────── */
 
+/* Figma: Bio section is flex-row, text block left + photo right */
 .about-section .section-content {
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   text-align: left;
   padding-left: 12vw;
   padding-right: 12vw;
   max-width: 100vw;
+  gap: 4vw;
 }
 
-/* Shared section label (used in About & Contact) */
+.about-text-block {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.3vw, 19px);
+  align-items: flex-start;
+  justify-content: center;
+  max-width: min(697px, 50vw);
+}
+
+/* Figma: 16px Inter Regular, #cc2828, tracking 4.176px, uppercase */
 .section-label {
   font-family: 'Inter', sans-serif;
-  font-weight: 300;
-  font-size: 0.58rem;
+  font-weight: 400;
+  font-size: clamp(11px, 1.1vw, 16px);
   color: var(--accent);
-  letter-spacing: 0.45em;
+  letter-spacing: 0.261em;
   text-transform: uppercase;
-  margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  padding-top: 9px;
   opacity: 0;
   transform: translateY(20px);
-  transition: all 1.6s ease-out;
+  transition: opacity 1.6s ease-out, transform 1.6s ease-out;
 }
 
-/* Animated accent line that grows on reveal */
+/* Remove the ::before accent line on section-label — Figma doesn't show it on About label */
 .section-label::before {
-  content: '';
-  width: 0;
-  height: 1px;
-  background: var(--accent);
-  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+  display: none;
 }
 
 .section-label.visible {
@@ -795,17 +872,15 @@ h1, h2, h3 {
   transform: translateY(0);
 }
 
-.section-label.visible::before {
-  width: 32px;
-}
-
+/* Figma: 44.8px Cormorant Garamond Light, #b8c0d8, tracking 3.584px, line-height 67.2px */
 .about-text {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
-  font-size: clamp(1.6rem, 3.2vw, 2.8rem);
+  font-size: clamp(1.4rem, 2.7vw, 40px);
   line-height: 1.5;
+  letter-spacing: 0.08em;
   color: var(--frost);
-  max-width: 640px;
+  max-width: min(697px, 50vw);
   opacity: 0;
   transition: opacity 1.6s ease-out 0.3s;
 }
@@ -814,17 +889,17 @@ h1, h2, h3 {
   opacity: 0.95;
 }
 
+/* Figma: 24px Inter Light, #b8c0d8, opacity 0.7, line-height 23.712px, max-width 460px */
 .about-detail {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
-  font-size: 0.78rem;
-  color: var(--text-dim);
-  line-height: 1.9;
-  max-width: 460px;
-  margin-top: 1.5rem;
+  font-size: clamp(0.9rem, 1.6vw, 24px);
+  color: var(--frost);
+  line-height: 0.988;
+  max-width: min(460px, 45vw);
   opacity: 0;
   transform: translateY(25px);
-  transition: all 1.8s ease-out 0.8s;
+  transition: opacity 1.8s ease-out 0.8s, transform 1.8s ease-out 0.8s;
 }
 
 .about-detail.visible {
@@ -837,22 +912,27 @@ h1, h2, h3 {
    Side-by-side layout: info block + image
    ───────────────────────────────────────── */
 
+/* Figma: flex row, 59px gap, items centered (DAWN) or items-start (PARD, Graffiti) */
 .project-section .section-content {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 4vw;
-  padding: 2rem 8vw;
-  padding-top: 60px;
+  gap: clamp(1.5rem, 4vw, 59px);
+  padding: 2rem clamp(1.5rem, 8vw, 140px);
+  padding-top: calc(var(--letterbox-h) + 16px);
   padding-bottom: calc(var(--snow-ground-h) + var(--letterbox-h));
   text-align: left;
 }
 
 .project-info {
-  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.2vw, 16px);
+  width: clamp(240px, 26vw, 380px);
+  max-width: 90vw;
   opacity: 0;
   transform: translateY(30px);
-  transition: all 1.8s ease-out;
+  transition: opacity 1.8s ease-out, transform 1.8s ease-out;
 }
 
 .project-info.visible {
@@ -860,22 +940,22 @@ h1, h2, h3 {
   transform: translateY(0);
 }
 
+/* Figma: 48px Cormorant Garamond Light, #cc2828, tracking -0.96px */
 .project-number {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
-  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-size: clamp(2rem, 3.3vw, 48px);
   color: var(--accent);
   letter-spacing: -0.02em;
-  opacity: 0.2;
   line-height: 1;
 }
 
+/* Figma: 51.2px Cormorant Garamond Regular, #b8c0d8, tracking 1.024px */
 .project-title {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 400;
-  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-size: clamp(1.8rem, 3.5vw, 51.2px);
   color: var(--frost);
-  margin: 0.5rem 0 0;
   line-height: 1.15;
   letter-spacing: 0.02em;
   transition: letter-spacing 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
@@ -886,40 +966,51 @@ h1, h2, h3 {
   color: var(--accent);
 }
 
+/* Figma: 32px wide, 1px, #cc2828 solid */
 .project-rule {
   width: 32px;
   height: 1px;
-  background: rgba(204, 40, 40, 0.3);
-  margin: 1.2rem 0;
+  background: var(--accent);
 }
 
+/* Figma: 13.12px Inter Light for DAWN (24.272px line-height), 11.84px for PARD (21.904px) */
 .project-desc {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
-  font-size: 0.74rem;
-  color: var(--text-dim);
+  font-size: clamp(11px, 0.9vw, 13.12px);
+  color: var(--frost);
   line-height: 1.85;
-  margin-bottom: 1.4rem;
 }
 
+.project-desc a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.25s ease;
+}
+.project-desc a:hover {
+  color: #e04848;
+}
+
+/* Figma: flex wrap, 12px gap */
 .project-tags {
   display: flex;
-  gap: 0.6rem;
+  gap: clamp(6px, 0.8vw, 12px);
   flex-wrap: wrap;
 }
 
+/* Figma: 9.28px Inter Light, #b8c0d8, tracking 1.6704px, uppercase, border 0.571px, padding 7px 15px */
 .tag {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
-  font-size: 0.58rem;
-  color: var(--frost-dim);
+  font-size: clamp(7.5px, 0.64vw, 9.28px);
+  color: var(--frost);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid rgba(122, 122, 154, 0.15);
+  padding: clamp(4px, 0.5vw, 7px) clamp(8px, 1vw, 15px);
+  border: 0.571px solid rgba(122, 122, 154, 0.15);
   background: transparent;
-  transition: all 0.35s ease;
-  cursor: default;
+  transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
 }
 
 .tag:hover {
@@ -932,12 +1023,13 @@ h1, h2, h3 {
    Project Image / Gallery Thumbnail
    ───────────────────────────────────────── */
 
+/* Figma: 400px wide container with padding-top offset varying per project */
 .project-gallery {
-  width: 32vw;
-  max-width: 400px;
+  width: clamp(220px, 28vw, 400px);
+  flex-shrink: 0;
   opacity: 0;
   transform: translateY(30px);
-  transition: all 1.8s ease-out 0.3s;
+  transition: opacity 1.8s ease-out 0.3s, transform 1.8s ease-out 0.3s;
 }
 
 .project-gallery.visible {
@@ -945,9 +1037,11 @@ h1, h2, h3 {
   transform: translateY(0);
 }
 
+/* Figma: 400x300px, rounded 4px, border 0.571px rgba(255,255,255,0.08), shadow */
 .project-img {
-  aspect-ratio: 4/3;
-  border: 1px solid rgba(180, 160, 200, 0.1);
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 0.571px solid rgba(255, 255, 255, 0.08);
   border-radius: 4px;
   overflow: hidden;
   position: relative;
@@ -974,8 +1068,8 @@ h1, h2, h3 {
 }
 
 /* ─────────────────────────────────────────
-   Section 5: Contact
-   Centered heading + link row
+   Contact Section
+   Figma: centered column, label + italic heading + accent line + link row
    ───────────────────────────────────────── */
 
 .contact-section .section-content {
@@ -983,31 +1077,26 @@ h1, h2, h3 {
   align-items: center;
 }
 
+.contact-text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .contact-section .section-label {
   justify-content: center;
 }
 
-/* Contact label gets a second accent line (::after) in addition to ::before */
-.contact-section .section-label::after {
-  content: '';
-  width: 0;
-  height: 1px;
-  background: var(--accent);
-  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s;
-}
-
-.contact-section .section-label.visible::after {
-  width: 32px;
-}
-
+/* Figma: 67.2px Cormorant Garamond Italic, #b8c0d8, tracking 4.032px, line-height 77.28px */
 .contact-heading {
   font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(2rem, 4.6vw, 67.2px);
   color: var(--frost);
   letter-spacing: 0.06em;
   line-height: 1.15;
-  margin-bottom: 1rem;
+  text-align: center;
   opacity: 0;
   transition: opacity 1.6s ease-out;
 }
@@ -1016,13 +1105,24 @@ h1, h2, h3 {
   opacity: 0.95;
 }
 
+/* Figma: 375px wide, 1px, #cc2828, opacity 0.64 */
+.contact-accent-line {
+  width: min(375px, 80vw);
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.64;
+}
+
+/* Figma: flex row, 12px gap, centered, 10px gap from accent line */
 .contact-links {
   display: flex;
-  gap: 2.5rem;
-  margin-top: 0.8rem;
+  gap: 12px;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
   transform: translateY(20px);
-  transition: all 1.8s ease-out 0.6s;
+  transition: opacity 1.8s ease-out 0.6s, transform 1.8s ease-out 0.6s;
 }
 
 .contact-links.visible {
@@ -1030,29 +1130,32 @@ h1, h2, h3 {
   transform: translateY(0);
 }
 
+/* Figma: 11.52px Inter Light, #b8c0d8, tracking 3.2256px, uppercase, padding 7px 15px */
 .contact-link {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
-  font-size: 0.72rem;
-  color: var(--frost-dim);
+  font-size: clamp(9px, 0.8vw, 11.52px);
+  color: var(--frost);
   text-decoration: none;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  padding: 0.6rem 0;
+  padding: clamp(4px, 0.5vw, 7px) clamp(8px, 1vw, 15px);
   position: relative;
   transition: color 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
 }
 
-/* Underline expands from center on hover */
+/* Figma: subtle underline bar, #b8c0d8, 1px, opacity 0.3 */
 .contact-link::after {
   content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
+  width: 100%;
   height: 1px;
-  background: var(--accent);
-  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--frost);
+  opacity: 0.3;
+  transition: opacity 0.4s ease;
 }
 
 .contact-link:hover {
@@ -1060,26 +1163,7 @@ h1, h2, h3 {
 }
 
 .contact-link:hover::after {
-  width: 100%;
-  left: 0;
-}
-
-.ending-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-style: italic;
-  font-size: 0.9rem;
-  color: var(--frost);
-  letter-spacing: 0.04em;
-  margin-top: 2rem;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 1.2s ease-out 0.6s;
-}
-
-.ending-text.visible {
   opacity: 0.6;
-  transform: translateY(0);
 }
 
 /* ─────────────────────────────────────────
@@ -1274,7 +1358,7 @@ html.page-scrollable body {
   background: none;
   border: 1px solid rgba(122, 122, 154, 0.15);
   padding: 0.5rem 1.2rem;
-  transition: all 0.35s ease;
+  transition: color 0.35s ease, border-color 0.35s ease;
   display: inline-block;
 }
 
@@ -1456,10 +1540,6 @@ html.page-scrollable body {
   display: block;
 }
 
-.cs-img.portrait {
-  aspect-ratio: 3/4;
-}
-
 .cs-tags {
   display: flex;
   gap: 0.6rem;
@@ -1504,7 +1584,7 @@ html.page-scrollable body {
   background: none;
   border: 1px solid rgba(122, 122, 154, 0.15);
   padding: 0.5rem 1.2rem;
-  transition: all 0.35s ease;
+  transition: color 0.35s ease, border-color 0.35s ease;
   display: inline-block;
 }
 
@@ -1541,7 +1621,6 @@ html.page-scrollable body {
 }
 
 .gallery-item:hover {
-  transform: scale(1.02);
   border-color: rgba(204, 40, 40, 0.2);
 }
 
@@ -1563,29 +1642,6 @@ html.page-scrollable body {
    Skip Link & Accessibility
    ───────────────────────────────────────── */
 
-/* Skip link -- visually hidden until focused */
-.skip-link {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%) translateY(-100%);
-  background: var(--bg-deep);
-  color: var(--frost);
-  font-family: 'Inter', sans-serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0.6rem 1.4rem;
-  border: 1px solid var(--accent);
-  z-index: 100000;
-  transition: transform 0.25s ease;
-}
-
-.skip-link:focus {
-  transform: translateX(-50%) translateY(8px);
-}
-
 /* Focus-visible -- subtle outline for keyboard navigation */
 a:focus-visible,
 button:focus-visible,
@@ -1606,16 +1662,121 @@ button:focus:not(:focus-visible),
 }
 
 /* ─────────────────────────────────────────
+   Bio Photo (About section)
+   ───────────────────────────────────────── */
+
+.bio-photo {
+  width: clamp(140px, 19vw, 279px);
+  aspect-ratio: 279 / 455;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: linear-gradient(151deg, rgba(26, 21, 53, 0.7), rgba(17, 13, 32, 0.85));
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.8s ease-out 0.5s, transform 1.8s ease-out 0.5s;
+}
+
+.bio-photo.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────
+   Accent Line (reusable red separator)
+   ───────────────────────────────────────── */
+
+.accent-line {
+  width: min(150px, 30vw);
+  height: 1px;
+  background: var(--accent);
+  margin: 1.2rem 0;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+}
+
+.accent-line.visible {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+
+/* ─────────────────────────────────────────
+   Project Arrow Icon
+   ───────────────────────────────────────── */
+
+.project-arrow {
+  display: inline-block;
+  width: clamp(14px, 1.4vw, 20px);
+  height: clamp(14px, 1.4vw, 20px);
+  vertical-align: top;
+  margin-top: 0.1em;
+  margin-left: -4px;
+  color: var(--frost-dim);
+  stroke-width: 1.8;
+  transition: color 0.4s ease;
+}
+
+.project-title:hover .project-arrow {
+  color: var(--accent);
+}
+
+/* ─────────────────────────────────────────
+   Collage Section
+   Figma: two groups of 9 images, each 721x551px, side by side
+   ───────────────────────────────────────── */
+
+.collage-section .section-content {
+  justify-content: center;
+  align-items: center;
+  padding-top: calc(var(--letterbox-h) + 50px);
+}
+
+/* Figma: Group 4 is 1413.5x551 total, two 721px groups side by side.
+   Uses container query approach: fixed aspect ratio groups that scale with the grid. */
+.collage-grid {
+  display: flex;
+  width: min(90vw, 1414px);
+  aspect-ratio: 1414 / 551;
+  position: relative;
+}
+
+.collage-group {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+/* Figma: each image uses inset percentages within the 721x551 parent */
+.collage-img {
+  position: absolute;
+  overflow: hidden;
+  background: linear-gradient(151deg, rgba(26, 21, 53, 0.7), rgba(17, 13, 32, 0.85));
+}
+
+
+/* ─────────────────────────────────────────
    Responsive / Media Queries
+   ───────────────────────────────────────── */
+
+/* ─────────────────────────────────────────
+   Narrow viewports: stack layouts vertically
    ───────────────────────────────────────── */
 
 @media (max-width: 768px) {
   .project-section .section-content {
-    flex-direction: column;
-    gap: 2rem;
-    padding: 2rem 6vw;
-    padding-bottom: calc(var(--snow-ground-h) + var(--letterbox-h) + 12px);
-    text-align: center;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 1.5rem;
+    padding: calc(var(--letterbox-h) + 16px) 6vw calc(var(--snow-ground-h) + var(--letterbox-h) + 12px);
+    text-align: left;
+    align-items: end;
+  }
+
+  .project-section .project-info {
+    align-self: end;
   }
 
   .letterbox {
@@ -1623,28 +1784,270 @@ button:focus:not(:focus-visible),
   }
 
   .project-gallery {
-    width: 80vw;
-    max-width: none;
+    width: 70vw;
   }
 
   .project-info {
+    width: auto;
     max-width: 80vw;
-    text-align: center;
+    text-align: left;
   }
 
   .project-rule {
-    margin-left: auto;
+    margin-left: 0;
     margin-right: auto;
   }
 
   .about-section .section-content {
+    flex-direction: column;
+    justify-content: center;
     padding-left: 8vw;
     padding-right: 8vw;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
+    gap: 2vw;
+  }
+
+  .about-text-block {
+    align-items: flex-start;
+    max-width: 84vw;
+  }
+
+  .about-text {
+    max-width: none;
+  }
+
+  .about-detail {
+    max-width: 84vw;
+  }
+
+  .bio-photo {
+    display: none;
+  }
+
+  .collage-grid {
+    flex-direction: column;
+    width: min(85vw, 600px);
+    aspect-ratio: 721 / 1102;
+  }
+
+  .collage-group {
+    width: 100%;
+    height: 50%;
+  }
+
+  .title-section .section-content {
+    padding-left: 8vw;
+  }
+
+  .scroll-hint {
+    right: 8vw;
   }
 
   .gallery-grid {
     columns: 2;
   }
+
+  .contact-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #trunks-far {
+    width: 4800vw !important;
+  }
+  #trunks-mid {
+    width: 3600vw !important;
+  }
+  #trunks-near {
+    width: 2160vw !important;
+  }
+  #trunks-front {
+    width: 2520vw !important;
+  }
+  #snow-ground-far {
+    width: 1800vw !important;
+  }
+  #snow-ground-mid {
+    width: 1800vw !important;
+  }
+  #snow-ground-near {
+    width: 2160vw !important;
+  }
+}
+
+/* ─────────────────────────────────────────
+   Small phones: single column, tighter spacing
+   ───────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .gallery-grid {
+    columns: 1;
+  }
+
+  .project-gallery {
+    width: 85vw;
+  }
+
+  .project-info {
+    max-width: 90vw;
+  }
+
+  .about-text-block {
+    max-width: 90vw;
+  }
+}
+
+/* ─────────────────────────────────────────
+   Short viewport: reduce font sizes to prevent
+   content from overflowing the top/bottom edges
+   ───────────────────────────────────────── */
+
+@media (max-height: 700px) {
+  .main-title {
+    font-size: clamp(2rem, 5vh, 64px);
+  }
+
+  .title-role {
+    font-size: clamp(1rem, 2.8vh, 28px);
+  }
+
+  .about-text {
+    font-size: clamp(1.2rem, 3.5vh, 32px);
+  }
+
+  .about-detail {
+    font-size: clamp(0.75rem, 1.8vh, 18px);
+  }
+
+  .project-number {
+    font-size: clamp(1.5rem, 4vh, 36px);
+  }
+
+  .project-title {
+    font-size: clamp(1.4rem, 4vh, 40px);
+  }
+
+  .contact-heading {
+    font-size: clamp(1.6rem, 6vh, 48px);
+  }
+}
+
+/* ─────────────────────────────────────────
+   Lightbox / Image Zoom Overlay
+   ───────────────────────────────────────── */
+
+.lightbox-body-lock { overflow: hidden !important; }
+
+#lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#lightbox-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+#lightbox-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+#lightbox-container img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 8px 40px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.4);
+  transform: scale(0.85);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#lightbox-overlay.active #lightbox-container img {
+  transform: scale(1);
+}
+
+#lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  z-index: 2;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: rgba(220, 215, 225, 0.7);
+  background: none;
+  border: none;
+  padding: 4px 10px;
+  line-height: 1;
+  transition: color 0.25s ease;
+}
+
+#lightbox-close:hover {
+  color: rgba(220, 215, 225, 1);
+}
+
+#lightbox-caption {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(220, 215, 225, 0.7);
+  text-align: center;
+  margin-top: 12px;
+  max-width: 600px;
+  display: none;
+}
+
+#lightbox-caption.visible {
+  display: block;
+}
+
+/* ─────────────────────────────────────────
+   Apple TV–style 3D Tilt on Image Containers
+   ───────────────────────────────────────── */
+
+.tilt-parent {
+  perspective: 800px;
+}
+
+.tilt-card {
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+  z-index: 1;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.18) 0%,
+    transparent 60%
+  );
 }

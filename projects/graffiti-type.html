@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" class="page-scrollable">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NFV4D4GVB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4NFV4D4GVB');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <title>Graffiti Artists are Type Designers — Through the Forest</title>
   <meta name="description" content="Graffiti Artists are Type Designers — a handbound editorial book exploring the shared iterative process of graffiti writers and type designers.">
   <meta property="og:title" content="Graffiti Artists are Type Designers — Through the Forest">
@@ -38,10 +47,17 @@
     .cs-body { margin-bottom: 0; }
     .cs-quote { margin: 0; }
     .cs-image-row { margin-bottom: 0; }
-    .cs-back-bottom { margin-top: 0; }
+    .cs-back-bottom { margin-top: 0; align-self: flex-start; }
     .cs-meta { margin-top: 0; margin-bottom: 0; }
+    .cs-sep { margin-top: 0; margin-bottom: 0; }
+    .cs-section-title { margin-top: 1.5rem; margin-bottom: -0.5rem; }
 
-    /* ── Number + Title: side by side ── */
+    /* ── Header block: number+title row, then full-width role ── */
+    .cs-header-block {
+      display: flex;
+      flex-direction: column;
+    }
+
     .cs-header {
       display: flex;
       flex-direction: row;
@@ -88,11 +104,7 @@
       align-items: center;
       gap: 0.8rem;
       margin-top: 0.6rem;
-    }
-
-    .cs-role strong {
-      color: #1c1c1e;
-      font-weight: 400;
+      white-space: nowrap;
     }
 
     .cs-role::after {
@@ -105,9 +117,21 @@
     /* ── Description ── */
     .cs-desc {
       color: #1c1c1e;
+      max-width: none;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    .cs-desc a {
+      color: #2f6fd4;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.25s ease;
+    }
+    .cs-desc a:hover {
+      color: #1a4fa0;
     }
 
-    /* ── Meta callouts: single row, not 2x2 grid ── */
+    /* ── Meta callouts: 4 even columns ── */
     .cs-meta {
       display: flex;
       justify-content: space-between;
@@ -117,6 +141,8 @@
     .cs-meta-item {
       display: flex;
       flex-direction: column;
+      flex: 1;
+      min-width: 0;
     }
 
     .cs-meta-label {
@@ -127,20 +153,23 @@
       text-transform: uppercase;
       letter-spacing: 1.632px;
       margin-bottom: 0.3rem;
+      display: block;
     }
 
     .cs-meta-value {
       font-family: 'Inter', sans-serif;
       font-weight: 300;
-      font-size: 10.88px;
+      font-size: 14px;
       color: #1c1c1e;
+      line-height: 1.7;
+      word-wrap: break-word;
     }
 
-    /* ── Section headings: Bebas Neue 25.6px with trailing line ── */
+    /* ── Section headings: Bebas Neue 32px with trailing line ── */
     .cs-section-title {
       font-family: 'Bebas Neue', sans-serif;
       font-weight: 400;
-      font-size: 25.6px;
+      font-size: 32px;
       color: #1c1c1e;
       display: flex;
       align-items: center;
@@ -156,23 +185,24 @@
       background: #7a7872;
     }
 
-    /* ── Body text: Inter Light 12.48px ── */
+    /* ── Body text: Inter Light 16px ── */
     .cs-body {
       font-family: 'Inter', sans-serif;
       font-weight: 300;
-      font-size: 12.48px;
+      font-size: 16px;
       color: #1c1c1e;
-      line-height: 23.088px;
+      line-height: 1.7;
+      max-width: none;
     }
 
-    /* ── Quotes: Cormorant Garamond Light Italic 16.8px ── */
+    /* ── Quotes: Cormorant Garamond Light Italic 20px ── */
     .cs-quote {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
       font-style: italic;
-      font-size: 16.8px;
+      font-size: 20px;
       color: #1c1c1e;
-      line-height: 28.56px;
+      line-height: 1.7;
       border-left: 1.714px solid #cc3340;
       padding-left: 12px;
       opacity: 0.8;
@@ -184,39 +214,67 @@
       opacity: 1;
     }
 
-    /* ── Image placeholders ── */
-    .cs-img {
-      background: #e2e0db;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-    }
-
+    /* ── Images ── */
     .cs-img-wrap {
       border-color: rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
       box-shadow:
         0 4px 20px rgba(0, 0, 0, 0.1),
         0 1px 4px rgba(0, 0, 0, 0.06);
     }
 
-    /* ── Tags: Inter Light 9.28px ── */
+    .cs-hero-wrap {
+      border-color: rgba(0, 0, 0, 0.08);
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.1),
+        0 2px 6px rgba(0, 0, 0, 0.06);
+    }
+
+    /* ── No-shadow variant for transparent/collage images ── */
+    .cs-img-wrap.no-shadow {
+      box-shadow: none;
+      border-color: transparent;
+      background: transparent;
+      overflow: visible;
+    }
+
+    .cs-img-wrap.no-shadow .cs-img {
+      aspect-ratio: auto;
+      object-fit: contain;
+    }
+
+
+    /* ── Centered single image ── */
+    .cs-image-centered {
+      display: flex;
+      justify-content: center;
+    }
+
+    .cs-image-centered .cs-img-wrap {
+      width: min(510px, 100%);
+    }
+
+    /* ── Tags: Inter Light 13px ── */
     .tag {
       font-family: 'Inter', sans-serif;
       font-weight: 300;
-      font-size: 9.28px;
+      font-size: 13px;
       color: #1c1c1e;
       background: #e2e0db;
       border: 0.571px solid #7a7872;
       text-transform: uppercase;
       letter-spacing: 1.6704px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      border-radius: 0;
     }
 
     .tag:hover {
-      background: #d4d2cd;
-      border-color: #5a5854;
+      background: #e2e0db;
+      border-color: #7a7872;
       color: #1c1c1e;
     }
 
-    /* ── Back button: Inter Light 9.6px ── */
+    /* ── Back button ── */
     .cs-back {
       font-family: 'Inter', sans-serif;
       font-weight: 300;
@@ -227,56 +285,56 @@
       text-transform: uppercase;
       letter-spacing: 2.4px;
       padding: 9px 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      transition: all 0.25s ease;
+      border-radius: 0;
     }
 
     .cs-back:hover {
+      background: #d4d2cd;
       border-color: #5a5854;
       color: #1c1c1e;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
     }
 
-    /* ── Letterbox ── */
+    /* ── Letterbox: keep light text on black bar ── */
     .letterbox-name,
     .letterbox-contact {
-      color: #1c1c1e;
+      color: #B8C0D8;
+    }
+    .letterbox-contact::after {
+      background: #B8C0D8;
     }
 
-    .cs-hero-wrap {
-      border-color: rgba(0, 0, 0, 0.08);
-      box-shadow:
-        0 8px 30px rgba(0, 0, 0, 0.1),
-        0 2px 6px rgba(0, 0, 0, 0.06);
+    /* ── Cursor (light theme) ── */
+    #mouse-glow { opacity: 0.03; }
+    .cursor-ring { border-color: rgba(28, 28, 30, 0.4) !important; }
+    .cursor-dot { background: rgba(28, 28, 30, 0.6) !important; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .cs-meta {
+        flex-wrap: wrap;
+      }
+      .cs-meta-item {
+        flex: 1 1 40%;
+      }
+      .cs-header {
+        flex-direction: column;
+      }
+      .cs-number { font-size: 72px; }
     }
 
-    /* Mouse glow toned down on light bg */
-    #mouse-glow {
-      opacity: 0.03;
-    }
-
-    .cursor-ring {
-      border-color: rgba(28, 28, 30, 0.4) !important;
-    }
-
-    .cursor-dot {
-      background: rgba(28, 28, 30, 0.6) !important;
+    @media (max-width: 480px) {
+      .cs-meta-item { flex: 1 1 100%; }
+      .cs-image-pair { grid-template-columns: 1fr; }
     }
   </style>
 </head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4NFV4D4GVB"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4NFV4D4GVB');
-</script>
-
-
 <body class="page-scrollable" style="background:#d8d6d1;">
 
-  <div id="mouse-glow"></div>
-  <div id="custom-cursor">
+  <div id="mouse-glow" aria-hidden="true"></div>
+  <div id="custom-cursor" aria-hidden="true">
     <div class="cursor-ring cursor-dot"></div>
     <div class="cursor-ring cursor-ring-1"></div>
     <div class="cursor-ring cursor-ring-2"></div>
@@ -288,6 +346,7 @@
     <a href="mailto:danpinguc@colcock.com" class="letterbox-contact">Contact</a>
   </header>
 
+  <main>
   <div class="cs-inner">
 
     <!-- Navigation -->
@@ -295,77 +354,145 @@
       <a href="../index.html" class="cs-back">&larr; Back</a>
     </div>
 
-    <!-- Hero image ABOVE title (Figma layout) -->
-    <!-- Placeholder: hero image not yet added -->
-    <div class="cs-hero-wrap"><div class="cs-hero-img" aria-hidden="true"></div></div>
+    <!-- Hero Image -->
+    <div class="cs-hero-wrap">
+      <img class="cs-hero-img" style="border-radius: 8px;" src="../Photos/Graffiti/Hero.jpg" alt="Handbound graffiti typography book resting on a concrete curb">
+    </div>
 
     <!-- Project Header -->
-    <div class="cs-header">
-      <span class="cs-number">03</span>
-      <div class="cs-header-text">
-        <h2 class="cs-title">Graffiti Artists<br>are Type Designers</h2>
-        <p class="cs-role">My role: <strong>Editorial Design, Book Binding &amp; Layout</strong></p>
+    <div class="cs-header-block">
+      <div class="cs-header">
+        <span class="cs-number" aria-hidden="true">03</span>
+        <div class="cs-header-text">
+          <h2 class="cs-title">Graffiti Artists<br>are Type Designers</h2>
+        </div>
+      </div>
+      <p class="cs-role">Editorial Design, Book Binding &amp; Layout</p>
+    </div>
+
+    <!-- Description -->
+    <p class="cs-desc"><a href="../files/Graffiti-Artists-are-Type-Designers.pdf" target="_blank" rel="noopener noreferrer">A handbound editorial book&thinsp;&#8599;</a> arguing that graffiti artists and type designers share the same iterative process of critique, form development, and letter-form mastery. Developed a torn-image layout language, acrylic-painted covers, and screw-post binding to bridge street energy with typographic craft.</p>
+
+    <!-- Meta callouts -->
+    <div class="cs-meta">
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Timeline</span>
+        <span class="cs-meta-value">6&nbsp;weeks</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Tools</span>
+        <span class="cs-meta-value">InDesign, Photoshop, Illustrator</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Instructor</span>
+        <span class="cs-meta-value">Kelcey&nbsp;Gray</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Course</span>
+        <span class="cs-meta-value">Typography 1 at UT&nbsp;Austin</span>
       </div>
     </div>
 
-    <!-- Description & Metadata -->
-    <p class="cs-desc">A handbound editorial book arguing that graffiti artists and type designers share the same iterative process of critique, form development, and letterform mastery. Developed a torn-image layout language, acrylic-painted covers, and screw-post binding to bridge street energy with typographic craft.</p>
-    <div class="cs-meta">
-      <div class="cs-meta-item"><span class="cs-meta-label">Timeline</span><span class="cs-meta-value">6 weeks</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Tools</span><span class="cs-meta-value">InDesign, Photoshop, Illustrator</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Instructor</span><span class="cs-meta-value">Kelcey Gray</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Course</span><span class="cs-meta-value">Typography 1, UT Austin</span></div>
-    </div>
-    <div class="cs-sep"></div>
-
     <!-- Section: Project Brief -->
     <h3 class="cs-section-title">Project Brief</h3>
-    <p class="cs-body">For Typography 1, I was asked to create a book on any topic related to type. I chose to explore the intersection of graffiti and typography &mdash; a connection I&rsquo;d been curious about since childhood. The central argument: graffiti artists are type designers. Both develop letterforms through iteration, critique, and a deep attention to form.</p>
-    <!-- Placeholder: images not yet added -->
-    <div class="cs-image-row cs-image-pair"><div class="cs-img" aria-hidden="true"></div><div class="cs-img" aria-hidden="true"></div></div>
+    <p class="cs-body">For Typography 1, I was asked to create a book on any topic related to type. I chose to explore the intersection of graffiti and typography, a connection I had been increasingly curious about since moving to Austin for college. The central argument: graffiti artists are type designers. Both develop letter-forms through iteration, critique, and a deep attention to form.</p>
+
+    <div class="cs-image-row">
+      <div class="cs-img-wrap no-shadow"><img class="cs-img" src="../Photos/Graffiti/ProjectBrief.jpg" alt="Collage of reference materials — graffiti photography and typography specimens" loading="lazy"></div>
+    </div>
 
     <!-- Section: Research -->
     <h3 class="cs-section-title">Research</h3>
-    <p class="cs-body">I researched the historical and cultural roots of graffiti &mdash; how it emerged as a voice for marginalized communities, evolved its own style taxonomy (tags, throw-ups, wildstyle), and developed a culture of mentorship and critique that mirrors formal type education. I drew parallels between a graffiti writer refining a tag over years and a type designer iterating on a letterform across weights and optical sizes.</p>
-    <!-- Placeholder: images not yet added -->
-    <div class="cs-image-row cs-image-pair"><div class="cs-img" aria-hidden="true"></div><div class="cs-img" aria-hidden="true"></div></div>
+    <p class="cs-body">I first researched the historical and cultural roots of graffiti and how it emerged as a voice for marginalized communities, evolved its own style taxonomy (tags, throw-ups, wild style), and developed a culture of mentorship and critique that mirrors a formal type education. I then went out into the city, looking for eye catching tags and complex throw ups that I could dissect.</p>
+
+    <div class="cs-image-row">
+      <div class="cs-img-wrap no-shadow"><img class="cs-img" src="../Photos/Graffiti/Research.jpg" alt="Street graffiti field research — tags and throw-ups photographed around Austin" loading="lazy"></div>
+    </div>
 
     <!-- Section: Layout Ideation -->
     <h3 class="cs-section-title">Layout Ideation</h3>
-    <p class="cs-body">My first layouts felt too clean &mdash; like a textbook, not a book about street art. The turning point came on a walk through campus: torn flyers layered on top of each other on a bulletin board. That chaotic, layered energy was exactly what I needed. I developed a torn-image technique &mdash; ripping printed photos by hand and scanning the raw edges &mdash; to give every spread the feeling of peeling back layers of a city wall.</p>
-    <div class="cs-quote">&ldquo;The torn edges became the visual language of the whole book &mdash; a bridge between the raw energy of graffiti and the precision of typographic layout.&rdquo;</div>
+    <p class="cs-body">My first layouts felt too clean for a book about graffiti, they fit better in a textbook. Inspiration came to me from the torn flyers layered I saw layered on top of one other on a street lamps. That chaotic, layered energy was exactly what graffiti was at its core, and what my book should emulate.</p>
 
-    <!-- Section: Prototyping & Materials -->
-    <h3 class="cs-section-title">Prototyping &amp; Materials</h3>
-    <p class="cs-body">The physical form had to match the content. I painted the covers with acrylic to echo the texture of spray paint on concrete. The spine is wrapped in book fabric, and the pages are held with screw-post binding &mdash; a nod to the modular, additive nature of both graffiti and type design. Each material choice reinforced the argument that these two worlds share more than they divide.</p>
-    <!-- Placeholder: images not yet added -->
-    <div class="cs-image-row cs-image-pair"><div class="cs-img" aria-hidden="true"></div><div class="cs-img" aria-hidden="true"></div></div>
+    <div class="cs-image-row cs-image-centered">
+      <div class="cs-img-wrap" style="width: min(620px, 100%); overflow: visible;"><img class="cs-img" style="aspect-ratio: auto; border-radius: 8px;" src="../Photos/Graffiti/LayoutIdeation1.jpg" alt="First layout ideation — clean editorial spreads" loading="lazy"></div>
+    </div>
 
-    <!-- Section: Final Book -->
-    <h3 class="cs-section-title">Final Book</h3>
-    <p class="cs-body">The finished book balances the chaotic energy of graffiti with the readability of a designed editorial piece. Torn photographic elements sit alongside clean typographic hierarchies. The pacing moves from historical context to artist profiles to formal analysis &mdash; guiding the reader through the argument while keeping the visual intensity high.</p>
-    <!-- Placeholder: images not yet added -->
-    <div class="cs-image-row cs-image-pair"><div class="cs-img" aria-hidden="true"></div><div class="cs-img" aria-hidden="true"></div></div>
+    <p class="cs-body">I printed out and ripped, scrapped, and sanded the photos to give them real texture. I then scanned the photos back into the layouts and placed the type around them. This created a much more dynamic and interesting layout that carried the energy of the streets to the page.</p>
+
+    <div class="cs-image-row cs-image-centered">
+      <div class="cs-img-wrap" style="width: min(620px, 100%); overflow: visible;"><img class="cs-img" style="aspect-ratio: auto;" src="../Photos/Graffiti/LayoutIdeation2.jpg" alt="Layout with torn-image technique — scanned ripped photos integrated with typography" loading="lazy"></div>
+    </div>
+
+    <!-- Section: Cover & Materials -->
+    <h3 class="cs-section-title">Cover &amp; Materials</h3>
+    <p class="cs-body">The cover now had to match the content of the book. I first designed the cover digitally and transferred it to a grey fabric with charcoal. I then painted the covers with acrylic to echo the texture of puff paint on concrete. The cover and pages were held together with screw-post binding, which gave it an industrial, riveted look.</p>
+
+    <div class="cs-image-row cs-image-pair">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Graffiti/CoverLeft-rotated.jpg" alt="Cover painting process — acrylic on grey fabric" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Graffiti/CoverRight-rotated.jpg" alt="Binding and cover detail — screw-post binding with painted cover" loading="lazy"></div>
+    </div>
+
+    <!-- Section: Outcome -->
+    <h3 class="cs-section-title">Outcome</h3>
+
+    <div class="cs-image-row cs-image-centered">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Graffiti/OutcomeHero.jpg" alt="Open book showing torn-image layout spreads" loading="lazy"></div>
+    </div>
+
+    <p class="cs-body">The final book balances the chaotic energy of graffiti with the structure of a designed grid, breaking that rule to emphasize point and bring energy to the page. Torn photographic examples sit alongside clean typographic hierarchies. The pacing moves from historical context to artist profiles to formal analysis, showing that there is more in common than one may first assume.</p>
+
+    <div class="cs-image-row cs-image-pair">
+      <div class="cs-img-wrap" style="overflow: visible;"><img class="cs-img" style="aspect-ratio: auto; object-fit: contain; border-radius: 8px;" src="../Photos/Graffiti/OutcomePairLeft.jpg" alt="Book spread detail — left page" loading="lazy"></div>
+      <div class="cs-img-wrap" style="overflow: visible;"><img class="cs-img" style="aspect-ratio: auto; object-fit: contain; border-radius: 8px;" src="../Photos/Graffiti/OutcomePairRight.jpg" alt="Book spread detail — right page" loading="lazy"></div>
+    </div>
 
     <!-- Section: What I Learned -->
     <h3 class="cs-section-title">What I Learned</h3>
-    <p class="cs-body">This project taught me how material and form can carry an argument as strongly as words. The torn-image technique, the painted covers, the binding method &mdash; each decision reinforced the thesis. I also learned that the best design solutions often come from stepping away from the screen and observing the world around you.</p>
-    <!-- Placeholder: images not yet added -->
-    <div class="cs-image-row cs-image-pair"><div class="cs-img" aria-hidden="true"></div><div class="cs-img" aria-hidden="true"></div></div>
-    <div class="cs-quote">&ldquo;Both graffiti writers and type designers spend years refining the same 26 letters &mdash; the difference is the surface, not the obsession.&rdquo;</div>
+    <p class="cs-body">This project taught me how material and form can carry an argument as strongly as words. The torn-image technique, the painted cover, the binding method are each decisions that reinforced the central thesis. It pays dividends to step away from the screen, step away from the work and observe it for what it is and what it wants to become.</p>
+    <p class="cs-body">If I was to rework this project, I would take more time on the cover to bring more of that chaotic energy out of the book. I would also like to produce foldouts that diagram, in a larger scale, typographic similarities between graffiti and type design.</p>
+
+    <div class="cs-image-row">
+      <div class="cs-img-wrap no-shadow"><img class="cs-img" src="../Photos/Graffiti/WhatILearned.jpg" alt="Final graffiti collage — layered street photography and typography" loading="lazy"></div>
+    </div>
 
     <!-- Tags & Footer -->
     <div class="cs-sep"></div>
     <div class="cs-tags">
       <span class="tag">Editorial Design</span>
       <span class="tag">Book Binding</span>
-      <span class="tag">Typography</span>
-      <span class="tag">Adobe InDesign</span>
       <span class="tag">Layout</span>
+      <span class="tag">Typography</span>
+      <span class="tag">Adobe Illustrator</span>
+      <span class="tag">Adobe InDesign</span>
+      <span class="tag">Adobe Photoshop</span>
     </div>
     <a href="../index.html" class="cs-back cs-back-bottom">&larr; Back</a>
   </div>
+  </main>
 
   <script src="../js/cursor.js"></script>
+  <script src="../js/lightbox.js"></script>
+  <script>
+    // Prevent tags from triggering cursor hover-shrink
+    document.querySelectorAll('.tag').forEach(function(tag) {
+      tag.addEventListener('mouseover', function(e) { e.stopPropagation(); });
+      tag.addEventListener('mouseout', function(e) { e.stopPropagation(); });
+    });
+  </script>
+  <script>
+    (function() {
+      var wrapper = document.createElement('div');
+      wrapper.innerHTML = '<div class="page-exit-half page-exit-top"></div><div class="page-exit-half page-exit-bottom"></div>';
+      document.body.appendChild(wrapper);
+      document.querySelectorAll('.cs-back, .letterbox-name').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var href = link.href;
+          wrapper.classList.add('page-exit-close');
+          setTimeout(function() { window.location.href = href; }, 900);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

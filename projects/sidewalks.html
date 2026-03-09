@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" class="page-scrollable">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NFV4D4GVB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4NFV4D4GVB');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <title>SideWalks — Through the Forest</title>
   <meta name="description" content="SideWalks case study — a location-based app connecting seniors with younger walking companions through shared movement.">
   <meta property="og:title" content="SideWalks — Through the Forest">
@@ -210,18 +219,6 @@
     }
   </style>
 </head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4NFV4D4GVB"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4NFV4D4GVB');
-</script>
-
-
 <body class="page-scrollable" style="background:#ededed;">
 
   <div id="mouse-glow"></div>
@@ -283,5 +280,20 @@
   </div>
 
   <script src="../js/cursor.js"></script>
+  <script>
+    (function() {
+      var wrapper = document.createElement('div');
+      wrapper.innerHTML = '<div class="page-exit-half page-exit-top"></div><div class="page-exit-half page-exit-bottom"></div>';
+      document.body.appendChild(wrapper);
+      document.querySelectorAll('.cs-back, .letterbox-name').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var href = link.href;
+          wrapper.classList.add('page-exit-close');
+          setTimeout(function() { window.location.href = href; }, 900);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

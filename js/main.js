@@ -2,7 +2,11 @@
 // Constants & Configuration
 // ─────────────────────────────────────────
 const loaderStart = Date.now();
-const LOADER_MIN_MS = 2400;              // Minimum time the loader stays visible (feels intentional, not a flash)
+const storedSection = sessionStorage.getItem('portfolio-return-section');
+sessionStorage.removeItem('portfolio-return-section');  // Clear immediately so refresh = fresh load
+const returnSection = storedSection !== null ? parseInt(storedSection, 10) : null;
+const isReturning = returnSection !== null;
+const LOADER_MIN_MS = isReturning ? 0 : 2400;  // Skip loader delay on return visits
 const scrollCooldown = 500;              // ms between accepted wheel/key scroll events
 
 // ─────────────────────────────────────────
@@ -21,10 +25,11 @@ let loaderPosX = window.innerWidth / 2;
 let loaderPosY = window.innerHeight / 2;
 
 // Capture mouse position continuously so rings can chase it once loading finishes
-document.addEventListener('mousemove', function loaderMouseTrack(e) {
+function loaderMouseTrack(e) {
   loaderMouseX = e.clientX;
   loaderMouseY = e.clientY;
-});
+}
+document.addEventListener('mousemove', loaderMouseTrack);
 
 function animateLoaderRings() {
   if (!loaderRings || !loaderRings.parentElement) return;
@@ -36,29 +41,57 @@ function animateLoaderRings() {
     loaderPosX = window.innerWidth / 2;
     loaderPosY = window.innerHeight / 2;
   }
-  loaderRings.style.left = loaderPosX + 'px';
-  loaderRings.style.top = loaderPosY + 'px';
+  loaderRings.style.transform = 'translate(' + loaderPosX + 'px, ' + loaderPosY + 'px)';
   requestAnimationFrame(animateLoaderRings);
 }
 animateLoaderRings();
 
+
 window.addEventListener('load', () => {
   const loader = document.getElementById('loader');
   if (!loader) return;
-  // Wait at least LOADER_MIN_MS so the animation doesn't feel cut short
+
+  if (isReturning) {
+    // Fade out loader text before rings chase cursor
+    const loaderText = document.querySelector('.loader-text');
+    if (loaderText) {
+      setTimeout(() => loaderText.classList.add('fade-out'), 1100);
+    }
+    setTimeout(() => {
+      loaderDone = true;                    // Rings start chasing mouse immediately
+      loader.classList.add('done');          // Fade out rings via CSS
+      setTimeout(() => {
+        loader.classList.add('split');       // Bars split open (0.6s transition)
+        document.querySelector('.title-section').classList.add('title-visible');
+        setTimeout(() => {
+          loader.remove();
+          document.removeEventListener('mousemove', loaderMouseTrack);
+        }, 600);
+      }, 350);                              // Ring fade before split
+    }, 1400);                               // Rings pulse for 1.4s
+    return;
+  }
+
+  // Normal first-visit loader
   const elapsed = Date.now() - loaderStart;
   const remaining = Math.max(0, LOADER_MIN_MS - elapsed);
   setTimeout(() => {
-    loaderDone = true;                    // Rings start chasing mouse
-    loader.classList.add('done');          // Fade out rings via CSS
+    // Fade out loader text before rings start chasing cursor
+    const loaderText = document.querySelector('.loader-text');
+    if (loaderText) loaderText.classList.add('fade-out');
     setTimeout(() => {
-      loader.classList.add('split');       // Halves shrink to letterbox bars
-      // Title section animates in as the loader opens
-      document.querySelector('.title-section').classList.add('title-visible');
+      loaderDone = true;                    // Rings start chasing mouse
+      loader.classList.add('done');          // Fade out rings via CSS
       setTimeout(() => {
-        loader.remove();                  // Clean up DOM after split animation (600ms)
-      }, 600);
-    }, 350);                              // 350ms ring fade before split begins
+        loader.classList.add('split');       // Halves shrink to letterbox bars
+        // Title section animates in as the loader opens
+        document.querySelector('.title-section').classList.add('title-visible');
+        setTimeout(() => {
+          loader.remove();                  // Clean up DOM after split animation (600ms)
+          document.removeEventListener('mousemove', loaderMouseTrack);
+        }, 600);
+      }, 350);                              // 350ms ring fade before split begins
+    }, 120);                                // 300ms text fade before rings chase cursor
   }, remaining);
 });
 
@@ -85,6 +118,7 @@ const snowNear = document.getElementById('snow-ground-near');
 
 const pathGlowEl = document.getElementById('path-glow');
 const reveals = document.querySelectorAll('.reveal');
+const sectionsArray = Array.from(sections);
 
 // ─────────────────────────────────────────
 // Scroll Engine — Targeting & Easing
@@ -98,6 +132,10 @@ let currentX = 0;
 let targetX = 0;
 let currentSection = 0;
 let lastScrollTime = 0;
+let accumulatedDelta = 0;
+let deltaDecayTimer = null;
+let mouseX = 0;                           // Tracked for path glow proximity check in animate()
+let mouseY = 0;
 
 // rAF handles — stored so loops can be cancelled when the tab is backgrounded
 let animateRAF = null;
@@ -165,6 +203,15 @@ function animate() {
     const lastSectionCenter = (totalSections - 1) * window.innerWidth + window.innerWidth / 2;
     const glowOffset = lastSectionCenter - currentX - window.innerWidth / 2;
     pathGlowEl.style.transform = `translateX(calc(-50% + ${glowOffset}px))`;
+
+    // Proximity-based brightness boost — computed here to avoid getBoundingClientRect on mousemove.
+    // The glow's viewport-space center X = glowOffset + 50% of viewport (since it's centered via CSS).
+    // We use window.innerWidth / 2 + glowOffset as the approximate X center,
+    // and bias Y upward to ~35% of the viewport height.
+    const glowCX = window.innerWidth / 2 + glowOffset;
+    const glowCY = window.innerHeight * 0.35;
+    const dist = Math.hypot(mouseX - glowCX, mouseY - glowCY);
+    pathGlowEl.classList.toggle('glowing', dist < 250);
   }
 
   revealElements();
@@ -181,12 +228,12 @@ function animate() {
 
 function revealElements() {
   // progress = 1 when fully arrived, < 1 while still scrolling
-  const progress = targetX === 0 ? 1 : 1 - Math.abs(targetX - currentX) / window.innerWidth;
+  const progress = 1 - Math.abs(targetX - currentX) / window.innerWidth;
   if (progress < 0.6) return;
   reveals.forEach(el => {
     const section = el.closest('.section');
     if (!section) return;
-    const sectionIndex = Array.from(sections).indexOf(section);
+    const sectionIndex = sectionsArray.indexOf(section);
     if (sectionIndex === currentSection) {
       el.classList.add('visible');
     }
@@ -283,13 +330,14 @@ function initSnow() {
   snowflakes = [];
   const count = 150;
   for (let i = 0; i < count; i++) {
+    const opacity = 0.08 + Math.random() * 0.3;
     snowflakes.push({
       x: Math.random() * snowCanvas.width,
       y: Math.random() * snowCanvas.height,
       r: 0.5 + Math.random() * 2.2,          // Radius
       speed: 0.15 + Math.random() * 0.6,      // Fall speed
       wind: -0.2 + Math.random() * 0.15,      // Horizontal drift (slightly left-biased)
-      opacity: 0.08 + Math.random() * 0.3,
+      opacity,
       wobble: Math.random() * Math.PI * 2,    // Sine wobble phase
       wobbleSpeed: 0.004 + Math.random() * 0.012,
       jitterX: 0,
@@ -298,11 +346,17 @@ function initSnow() {
       jitterInterval: 0.15 + Math.random() * 0.25,  // How often the jitter "ticks"
       drawX: Math.random() * snowCanvas.width,       // Rendered position (lerps toward x)
       drawY: Math.random() * snowCanvas.height,
+      fillStyle: `rgba(190, 200, 220, ${opacity})`,
     });
   }
 }
 
-function drawSnow() {
+let lastSnowTime = 0;
+
+function drawSnow(timestamp) {
+  const dt = lastSnowTime ? (timestamp - lastSnowTime) / 1000 : 0.016;
+  lastSnowTime = timestamp;
+
   ctx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
 
   // How far the scroll moved since last frame — used to push all flakes
@@ -327,7 +381,7 @@ function drawSnow() {
 
     // ── Subtle stop-motion jitter ──
     // Small random offset applied on a slow timer, smoothed by a gentle lerp
-    flake.jitterTimer -= 0.016;               // ~60fps frame budget
+    flake.jitterTimer -= dt;
     if (flake.jitterTimer <= 0) {
       flake.jitterX = (Math.random() - 0.5) * 1.2;
       flake.jitterY = (Math.random() - 0.5) * 0.8;
@@ -341,7 +395,7 @@ function drawSnow() {
 
     ctx.beginPath();
     ctx.arc(flake.drawX, flake.drawY, flake.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(190, 200, 220, ${flake.opacity})`;
+    ctx.fillStyle = flake.fillStyle;
     ctx.fill();
   });
 
@@ -414,21 +468,30 @@ drawFlicker();
 // Navigation — Wheel, Keyboard, Touch, Dots
 // ─────────────────────────────────────────
 
-// Wheel — snaps to next/previous section with cooldown
+// Wheel — snaps to next/previous section.
+// Blocks new input until the current scroll animation is >85% complete.
+// This naturally handles trackpad momentum (animation still in progress)
+// while staying responsive for mouse wheel and intentional trackpad swipes.
 function handleWheel(e) {
-
+  if (window.lightboxOpen) return;
   e.preventDefault();
-  const now = Date.now();
-  if (now - lastScrollTime < scrollCooldown) return;
 
-  // Use whichever axis has more magnitude (handles trackpads and mice)
+  // Block input while the scroll animation is still in progress
+  const distToTarget = Math.abs(targetX - currentX);
+  if (distToTarget > window.innerWidth * 0.15) return;
+
   const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-  if (delta > 20) {                       // Dead-zone threshold to ignore tiny gestures
+  accumulatedDelta += delta;
+
+  clearTimeout(deltaDecayTimer);
+  deltaDecayTimer = setTimeout(() => { accumulatedDelta = 0; }, 200);
+
+  if (accumulatedDelta > 50) {
     goToSection(currentSection + 1);
-    lastScrollTime = now;
-  } else if (delta < -20) {
+    accumulatedDelta = 0;
+  } else if (accumulatedDelta < -50) {
     goToSection(currentSection - 1);
-    lastScrollTime = now;
+    accumulatedDelta = 0;
   }
 }
 
@@ -436,10 +499,11 @@ window.addEventListener('wheel', handleWheel, { passive: false });
 
 // Keyboard — arrow keys navigate sections (same cooldown as wheel)
 window.addEventListener('keydown', (e) => {
-  // Don't intercept keys when an interactive element is focused
+  if (window.lightboxOpen) return;
+  // Don't intercept keys when a text-input element is focused
   const active = document.activeElement;
   const tag = active ? active.tagName : '';
-  if (active && active !== document.body && tag !== 'HTML') return;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
 
   if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
     e.preventDefault();
@@ -492,27 +556,32 @@ dots.forEach(dot => {
 document.querySelectorAll('.project-title').forEach(title => {
   title.addEventListener('click', () => {
     const href = title.closest('.section')?.dataset.href;
-    if (href) window.location.href = href;
+    if (href) {
+      sessionStorage.setItem('portfolio-return-section', currentSection);
+      window.location.href = href;
+    }
   });
 });
-document.querySelectorAll('.project-img').forEach(img => {
-  img.addEventListener('click', () => {
-    const href = img.closest('.section')?.dataset.href;
-    if (href) window.location.href = href;
-  });
-});
+// Project image clicks handled by lightbox.js (zoom instead of navigate)
 
 // Keyboard activation for project sections (Enter/Space on focused section)
 document.querySelectorAll('[data-href]').forEach(section => {
   section.addEventListener('keydown', (e) => {
     if ((e.key === 'Enter' || e.key === ' ') && document.activeElement === section) {
       e.preventDefault();
+      sessionStorage.setItem('portfolio-return-section', currentSection);
       window.location.href = section.dataset.href;
     }
   });
 });
 
-// Gallery path: #path-trigger is a semantic <a>, no JS handler needed
+// Gallery path: store section before navigating
+const pathTrigger = document.getElementById('path-trigger');
+if (pathTrigger) {
+  pathTrigger.addEventListener('click', () => {
+    sessionStorage.setItem('portfolio-return-section', currentSection);
+  });
+}
 
 // ─────────────────────────────────────────
 // Event Listeners — Resize
@@ -525,7 +594,21 @@ window.addEventListener('resize', () => {
     // Snap scroll position to current section at new viewport width
     targetX = currentSection * window.innerWidth;
     currentX = targetX;
+    lastCurrentX = currentX;              // Prevent snow delta spike after resize snap
+    const oldW = snowCanvas.width;
+    const oldH = snowCanvas.height;
     resizeCanvas();
+    // Rescale snowflake positions proportionally to the new canvas size
+    if (oldW > 0 && oldH > 0) {
+      const scaleX = snowCanvas.width / oldW;
+      const scaleY = snowCanvas.height / oldH;
+      snowflakes.forEach(flake => {
+        flake.x *= scaleX;
+        flake.y *= scaleY;
+        flake.drawX *= scaleX;
+        flake.drawY *= scaleY;
+      });
+    }
     resizeFlicker();
   }, 150);                                // 150ms debounce
 });
@@ -537,25 +620,43 @@ window.addEventListener('resize', () => {
 splitTextIntoWords();
 createStars();
 initSnow();
-drawSnow();
+snowRAF = requestAnimationFrame(drawSnow);
+
+// If returning to a specific section, defer the snap until the loader is about to split.
+// Setting currentX/targetX immediately can cause layout scaling issues while the loader covers the screen.
+if (isReturning && returnSection >= 0 && returnSection < totalSections) {
+  currentSection = returnSection;
+  updateDots();
+  if (pathGlowEl) pathGlowEl.classList.toggle('visible', returnSection === totalSections - 1);
+  // Pre-trigger reveals for all sections up to and including the return section
+  reveals.forEach(el => {
+    const section = el.closest('.section');
+    if (!section) return;
+    const sectionIndex = sectionsArray.indexOf(section);
+    if (sectionIndex <= returnSection) el.classList.add('visible');
+  });
+  // Snap the scroll position right before the loader splits (after rings finish)
+  setTimeout(() => {
+    targetX = returnSection * window.innerWidth;
+    currentX = targetX;
+    lastCurrentX = currentX;              // Prevent snow delta spike from the instant scroll snap
+  }, 1400);
+}
+
 animate();
 
 // Kick off reveals for the first section after a brief tick
 setTimeout(() => revealElements(), 100);
 
 // ─────────────────────────────────────────
-// Path Glow Hover Effect
+// Mouse Position Tracking
 // ─────────────────────────────────────────
-// When the mouse is within 250px of the path glow's center, add the
-// `.glowing` class for a proximity-based brightness boost.
+// Lightweight listener that stores coordinates for use in the animate() loop
+// (path glow proximity check). No layout-triggering calls here.
 
 document.addEventListener('mousemove', (e) => {
-  if (!pathGlowEl) return;
-  const rect = pathGlowEl.getBoundingClientRect();
-  const cx = rect.left + rect.width / 2;
-  const cy = rect.top + rect.height * 0.35;  // Bias upward — glow emanates from upper portion
-  const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
-  pathGlowEl.classList.toggle('glowing', dist < 250);
+  mouseX = e.clientX;
+  mouseY = e.clientY;
 });
 
 // ─────────────────────────────────────────
@@ -571,6 +672,7 @@ document.addEventListener('visibilitychange', () => {
     cancelAnimationFrame(flickerRAF);
   } else {
     lastCurrentX = currentX;  // Reset so drawSnow doesn't see a huge delta on first frame back
+    lastSnowTime = 0;         // Reset so drawSnow uses fallback dt on first frame back (avoids huge dt from tab gap)
     animateRAF = requestAnimationFrame(animate);
     snowRAF = requestAnimationFrame(drawSnow);
     flickerRAF = requestAnimationFrame(drawFlicker);

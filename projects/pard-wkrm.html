@@ -5,8 +5,17 @@
 <!-- Head / Meta                                        -->
 <!-- ═══════════════════════════════════════ -->
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NFV4D4GVB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4NFV4D4GVB');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <title>PARD + wkrm — Through the Forest</title>
   <meta name="description" content="PARD + wkrm case study — dashboard design and user research for Austin Parks and Recreation's volunteer coordination system.">
   <meta property="og:title" content="PARD + wkrm — Through the Forest">
@@ -28,26 +37,32 @@
       --text-dim: #f5f0e8;
     }
 
-    /* ── 11. Vertical gap via flex on cs-inner ── */
+    /* ── Layout: flex column with 27px gap ── */
     .cs-inner {
       display: flex;
       flex-direction: column;
       gap: 27px;
     }
 
-    /* Remove explicit margins that the gap now handles */
+    /* Remove default margins that conflict with gap layout */
     .cs-nav { margin-bottom: 0; }
     .cs-hero-wrap { margin-bottom: 0; }
     .cs-header { margin-bottom: 0; }
-    .cs-meta { margin-top: 0; margin-bottom: 0; }
     .cs-body { margin-bottom: 0; }
     .cs-quote { margin: 0; }
-    .cs-sep { margin: 0; }
-    .cs-section-title { margin-bottom: 0; }
     .cs-image-row { margin-bottom: 0; }
-    .cs-back-bottom { margin-top: 0; }
+    .cs-back-bottom { margin-top: 0; align-self: flex-start; }
+    .cs-meta { margin-top: 0; margin-bottom: 0; }
+    .cs-sep { margin-top: 0; margin-bottom: 0; }
+    .cs-section-title { margin-top: 1.5rem; margin-bottom: -0.5rem; }
 
-    /* ── 1. Number + Title side-by-side ── */
+    /* ── Header block: number+title row, then full-width role ── */
+    .cs-header-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
     .cs-header {
       display: flex;
       flex-direction: column;
@@ -94,23 +109,19 @@
       font-size: 48px;
     }
 
-    /* ── 10. Role line ── */
+    /* ── Role line ── */
     .cs-role {
       color: #7a8c80;
       font-family: 'IBM Plex Mono', monospace;
       font-weight: 300;
-      font-size: 10.88px;
+      font-size: 12px;
       display: flex;
       align-items: center;
       gap: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 2.176px;
-      margin-top: 0;
-    }
-
-    .cs-role strong {
-      color: #b7e4c7;
-      font-weight: 400;
+      margin-top: 0.6rem;
+      white-space: nowrap;
     }
 
     .cs-role::after {
@@ -118,50 +129,73 @@
       flex: 1;
       height: 1px;
       background: #3e9770;
+      min-width: 40px;
     }
 
     /* ── Description ── */
     .cs-desc {
       font-family: 'IBM Plex Mono', monospace;
       font-weight: 300;
-      font-size: 13.12px;
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: none;
       color: #f5f0e8;
     }
 
-    /* ── 3. Meta callouts: single row ── */
+    .cs-desc strong {
+      font-weight: 500;
+      color: #b7e4c7;
+    }
+
+    /* ── Meta callouts: even columns ── */
     .cs-meta {
       display: flex;
       justify-content: space-between;
       grid-template-columns: unset;
-      gap: 0;
+      gap: 2rem;
     }
 
-    /* ── 4. Meta label & value fonts ── */
     .cs-meta-item {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 10.88px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
     }
 
     .cs-meta-label {
       color: #7a8c80;
       font-family: 'IBM Plex Mono', monospace;
       font-weight: 300;
-      font-size: 10.88px;
+      font-size: 14px;
       text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.3rem;
     }
 
     .cs-meta-value {
       color: #f5f0e8;
       font-family: 'IBM Plex Mono', monospace;
       font-weight: 300;
-      font-size: 10.88px;
+      font-size: 14px;
+      line-height: 1.7;
+      word-wrap: break-word;
+    }
+    .cs-meta-value a {
+      color: #3e9770;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.25s ease;
+    }
+    .cs-meta-value a:hover {
+      color: #52b788;
     }
 
-    /* ── 6. Section heading trailing lines ── */
+    /* ── Section headings ── */
     .cs-section-title {
       font-family: 'Parkinsans', sans-serif;
       font-weight: 600;
-      font-size: 25.6px;
+      font-size: 32px;
       color: #b7e4c7;
       display: flex;
       align-items: center;
@@ -180,16 +214,32 @@
     .cs-body {
       font-family: 'IBM Plex Mono', monospace;
       font-weight: 300;
-      font-size: 13.12px;
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: none;
       color: #f5f0e8;
     }
 
-    /* ── 5. Quotes ── */
+    .cs-body strong {
+      font-weight: 500;
+      color: #b7e4c7;
+    }
+    .cs-body a {
+      color: #3e9770;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.25s ease;
+    }
+    .cs-body a:hover {
+      color: #52b788;
+    }
+
+    /* ── Quotes ── */
     .cs-quote {
       font-family: 'IBM Plex Mono', monospace;
       font-weight: 300;
       font-style: normal;
-      font-size: 13.12px;
+      font-size: 16px;
       color: #52b788;
       border-left: 1.714px solid #e8c27a;
       padding-left: 16px;
@@ -197,7 +247,7 @@
       line-height: 1.7;
     }
 
-    /* ── 7. Separator before tags ── */
+    /* ── Separator ── */
     .cs-sep {
       background: #3e9770;
       height: 1px;
@@ -206,27 +256,30 @@
 
     .cs-img-wrap {
       border-color: #3e9770;
+      border-radius: 8px;
     }
 
-    /* ── 8. Tags ── */
+    /* ── Tags ── */
     .tag {
       font-family: 'IBM Plex Mono', monospace;
       font-weight: 300;
-      font-size: 10.88px;
+      font-size: 13px;
       border: 0.571px solid #3e9770;
-      padding: 7px 15px;
+      padding: 8px 16px;
       color: #f5f0e8;
       text-transform: none;
       letter-spacing: 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+      border-radius: 6px;
     }
 
     .tag:hover {
-      background: rgba(62, 151, 112, 0.15);
-      border-color: #52b788;
+      background: transparent;
+      border-color: #3e9770;
       color: #f5f0e8;
     }
 
-    /* ── 9. Back button ── */
+    /* ── Back button ── */
     .cs-back {
       font-family: 'IBM Plex Mono', monospace;
       font-weight: 300;
@@ -234,39 +287,136 @@
       border: 0.571px solid #3e9770;
       padding: 9px 20px;
       color: #f5f0e8;
+      transition: all 0.25s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+      border-radius: 6px;
     }
 
     .cs-back:hover {
+      background: rgba(62, 151, 112, 0.15);
       border-color: #52b788;
       color: #f5f0e8;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
     }
 
+    /* ── Hero logo overlay ── */
+    .cs-hero-logo {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: #f5f0e8;
+      border-radius: 0 12px 0 0;
+      padding: 6px 20px 6px 12px;
+    }
+    .cs-hero-logo img { height: 50px; width: auto; }
+
+    /* ── Image trio: large left + 2 stacked right ── */
+    .cs-image-trio {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .cs-image-trio .cs-img-wrap:first-child {
+      grid-row: 1 / 3;
+    }
+
+    .cs-image-trio .cs-img-wrap:first-child .cs-img {
+      aspect-ratio: unset;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── Image trio reversed: 2 stacked left + large right ── */
+    .cs-image-trio-reverse {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 0.75rem;
+      max-height: 420px;
+    }
+
+    .cs-image-trio-reverse .cs-img-wrap {
+      overflow: hidden;
+    }
+
+    .cs-image-trio-reverse .cs-img-wrap .cs-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cs-image-trio-reverse .cs-img-wrap:last-child {
+      grid-row: 1 / 3;
+      grid-column: 2;
+    }
+
+    .cs-image-trio-reverse .cs-img-wrap:last-child .cs-img {
+      aspect-ratio: unset;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── Centered single image ── */
+    .cs-image-centered {
+      display: flex;
+      justify-content: center;
+    }
+
+    .cs-image-centered .cs-img-wrap {
+      width: min(510px, 100%);
+    }
+
+    /* ── Letterbox override ── */
     .gallery-back,
     .letterbox-name,
     .letterbox-contact {
       color: #f5f0e8;
     }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .cs-image-trio,
+      .cs-image-trio-reverse {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        max-height: none;
+      }
+      .cs-image-trio .cs-img-wrap:first-child,
+      .cs-image-trio-reverse .cs-img-wrap:last-child {
+        grid-row: auto;
+        grid-column: auto;
+      }
+      .cs-image-trio .cs-img-wrap:first-child .cs-img,
+      .cs-image-trio-reverse .cs-img-wrap:last-child .cs-img {
+        aspect-ratio: 16/9;
+        height: auto;
+      }
+      .cs-meta {
+        flex-wrap: wrap;
+      }
+      .cs-meta-item {
+        flex: 1 1 40%;
+      }
+      .cs-title-row {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta-item { flex: 1 1 100%; }
+      .cs-image-pair { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4NFV4D4GVB"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-4NFV4D4GVB');
-</script>
-
-
 <body class="page-scrollable" style="background:#1b3a2d;">
 
   <!-- ═══════════════════════════════════════ -->
   <!-- Custom Cursor Elements                             -->
   <!-- ═══════════════════════════════════════ -->
-  <div id="mouse-glow"></div>
-  <div id="custom-cursor">
+  <div id="mouse-glow" aria-hidden="true"></div>
+  <div id="custom-cursor" aria-hidden="true">
     <div class="cursor-ring cursor-dot"></div>
     <div class="cursor-ring cursor-ring-1"></div>
     <div class="cursor-ring cursor-ring-2"></div>
@@ -284,6 +434,7 @@
   <!-- ═══════════════════════════════════════ -->
   <!-- Case Study Content                                 -->
   <!-- ═══════════════════════════════════════ -->
+  <main>
   <div class="cs-inner">
 
     <!-- Navigation -->
@@ -292,63 +443,93 @@
     </div>
 
     <!-- Hero Image -->
-    <div class="cs-hero-wrap"><img class="cs-hero-img" src="../Photos/Pardwkrm/CoverPhoto.jpeg" alt="PARD + wkrm project proposal presentation setup"></div>
+    <div class="cs-hero-wrap" style="position: relative;">
+      <img class="cs-hero-img" src="../Photos/Pardwkrm/CoverPhoto.jpeg" alt="PARD + wkrm project proposal presentation setup">
+      <div class="cs-hero-logo">
+        <img src="../Photos/Pardwkrm/PARKLogo.png" alt="Austin Parks and Recreation">
+      </div>
+    </div>
 
     <!-- Project Header -->
-    <div class="cs-header">
-      <div class="cs-title-row">
-        <span class="cs-number">01</span>
-        <h2 class="cs-title">PARD <span class="title-plus">+</span> <span class="title-wkrm">wkrm</span></h2>
+    <div class="cs-header-block">
+      <div class="cs-header">
+        <div class="cs-title-row">
+          <span class="cs-number" aria-hidden="true">02</span>
+          <h2 class="cs-title">PARD <span class="title-plus">+</span> <span class="title-wkrm">wkrm</span></h2>
+        </div>
       </div>
-      <p class="cs-role">My role: <strong>Dashboard Design, User Research &amp; Synthesis, Presentation</strong></p>
+      <p class="cs-role">Dashboard Design, User Research &amp; Synthesis, Presentation</p>
     </div>
 
-    <!-- Description & Metadata -->
-    <p class="cs-desc">Led dashboard design and user research for Austin Parks &amp; Recreation&rsquo;s volunteer coordination system. Conducted stakeholder interviews, in-the-field volunteering, and ecosystem mapping to uncover workflow breakdowns across divisions.</p>
+    <!-- Description -->
+    <p class="cs-desc">The <strong><em>Austin Parks and Recreation Department</em></strong> manages over 300 parks. Volunteer sign-ups lived in email chains, work hours were reviewed only once a year, and underserved parks had no visibility as to where help was truly needed. PARD asked us to explore how volunteer coordination could be unified across its divisions.</p>
+    <p class="cs-desc">How might we create an easier volunteering experience for both PARD and the people of Austin?</p>
+
+    <!-- Meta Callouts -->
     <div class="cs-meta">
-      <div class="cs-meta-item"><span class="cs-meta-label">Timeline</span><span class="cs-meta-value">15 weeks</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Team</span><span class="cs-meta-value">10 designers</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Tools</span><span class="cs-meta-value">Figma, Adobe Suite, Miro</span></div>
-      <div class="cs-meta-item"><span class="cs-meta-label">Course</span><span class="cs-meta-value">wkrm Studio, UT Austin</span></div>
+      <div class="cs-meta-item"><span class="cs-meta-label">Timeline</span><span class="cs-meta-value">15&nbsp;weeks</span></div>
+      <div class="cs-meta-item" style="flex:1.5"><span class="cs-meta-label">Team</span><span class="cs-meta-value">10&nbsp;designers<br>Lead&nbsp;&mdash;&nbsp;Jon&nbsp;Freach</span></div>
+      <div class="cs-meta-item" style="flex:1.5"><span class="cs-meta-label">Tools</span><span class="cs-meta-value">Figma, Adobe&nbsp;Suite, Miro, Journey&nbsp;&amp;&nbsp;Ecosystem&nbsp;Mapping</span></div>
+      <div class="cs-meta-item"><span class="cs-meta-label">Course</span><span class="cs-meta-value"><a href="https://wkrmstudio.com/" target="_blank" rel="noopener noreferrer">wkrm&nbsp;Studio&thinsp;&#8599;</a> at UT&nbsp;Austin</span></div>
     </div>
-    <div class="cs-sep"></div>
 
     <!-- Section: The Problem -->
     <h3 class="cs-section-title">The Problem</h3>
-    <p class="cs-body">PARD managed volunteers through scattered email chains, Wufoo forms, and informal networks. There was no centralized system &mdash; staff spent hours tracking sign-ups, hours went unreported, and underserved parks lacked visibility.</p>
-    <div class="cs-image-row cs-image-pair">
+    <p class="cs-body">We organized PARD&rsquo;s challenges into three key themes &mdash; <strong>Coordination</strong>, <strong>Data</strong>, and <strong>Equity</strong> &mdash; which guided the rest of our project research.</p>
+    <div class="cs-image-row cs-image-trio">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/ProblemTrio.jpg" alt="Final dashboard mockup in context" loading="lazy"></div>
       <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/KickoffMeeting.jpg" alt="Kickoff meeting with PARD stakeholders" loading="lazy"></div>
       <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/PostKickoffDiscussion.png" alt="Post-kickoff discussion and synthesis" loading="lazy"></div>
     </div>
 
     <!-- Section: User Research -->
     <h3 class="cs-section-title">User Research</h3>
-    <p class="cs-body">I co-led stakeholder interviews with PARD&rsquo;s Community Services and Engagement teams, uncovering key workflow breakdowns. I also volunteered at &ldquo;It&rsquo;s My Park Day&rdquo; to observe the check-in process firsthand &mdash; seeing where sign-ups stalled and how communication broke down in real time.</p>
+    <p class="cs-body">I co-led interviews with 8 PARD stakeholders across several divisions; coordinators, program managers, a community organizer, and a horticulture lead.</p>
     <div class="cs-image-row cs-image-pair">
       <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/JourneyMappingWithClient.jpg" alt="Journey mapping session with PARD client" loading="lazy"></div>
       <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/IMG_3711.JPG.jpg" alt="Research synthesis and stakeholder mapping" loading="lazy"></div>
     </div>
 
-    <!-- Section: Dashboard Design -->
-    <!-- Order: paragraph → full mockup → pair of screens (matches Figma) -->
-    <h3 class="cs-section-title">Dashboard Design</h3>
-    <p class="cs-body">I designed a Figma prototype of a centralized dashboard focused on clarity and data visibility &mdash; with calendar views, shift tracking, and an equity heat map. I focused on limiting cognitive load, reducing navigation depth, and making data both useful and readable.</p>
-    <div class="cs-image-row">
-      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/DashboardSketch.jpg" alt="Early dashboard wireframe sketch" loading="lazy"></div>
+    <p class="cs-body">We also volunteered at &ldquo;It&rsquo;s My Park Day&rdquo; to observe the volunteer check-in process firsthand as well as survey the participants.</p>
+    <div class="cs-image-row cs-image-trio-reverse">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/Volunteering1.jpg" alt="It's My Park Day volunteering photo" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/Volunteering2.jpg" alt="It's My Park Day volunteering photo" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/VolunteeringTall.jpg" alt="Volunteering in the park" loading="lazy"></div>
     </div>
-    <div class="cs-image-row">
-      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/DashboardMockup.png" alt="Full dashboard mockup" loading="lazy"></div>
+
+    <p class="cs-body">Visits to Givens District Park and Sanchez School Park reframed our equity question: these weren&rsquo;t neglected communities. They were proud neighborhoods that needed PARD to support what was already there, not &ldquo;renew&rdquo; it with something else.</p>
+
+    <!-- Section: Conclusions -->
+    <h3 class="cs-section-title">Conclusions</h3>
+    <p class="cs-body">Journey and ecosystem mapping with our stakeholders revealed pain points across four stages &mdash; <strong>Awareness</strong>, <strong>Connection</strong>, <strong>Action</strong>, and <strong>Retention</strong> &mdash; which became the pillars that structured our proposals.</p>
+    <div class="cs-image-row cs-image-centered">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/ConclusionsImage.jpg" alt="Research conclusions and framework" loading="lazy"></div>
+    </div>
+
+    <!-- Section: Dashboard Design -->
+    <h3 class="cs-section-title">Dashboard Design</h3>
+    <p class="cs-body">I designed a Figma prototype of a new PARD internal dashboard that serves volunteer hours, an equity heat map, events, and a flow to approve volunteer opportunities. This aimed to increase transparency across departments, establish faster communication between opportunity seekers and admin, as well as address inequality in underserved parks.</p>
+    <div class="cs-image-row cs-image-centered">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/DashboardCentered.jpg" alt="Dashboard design centered view" loading="lazy"></div>
     </div>
     <div class="cs-image-row cs-image-pair">
       <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/Dashboard1.png" alt="Dashboard screens — heat map, data dashboard, calendar" loading="lazy"></div>
       <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/Dashboard2.png" alt="Dashboard screens — spreadsheet, approval, event tracking" loading="lazy"></div>
     </div>
 
+    <!-- Section: Constraints -->
+    <h3 class="cs-section-title">Constraints</h3>
+    <p class="cs-body">PARD is a city department where divisions don&rsquo;t easily share tools, data formats, or definitions of success. Designing for that kind of organizational complexity required deep research and managing several stakeholders&rsquo; needs. We had limited time to complete research, ideation, development, and present these materials. We also had limited direct access to external stakeholders, such as PARKners, who help manage larger parks and Greenland areas, requiring us to reconstruct their needs and perspective from outside sources.</p>
+    <div class="cs-image-row cs-image-centered">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/FinalPresentation.jpg" alt="Final presentation to PARD leadership" loading="lazy"></div>
+    </div>
+
     <!-- Section: Outcome -->
     <h3 class="cs-section-title">Outcome</h3>
-    <p class="cs-body">We presented to PARD&rsquo;s executive leadership, framing our work around four pillars: making volunteering visible, accessible, actionable, and engaging.</p>
-    <div class="cs-image-row cs-image-pair">
-      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/FinalPresentation.jpg" alt="Final presentation to PARD leadership" loading="lazy"></div>
+    <p class="cs-body"><a href="../files/PARD+++wkrm_Volunteer+Coordination.pdf" target="_blank" rel="noopener noreferrer">We presented&thinsp;&#8599;</a> in front of the City of Austin and the Parks and Rec department&rsquo;s executive leadership. They stayed for 45 minutes after our presentation to keep discussing the work. Leadership said our insights would likely influence city-wide initiatives in the coming years. The four-pillar framework gave them shared language to advocate for resources internally and has already led to developments on a shared internal PARD dashboard.</p>
+
+    <!-- Team Photo -->
+    <div class="cs-image-row cs-image-centered">
       <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Pardwkrm/GroupShot.jpg" alt="Full project team" loading="lazy"></div>
     </div>
 
@@ -367,10 +548,34 @@
     </div>
     <a href="../index.html" class="cs-back cs-back-bottom">&larr; Back</a>
   </div>
+  </main>
 
   <!-- ═══════════════════════════════════════ -->
   <!-- Scripts                                            -->
   <!-- ═══════════════════════════════════════ -->
   <script src="../js/cursor.js"></script>
+  <script src="../js/lightbox.js"></script>
+  <script>
+    // Prevent tags from triggering cursor hover-shrink
+    document.querySelectorAll('.tag').forEach(function(tag) {
+      tag.addEventListener('mouseover', function(e) { e.stopPropagation(); });
+      tag.addEventListener('mouseout', function(e) { e.stopPropagation(); });
+    });
+  </script>
+  <script>
+    (function() {
+      var wrapper = document.createElement('div');
+      wrapper.innerHTML = '<div class="page-exit-half page-exit-top"></div><div class="page-exit-half page-exit-bottom"></div>';
+      document.body.appendChild(wrapper);
+      document.querySelectorAll('.cs-back, .letterbox-name').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var href = link.href;
+          wrapper.classList.add('page-exit-close');
+          setTimeout(function() { window.location.href = href; }, 900);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

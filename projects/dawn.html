@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" class="page-scrollable">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- Head / Meta                                        -->
+<!-- ═══════════════════════════════════════ -->
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NFV4D4GVB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4NFV4D4GVB');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>DAWN Clock Radio — Through the Forest</title>
+  <meta name="description" content="DAWN Clock Radio case study — a wooden clock radio that replaces the smartphone on your nightstand, waking you with local community radio.">
+  <meta property="og:title" content="DAWN Clock Radio — Through the Forest">
+  <meta property="og:description" content="A wooden clock radio that replaces the smartphone on your nightstand, controlled entirely through a single dial.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* ── DAWN: Warm Parchment / Burnt Sienna Theme ── */
+    body {
+      --accent: #8B4520;
+      --frost: #2A1608;
+      --frost-dim: #8B4520;
+      --text-primary: #2A1608;
+      --text-dim: #0C0C0C;
+    }
+
+    /* ── Layout: flex column with 27px gap ── */
+    .cs-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 27px;
+    }
+
+    /* Remove default margins that conflict with gap layout */
+    .cs-nav { margin-bottom: 0; }
+    .cs-hero-wrap { margin-bottom: 0; }
+    .cs-header { margin-bottom: 0; }
+    .cs-body { margin-bottom: 0; }
+    .cs-quote { margin: 0; }
+    .cs-image-row { margin-bottom: 0; }
+    .cs-back-bottom { margin-top: 0; align-self: flex-start; }
+    .cs-meta { margin-top: 0; margin-bottom: 0; }
+    .cs-sep { margin-top: 0; margin-bottom: 0; }
+    .cs-section-title { margin-top: 1.5rem; margin-bottom: -0.5rem; }
+
+    /* ── Header block: number+title row, then full-width role ── */
+    .cs-header-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cs-header {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .cs-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: 128px;
+      color: var(--accent);
+      opacity: 1;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+    }
+
+    .cs-header-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .cs-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1;
+      letter-spacing: 1.92px;
+      margin-top: 0;
+    }
+
+    .cs-title-main {
+      font-size: 79px;
+      display: block;
+    }
+
+    .cs-title-sub {
+      font-size: 32px;
+      display: block;
+    }
+
+    /* ── Role line: 14px, trailing line ── */
+    .cs-role {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 2.176px;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-top: 0.6rem;
+    }
+
+    .cs-role::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    /* ── Description ── */
+    .cs-desc {
+      color: var(--text-dim);
+      max-width: none;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ── Meta callouts: 4 even columns ── */
+    .cs-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .cs-meta-item {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cs-meta-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.632px;
+      margin-bottom: 0.3rem;
+    }
+
+    .cs-meta-value {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      word-wrap: break-word;
+    }
+
+    /* ── Section headings ── */
+    .cs-section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: 32px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      letter-spacing: 1.024px;
+      margin-bottom: 0;
+    }
+
+    .cs-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    /* ── Body text ── */
+    .cs-body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 16px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: none;
+    }
+
+    .cs-body strong {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    /* ── Hyperlinks ── */
+    .cs-body a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .cs-body a:hover { color: #C4783C; }
+    .cs-body a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ── Quote ── */
+    .cs-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 20px;
+      color: var(--text-primary);
+      line-height: 1.7;
+      border-left: 1.714px solid #C4783C;
+      padding-left: 12px;
+      opacity: 0.8;
+    }
+
+    /* ── Separator ── */
+    .cs-sep {
+      background: var(--accent);
+      opacity: 1;
+    }
+
+    /* ── Images ── */
+    .cs-img-wrap {
+      border-color: rgba(0, 0, 0, 0.08);
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.45),
+        0 1px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .cs-hero-wrap {
+      border: none;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    .cs-hero-img {
+      object-fit: cover;
+    }
+
+    /* Exploded view: transparent bg, no shadow */
+    .cs-img-wrap.no-shadow {
+      box-shadow: none;
+      border-color: transparent;
+      background: transparent;
+    }
+
+    .cs-img-wrap.no-shadow .cs-img {
+      object-fit: contain;
+    }
+
+    /* ── Tags ── */
+    .tag {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 9.28px;
+      color: var(--text-primary);
+      background: #EDE5D8;
+      border: 0.571px solid var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.6704px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .tag:hover {
+      background: #EDE5D8;
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+
+    /* ── Back button ── */
+    .cs-back {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 9.6px;
+      color: var(--text-primary);
+      background: #EDE5D8;
+      border: 0.571px solid var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2.4px;
+      padding: 9px 20px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      transition: all 0.25s ease;
+    }
+
+    .cs-back:hover {
+      background: #E0D5C5;
+      border-color: #6B3518;
+      color: var(--text-primary);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+    }
+
+    /* ── Letterbox: keep light text on black bar ── */
+    .letterbox-name,
+    .letterbox-contact {
+      color: #B8C0D8;
+    }
+    .letterbox-contact::after {
+      background: #B8C0D8;
+    }
+
+    /* ── Cursor (light theme) ── */
+    #mouse-glow { opacity: 0.03; }
+    .cursor-ring { border-color: rgba(42, 22, 8, 0.4) !important; }
+    .cursor-dot { background: rgba(42, 22, 8, 0.6) !important; }
+
+    /* ── Image trio: asymmetric 1-large + 2-stacked grid ── */
+    .cs-image-trio {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .cs-image-trio .cs-img-wrap:first-child {
+      grid-row: 1 / 3;
+    }
+
+    .cs-image-trio .cs-img-wrap:first-child .cs-img {
+      aspect-ratio: unset;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── Centered single image (matches Figma ~510px) ── */
+    .cs-image-centered {
+      display: flex;
+      justify-content: center;
+    }
+
+    .cs-image-centered .cs-img-wrap {
+      width: min(510px, 100%);
+    }
+
+    /* ── Interface 2x2 grid ── */
+    .cs-image-quad {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .cs-image-quad .cs-img {
+      aspect-ratio: 335 / 189;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .cs-image-trio {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+      .cs-image-trio .cs-img-wrap:first-child {
+        grid-row: auto;
+      }
+      .cs-image-trio .cs-img-wrap:first-child .cs-img {
+        aspect-ratio: 16/9;
+        height: auto;
+      }
+      .cs-meta {
+        flex-wrap: wrap;
+      }
+      .cs-meta-item {
+        flex: 1 1 40%;
+      }
+      .cs-header {
+        flex-direction: column;
+      }
+      .cs-number { font-size: 72px; }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta-item { flex: 1 1 100%; }
+      .cs-image-pair { grid-template-columns: 1fr; }
+      .cs-image-quad { grid-template-columns: 1fr; }
+      .cs-title-main { font-size: 52px; }
+      .cs-title-sub { font-size: 22px; }
+    }
+  </style>
+</head>
+<body class="page-scrollable" style="background:#F0E6D6;">
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Custom Cursor Elements                             -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="mouse-glow" aria-hidden="true"></div>
+  <div id="custom-cursor" aria-hidden="true">
+    <div class="cursor-ring cursor-dot"></div>
+    <div class="cursor-ring cursor-ring-1"></div>
+    <div class="cursor-ring cursor-ring-2"></div>
+    <div class="cursor-ring cursor-ring-3"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Letterbox Header                                   -->
+  <!-- ═══════════════════════════════════════ -->
+  <header class="letterbox letterbox-top">
+    <a href="../index.html" class="letterbox-name" style="text-decoration:none;">Daniel Colcock</a>
+    <a href="mailto:danpinguc@colcock.com" class="letterbox-contact">Contact</a>
+  </header>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Case Study Content                                 -->
+  <!-- ═══════════════════════════════════════ -->
+  <main>
+  <div class="cs-inner">
+
+    <!-- Navigation -->
+    <div class="cs-nav">
+      <a href="../index.html" class="cs-back">&larr; Back</a>
+    </div>
+
+    <!-- Hero Image -->
+    <div class="cs-hero-wrap">
+      <img class="cs-hero-img" src="../Photos/Dawn/hero.jpg" alt="DAWN Clock Radio — wooden clock radio with antenna and rotary dial">
+    </div>
+
+    <!-- Project Header -->
+    <div class="cs-header-block">
+      <div class="cs-header">
+        <span class="cs-number" aria-hidden="true">01</span>
+        <div class="cs-header-text">
+          <h2 class="cs-title"><span class="cs-title-main">DAWN</span><span class="cs-title-sub">Clock Radio</span></h2>
+        </div>
+      </div>
+      <p class="cs-role">Physical Product Design &amp; User Experience</p>
+    </div>
+
+    <!-- Opening paragraph -->
+    <p class="cs-desc">What&rsquo;s the first thing you did this morning? You probably picked up your phone.</p>
+
+    <!-- Body paragraph -->
+    <p class="cs-body">Dawn is a wooden clock radio designed to take the phone&rsquo;s place on your nightstand. It shows the time, lets you explore the airwaves, and wakes you with local community radio. All handled through a single rotary dial. It has no notifications, no feeds. Instead it connects you to something nearby &mdash; a local voice, a familiar station, the sounds of your city waking up with you.</p>
+
+    <!-- Meta callouts -->
+    <div class="cs-meta">
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Timeline</span>
+        <span class="cs-meta-value">46&nbsp;weeks<br>July 2025 &ndash; May&nbsp;2026</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Tools</span>
+        <span class="cs-meta-value">Rhino, Illustrator, Figma, KiCad, Laser&nbsp;Cutter, 3D&nbsp;Printer, Woodworking</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Instructor</span>
+        <span class="cs-meta-value">Prof. Keila&nbsp;Z. P&eacute;rez&nbsp;Qui&ntilde;ones</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Course</span>
+        <span class="cs-meta-value">Senior Design&nbsp;Capstone<br>At UT&nbsp;Austin</span>
+      </div>
+    </div>
+
+    <!-- Key shots -->
+    <div class="cs-image-row cs-image-pair">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/keyshot-1.jpg" alt="DAWN clock radio front view" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/keyshot-2.jpg" alt="DAWN clock radio side angle" loading="lazy"></div>
+    </div>
+
+    <!-- Audience -->
+    <h3 class="cs-section-title">Audience</h3>
+    <p class="cs-body">Dawn was designed for those young adults whose mornings and evenings have been taken over by their phones. Despite being more connected than ever, they feel disconnected from where they actually live, reaching for a screen without thinking, staying up too late, and feeling guilty at 3am.</p>
+
+    <!-- 3/4 Key image -->
+    <div class="cs-image-row cs-image-centered">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/audience-key.jpg" alt="DAWN clock radio in nightstand context" loading="lazy"></div>
+    </div>
+
+    <!-- Why Radio? -->
+    <p class="cs-body">Most media is active, asking you to scroll and decide. FM radio is live and passive. You tune in and something is already happening and has been happening. It builds a greater sense of community.</p>
+
+    <!-- Process -->
+    <h3 class="cs-section-title">Process</h3>
+
+    <!-- The Constraint -->
+    <p class="cs-body"><strong>The Constraint.</strong> I took inspiration from <a href="https://teenage.engineering/designs/playdate" target="_blank" rel="noopener noreferrer">Teenage Engineering&rsquo;s Playdate&#x2197;</a>, in which the input becomes the product&rsquo;s identity. As well as the <a href="https://support.apple.com/en-us/103823#:~:text=iPod%20classic,-Navigation" target="_blank" rel="noopener noreferrer">iPod&#x2197;</a>, whose click wheel handled browsing, selecting, and confirming. I wanted DAWN to do both. I challenged myself and aimed for just one input &mdash; a dial.</p>
+
+    <!-- Early Ideation -->
+    <div class="cs-image-row cs-image-pair">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/ideation-1.jpg" alt="Early ideation sketches" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/ideation-2.jpg" alt="Cardboard prototype with PCB" loading="lazy"></div>
+    </div>
+
+    <!-- Form -->
+    <p class="cs-body"><strong>Form.</strong> Sketching landed me on a cylinder, integrating a dial into the outer edge. I then made a cardboard model with PCB, which ended up being much larger than anticipated. Pressing the dial in with one hand would also slide it around. From there the pill form emerged. It was compact, a unique form, and usable with one hand.</p>
+
+    <div class="cs-image-row cs-image-centered">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/form-evolution.jpg" alt="Form development from cylinder to pill shape" loading="lazy"></div>
+    </div>
+
+    <!-- Material -->
+    <p class="cs-body"><strong>Material.</strong> The first prototype was made from wood out of necessity. But when the dial clicked in for the first time, the wood resonated a warm and whole tone that captivated me. I then produced 3 housings, hand-carved from wood, each assembled with a laser-cut faceplate and a hand-shaped body, held together with a 3D printed bracket. A dark acrylic screen hides the internals while letting the OLED screen shine through.</p>
+
+    <div class="cs-image-row cs-image-centered">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/material.jpg" alt="Wood material prototypes side by side" loading="lazy"></div>
+    </div>
+
+    <!-- Electronics -->
+    <p class="cs-body"><strong>Electronics.</strong> I designed a custom PCB from scratch to unify all components onto a single board, eliminating the messy wiring that earlier prototypes required. Designing the circuit and PCB meant the physical form wasn&rsquo;t constrained by off-the-shelf breadboards. It&rsquo;s what made its size possible.</p>
+
+    <div class="cs-image-row cs-image-trio">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/circuit-large.jpg" alt="Early wiring prototype" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/circuit-top.jpg" alt="Custom PCB top view" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/circuit-bottom.jpg" alt="Custom PCB assembled" loading="lazy"></div>
+    </div>
+
+    <!-- Interface -->
+    <p class="cs-body"><strong>Interface.</strong> The device has four screens: <strong>clock</strong>, <strong>radio</strong>, <strong>alarm</strong>, and <strong>settings</strong>, mapped to three inputs: rotate, press, and double-press. This meant that one motion carried different meanings in different contexts. Rotate could adjust volume or navigate. Each screen needed its own logic while still feeling like one coherent gesture language. Smooth animations and transitions give weight so the interface feels as considered as the object around it.</p>
+
+    <div class="cs-image-row cs-image-quad">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/interface-1.jpg" alt="Clock screen interface" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/interface-2.jpg" alt="Radio screen interface" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/interface-3.jpg" alt="Alarm screen interface" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/interface-4.jpg" alt="Settings screen interface" loading="lazy"></div>
+    </div>
+
+    <!-- Outcomes -->
+    <h3 class="cs-section-title">Outcomes</h3>
+
+    <div class="cs-image-row">
+      <div class="cs-img-wrap no-shadow"><img class="cs-img" src="../Photos/Dawn/exploded-view.jpg" alt="Exploded view of DAWN components" loading="lazy" style="border-radius: 8px;"></div>
+    </div>
+
+    <p class="cs-body">This project required working across product design, electronics engineering, firmware, and interface design. Each domain&rsquo;s decisions directly affected the others: the PCB layout shaped the form, the form constrained the interface, and the interface fed back to the PCB. Managing those dependencies meant constantly shifting between mindsets and roles, learning new skills and when to recognize a decision in one domain was creating a problem in another.</p>
+
+    <div class="cs-quote">Three prototypes and a display are being refined ahead of the Senior Design Capstone Exhibition in May 2026.</div>
+
+    <!-- Display Collage -->
+    <div class="cs-image-row cs-image-trio">
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/display-large.jpg" alt="DAWN display prototype" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/display-top.jpg" alt="DAWN on display shelf" loading="lazy"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../Photos/Dawn/display-bottom.jpg" alt="DAWN detail close-up" loading="lazy"></div>
+    </div>
+
+    <!-- Tags & Footer -->
+    <div class="cs-sep"></div>
+    <div class="cs-tags">
+      <span class="tag">Product Design</span>
+      <span class="tag">Woodworking</span>
+      <span class="tag">Coding</span>
+      <span class="tag">Adobe Illustrator</span>
+      <span class="tag">Electronics</span>
+      <span class="tag">KiCad</span>
+      <span class="tag">Rhino</span>
+      <span class="tag">3D Printing</span>
+      <span class="tag">Laser Cutting</span>
+      <span class="tag">Figma</span>
+    </div>
+    <a href="../index.html" class="cs-back cs-back-bottom">&larr; Back</a>
+  </div>
+  </main>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Scripts                                            -->
+  <!-- ═══════════════════════════════════════ -->
+  <script src="../js/cursor.js"></script>
+  <script src="../js/lightbox.js"></script>
+  <script>
+    // Prevent tags from triggering cursor hover-shrink
+    document.querySelectorAll('.tag').forEach(function(tag) {
+      tag.addEventListener('mouseover', function(e) { e.stopPropagation(); });
+      tag.addEventListener('mouseout', function(e) { e.stopPropagation(); });
+    });
+  </script>
+  <script>
+    (function() {
+      var wrapper = document.createElement('div');
+      wrapper.innerHTML = '<div class="page-exit-half page-exit-top"></div><div class="page-exit-half page-exit-bottom"></div>';
+      document.body.appendChild(wrapper);
+      document.querySelectorAll('.cs-back, .letterbox-name').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var href = link.href;
+          wrapper.classList.add('page-exit-close');
+          setTimeout(function() { window.location.href = href; }, 900);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

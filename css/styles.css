@@ -536,6 +536,22 @@ body {
   color: var(--frost);
   letter-spacing: 0.25em;
   text-transform: uppercase;
+  position: relative;
+}
+
+.letterbox-name::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.letterbox-name:hover::after {
+  width: 100%;
 }
 
 .letterbox-contact {
@@ -865,9 +881,9 @@ h1, h2, h3 {
 .about-detail {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
-  font-size: clamp(0.9rem, 1.6vw, 24px);
+  font-size: clamp(12.5px, 1vw, 14.5px);
   color: var(--frost);
-  line-height: 0.988;
+  line-height: 1.85;
   max-width: min(460px, 45vw);
   opacity: 0;
   transform: translateY(25px);
@@ -949,17 +965,26 @@ h1, h2, h3 {
 .project-desc {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
-  font-size: clamp(11px, 0.9vw, 13.12px);
+  font-size: clamp(12.5px, 1vw, 14.5px);
   color: var(--frost);
   line-height: 1.85;
 }
 
 .project-desc a {
   color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: none;
+  font-weight: 600;
   transition: color 0.25s ease;
 }
+.link-arrow {
+  display: inline-block;
+  vertical-align: super;
+  font-size: 0.7em;
+  font-weight: 700;
+  line-height: 1;
+  margin-left: 2px;
+}
+
 .project-desc a:hover {
   color: #e04848;
 }
@@ -1138,6 +1163,35 @@ h1, h2, h3 {
   opacity: 0.6;
 }
 
+/* "There's More" hint on contact section */
+.more-hint {
+  position: absolute;
+  bottom: calc(var(--snow-ground-h) + var(--letterbox-h) + 16px);
+  right: 15vw;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: clamp(7.5px, 0.64vw, 9.28px);
+  color: var(--frost-dim);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  text-align: right;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.more-hint.visible {
+  animation: fadeIn 1.5s ease-out 0.5s forwards, pulse 3s ease-in-out 2s infinite;
+}
+
+.more-hint-arrow {
+  display: block;
+  font-size: 1rem;
+  opacity: 0.5;
+}
+
 /* ─────────────────────────────────────────
    Ambient Light Flicker
    Decorative radial glow with breathing animation
@@ -1182,13 +1236,16 @@ h1, h2, h3 {
   height: 70vh;
   border-radius: 140px 140px 0 0;
   background:
-    radial-gradient(ellipse at 50% 35%, rgba(180, 80, 80, 0.08) 0%, rgba(160, 60, 70, 0.03) 50%, transparent 80%),
-    linear-gradient(to top, rgba(180, 80, 80, 0.06) 0%, rgba(160, 60, 70, 0.03) 40%, transparent 75%);
+    radial-gradient(ellipse at 50% 35%, rgba(160, 40, 35, 0.14) 0%, rgba(140, 30, 30, 0.07) 40%, transparent 75%),
+    linear-gradient(to top, rgba(150, 35, 30, 0.12) 0%, rgba(140, 30, 30, 0.06) 50%, transparent 80%);
+  box-shadow:
+    inset 0 0 40px 20px rgba(0, 0, 0, 0.3),
+    0 0 60px 30px rgba(0, 0, 0, 0.15);
   filter: blur(18px);
   z-index: 5;
   pointer-events: none;
   opacity: 0;
-  transition: background 0.6s ease, opacity 0.8s ease;
+  transition: background 0.6s ease, opacity 0.8s ease, box-shadow 0.6s ease;
   will-change: transform;
 }
 
@@ -1196,11 +1253,14 @@ h1, h2, h3 {
   opacity: 1;
 }
 
-/* Intensified glow on hover */
+/* Intensified glow on hover — red brightens, dark edges shift to faint white */
 #path-glow.glowing {
   background:
     radial-gradient(ellipse at 50% 35%, rgba(204, 40, 40, 0.3) 0%, rgba(180, 50, 60, 0.12) 50%, transparent 80%),
     linear-gradient(to top, rgba(204, 40, 40, 0.2) 0%, rgba(180, 50, 60, 0.08) 40%, transparent 75%);
+  box-shadow:
+    inset 0 0 40px 20px rgba(60, 50, 55, 0.25),
+    0 0 70px 35px rgba(180, 160, 170, 0.08);
 }
 
 .forest-path {
@@ -1234,8 +1294,22 @@ h1, h2, h3 {
   filter: blur(2px);
 }
 
+.foot {
+  transition: opacity 1.2s ease;
+}
+
+.forest-path.visible .foot-left {
+  opacity: 0.6;
+  transition-delay: 0.6s;
+}
+
+.forest-path.visible .foot-right {
+  opacity: 0.45;
+  transition-delay: 1.4s;
+}
+
 .forest-path:hover .forest-path-svg {
-  filter: blur(2px) brightness(1.15);
+  filter: blur(2px);
 }
 
 .path-label {
@@ -1246,9 +1320,9 @@ h1, h2, h3 {
   letter-spacing: 0.4em;
   text-transform: uppercase;
   position: absolute;
-  top: 30%;
+  bottom: calc(35vh - 1.5rem);
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   white-space: nowrap;
   z-index: 2;
   transition: color 0.4s ease;
@@ -1260,7 +1334,7 @@ h1, h2, h3 {
 
 .path-arrow {
   position: absolute;
-  top: 38%;
+  bottom: calc(35vh - 4rem);
   left: 50%;
   transform: translateX(-50%);
   font-size: 1.4rem;
@@ -1702,40 +1776,6 @@ button:focus:not(:focus-visible),
   color: var(--accent);
 }
 
-/* ─────────────────────────────────────────
-   Collage Section
-   Figma: two groups of 9 images, each 721x551px, side by side
-   ───────────────────────────────────────── */
-
-.collage-section .section-content {
-  justify-content: center;
-  align-items: center;
-  padding-top: calc(var(--letterbox-h) + 50px);
-}
-
-/* Figma: Group 4 is 1413.5x551 total, two 721px groups side by side.
-   Uses container query approach: fixed aspect ratio groups that scale with the grid. */
-.collage-grid {
-  display: flex;
-  width: min(90vw, 1414px);
-  aspect-ratio: 1414 / 551;
-  position: relative;
-}
-
-.collage-group {
-  position: relative;
-  width: 50%;
-  height: 100%;
-  flex-shrink: 0;
-}
-
-/* Figma: each image uses inset percentages within the 721x551 parent */
-.collage-img {
-  position: absolute;
-  overflow: hidden;
-  background: linear-gradient(151deg, rgba(26, 21, 53, 0.7), rgba(17, 13, 32, 0.85));
-}
-
 
 /* ─────────────────────────────────────────
    Responsive / Media Queries
@@ -1805,17 +1845,6 @@ button:focus:not(:focus-visible),
     display: none;
   }
 
-  .collage-grid {
-    flex-direction: column;
-    width: min(85vw, 600px);
-    aspect-ratio: 721 / 1102;
-  }
-
-  .collage-group {
-    width: 100%;
-    height: 50%;
-  }
-
   .title-section .section-content {
     padding-left: 8vw;
   }
@@ -1861,6 +1890,8 @@ button:focus:not(:focus-visible),
    ───────────────────────────────────────── */
 
 @media (max-width: 480px) {
+  /* JS handles phone layout via flex-wrap */
+
   .gallery-grid {
     columns: 1;
   }
@@ -1897,7 +1928,7 @@ button:focus:not(:focus-visible),
   }
 
   .about-detail {
-    font-size: clamp(0.75rem, 1.8vh, 18px);
+    font-size: clamp(9px, 1.5vh, 13px);
   }
 
   .project-number {
@@ -1911,6 +1942,132 @@ button:focus:not(:focus-visible),
   .contact-heading {
     font-size: clamp(1.6rem, 6vh, 48px);
   }
+
+}
+
+/* ─────────────────────────────────────────
+   Wide viewports: scale up content that caps
+   at Figma-design maximums (~1463px).
+   At 2680px these elements look ~30% too small.
+   ───────────────────────────────────────── */
+
+@media (min-width: 1600px) {
+  /* Project sections — originals × 1.5 */
+  .project-info {
+    width: clamp(360px, 26vw, 570px);
+  }
+
+  .project-gallery {
+    width: clamp(330px, 28vw, 600px);
+  }
+
+  .project-number {
+    font-size: clamp(3rem, 3.3vw, 72px);
+  }
+
+  .project-title {
+    font-size: clamp(2.7rem, 3.5vw, 77px);
+  }
+
+  .project-desc {
+    font-size: clamp(13px, 0.9vw, 20px);
+  }
+
+  .tag {
+    font-size: clamp(9.5px, 0.64vw, 14px);
+    padding: 7px 18px;
+  }
+
+  .project-section .section-content {
+    gap: clamp(2.5rem, 4.5vw, 90px);
+  }
+
+  /* About section */
+  .about-text-block {
+    max-width: min(1045px, 50vw);
+  }
+
+  .about-text {
+    font-size: clamp(2.1rem, 2.7vw, 60px);
+    max-width: min(1045px, 50vw);
+  }
+
+  .about-detail {
+    font-size: clamp(13px, 0.9vw, 20px);
+    max-width: min(690px, 42vw);
+  }
+
+  .section-label {
+    font-size: clamp(13px, 1.1vw, 24px);
+  }
+
+  .bio-photo {
+    width: clamp(210px, 19vw, 420px);
+  }
+
+  /* Title section */
+  .main-title {
+    font-size: clamp(4.5rem, 6.5vw, 144px);
+  }
+
+  .title-role {
+    font-size: clamp(2.1rem, 2.8vw, 61px);
+  }
+
+  .subtitle {
+    font-size: clamp(0.8rem, 0.87vw, 19px);
+  }
+
+  .scroll-hint {
+    font-size: clamp(9px, 0.64vw, 14px);
+  }
+
+  .scroll-hint-arrow {
+    font-size: 1.3rem;
+  }
+
+  /* Contact section */
+  .contact-heading {
+    font-size: clamp(3rem, 5vw, 96px);
+  }
+
+  .contact-accent-line {
+    width: min(560px, 80vw);
+  }
+
+  .contact-links {
+    gap: 18px;
+    margin-top: 15px;
+  }
+
+  .contact-link {
+    font-size: clamp(0.95rem, 1vw, 20px);
+    padding: 10px 22px;
+  }
+
+  .contact-link::after {
+    height: 1.5px;
+  }
+
+  .more-hint {
+    font-size: clamp(9px, 0.64vw, 14px);
+  }
+
+  .more-hint-arrow {
+    font-size: 1.3rem;
+  }
+
+  /* Cursor */
+  .cursor-dot { width: 9px; height: 9px; }
+  .cursor-ring-1 { width: 30px; height: 30px; }
+  .cursor-ring-2 { width: 54px; height: 54px; }
+  .cursor-ring-3 { width: 78px; height: 78px; }
+
+  #custom-cursor.hovering .cursor-ring-1 { width: 9px; height: 9px; }
+  #custom-cursor.hovering .cursor-ring-2 { width: 9px; height: 9px; }
+  #custom-cursor.hovering .cursor-ring-3 { width: 9px; height: 9px; }
+
+  #mouse-glow { width: 300px; height: 300px; }
 }
 
 /* ─────────────────────────────────────────

@@ -119,6 +119,7 @@ const snowMid = document.getElementById('snow-ground-mid');
 const snowNear = document.getElementById('snow-ground-near');
 
 const pathGlowEl = document.getElementById('path-glow');
+const pathTriggerEl = document.getElementById('path-trigger');
 const reveals = document.querySelectorAll('.reveal');
 const sectionsArray = Array.from(sections);
 
@@ -198,20 +199,27 @@ function animate() {
   snowMid.style.transform = `translateX(${-midOffset}px)`;
   snowNear.style.transform = `translateX(${-nearOffset}px)`;
 
-  // Keep the path glow centered on the last section as we scroll
+  // Path glow tracks at the slowest parallax rate (0.08) so it drifts in gently
   if (pathGlowEl) {
     const lastSectionCenter = (totalSections - 1) * window.innerWidth + window.innerWidth / 2;
-    const glowOffset = lastSectionCenter - currentX - window.innerWidth / 2;
+    const glowBase = lastSectionCenter - currentX - window.innerWidth / 2;
+    // Dampen movement to match far trunk layer — drifts in slowly
+    const glowOffset = glowBase * 0.5;
     pathGlowEl.style.transform = `translateX(calc(-50% + ${glowOffset}px))`;
 
-    // Proximity-based brightness boost — computed here to avoid getBoundingClientRect on mousemove.
-    // The glow's viewport-space center X = glowOffset + 50% of viewport (since it's centered via CSS).
-    // We use window.innerWidth / 2 + glowOffset as the approximate X center,
-    // and bias Y upward to ~35% of the viewport height.
+    // Make the forest-path (text + feet) track the same parallax as the glow.
+    // The glow is position:fixed, translated by glowOffset from viewport center.
+    // The forest-path is inside the scroll container, so it moves 1:1 with scroll.
+    // To visually align with the glow we need: transformX = glowOffset - glowBase
+    if (pathTriggerEl) {
+      var compensate = glowOffset - glowBase;
+      pathTriggerEl.style.transform = `translateX(calc(-50% + ${compensate}px))`;
+    }
+
     const glowCX = window.innerWidth / 2 + glowOffset;
-    const glowCY = window.innerHeight * 0.35;
+    const glowCY = window.innerHeight * 0.6;
     const dist = Math.hypot(mouseX - glowCX, mouseY - glowCY);
-    pathGlowEl.classList.toggle('glowing', dist < 250);
+    pathGlowEl.classList.toggle('glowing', dist < 350);
   }
 
   revealElements();
@@ -236,6 +244,9 @@ function revealElements() {
     const sectionIndex = sectionsArray.indexOf(section);
     if (sectionIndex === currentSection) {
       el.classList.add('visible');
+    } else if (el.id === 'path-trigger') {
+      // Reset forest-path so foot animation replays on return
+      el.classList.remove('visible');
     }
   });
 }

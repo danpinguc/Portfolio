@@ -64,6 +64,11 @@
     }
 
     var cap = imgEl.getAttribute('data-caption');
+    if (!cap) {
+      var title = imgEl.getAttribute('data-title');
+      var desc = imgEl.getAttribute('data-description');
+      if (title) cap = desc ? title + ' \u2014 ' + desc : title;
+    }
     if (cap) {
       caption.textContent = cap;
       caption.classList.add('visible');
@@ -127,6 +132,8 @@
   closeBtn.addEventListener('click', close);
 
   document.addEventListener('keydown', function (e) {
+
+
     if (!window.lightboxOpen) return;
 
     if (e.key === 'Escape') {
@@ -173,7 +180,7 @@
 
   // Container selectors that get the tilt effect
   // .cs-hero-wrap excluded — full-width heroes have ~1:1 perspective ratio causing exaggerated tilt
-  var TILT_SELECTOR = '.project-img, .cs-img-wrap, .gallery-item, .collage-img, .bio-photo';
+  var TILT_SELECTOR = '.project-img, .cs-img-wrap, .gallery-item, .bio-photo';
 
   // Inject glare div + add classes once per card
   function initCard(card) {

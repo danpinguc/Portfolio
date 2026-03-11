@@ -1,3 +1,5 @@
+import { WheelGestures } from 'https://esm.sh/wheel-gestures@2.2.48';
+
 // ─────────────────────────────────────────
 // Constants & Configuration
 // ─────────────────────────────────────────
@@ -7,7 +9,7 @@ sessionStorage.removeItem('portfolio-return-section');  // Clear immediately so 
 const returnSection = storedSection !== null ? parseInt(storedSection, 10) : null;
 const isReturning = returnSection !== null;
 const LOADER_MIN_MS = isReturning ? 0 : 2400;  // Skip loader delay on return visits
-const scrollCooldown = 500;              // ms between accepted wheel/key scroll events
+const keyScrollCooldown = 500;           // ms between accepted keyboard scroll events
 
 // ─────────────────────────────────────────
 // Loading Screen
@@ -131,9 +133,7 @@ const sectionsArray = Array.from(sections);
 let currentX = 0;
 let targetX = 0;
 let currentSection = 0;
-let lastScrollTime = 0;
-let accumulatedDelta = 0;
-let deltaDecayTimer = null;
+let lastKeyScrollTime = 0;
 let mouseX = 0;                           // Tracked for path glow proximity check in animate()
 let mouseY = 0;
 
@@ -284,29 +284,6 @@ function splitTextIntoWords() {
 }
 
 // ─────────────────────────────────────────
-// Star Field
-// ─────────────────────────────────────────
-// 80 tiny divs placed in the top 40% of the viewport with randomized
-// CSS custom properties for twinkle duration, delay, and peak opacity.
-
-function createStars() {
-  const starsContainer = document.getElementById('stars');
-  const count = 80;
-  for (let i = 0; i < count; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.style.left = Math.random() * 100 + '%';
-    star.style.top = Math.random() * 40 + '%';       // Upper portion only — below the canopy line
-    star.style.setProperty('--dur', (3 + Math.random() * 5) + 's');
-    star.style.setProperty('--delay', (Math.random() * 5) + 's');
-    star.style.setProperty('--max-opacity', (0.15 + Math.random() * 0.3).toFixed(2));
-    const size = 1 + Math.random() * 1.5;
-    star.style.width = size + 'px';
-    star.style.height = size + 'px';
-    starsContainer.appendChild(star);
-  }
-}
-
 // ─────────────────────────────────────────
 // Snow Canvas
 // ─────────────────────────────────────────
@@ -468,34 +445,29 @@ drawFlicker();
 // Navigation — Wheel, Keyboard, Touch, Dots
 // ─────────────────────────────────────────
 
-// Wheel — snaps to next/previous section.
-// Blocks new input until the current scroll animation is >85% complete.
-// This naturally handles trackpad momentum (animation still in progress)
-// while staying responsive for mouse wheel and intentional trackpad swipes.
-function handleWheel(e) {
-  if (window.lightboxOpen) return;
-  e.preventDefault();
-
-  // Block input while the scroll animation is still in progress
-  const distToTarget = Math.abs(targetX - currentX);
-  if (distToTarget > window.innerWidth * 0.15) return;
-
-  const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-  accumulatedDelta += delta;
-
-  clearTimeout(deltaDecayTimer);
-  deltaDecayTimer = setTimeout(() => { accumulatedDelta = 0; }, 200);
-
-  if (accumulatedDelta > 50) {
-    goToSection(currentSection + 1);
-    accumulatedDelta = 0;
-  } else if (accumulatedDelta < -50) {
-    goToSection(currentSection - 1);
-    accumulatedDelta = 0;
+// Wheel — wheel-gestures detects gesture phases, filtering out momentum.
+// Only fires on gesture start (isStart), ignoring all inertia events.
+const wheelGestures = WheelGestures();
+wheelGestures.observe(document.documentElement);
+wheelGestures.on('wheel', (state) => {
+  if (window.lightboxOpen) {
+    state.event.preventDefault();
+    return;
   }
-}
+  state.event.preventDefault();
 
-window.addEventListener('wheel', handleWheel, { passive: false });
+  // Only act on the start of a new gesture, ignore momentum
+  if (!state.isStart) return;
+
+  const e = state.event;
+  const dy = e.deltaY;
+  const dx = e.deltaX;
+  const delta = Math.abs(dy) > Math.abs(dx) ? dy : dx;
+  if (Math.abs(delta) < 3) return;
+
+  if (delta > 0) goToSection(currentSection + 1);
+  else goToSection(currentSection - 1);
+});
 
 // Keyboard — arrow keys navigate sections (same cooldown as wheel)
 window.addEventListener('keydown', (e) => {
@@ -508,14 +480,14 @@ window.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
     e.preventDefault();
     const now = Date.now();
-    if (now - lastScrollTime < scrollCooldown) return;
-    lastScrollTime = now;
+    if (now - lastKeyScrollTime < keyScrollCooldown) return;
+    lastKeyScrollTime = now;
     goToSection(currentSection + 1);
   } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
     e.preventDefault();
     const now = Date.now();
-    if (now - lastScrollTime < scrollCooldown) return;
-    lastScrollTime = now;
+    if (now - lastKeyScrollTime < keyScrollCooldown) return;
+    lastKeyScrollTime = now;
     goToSection(currentSection - 1);
   }
 });
@@ -610,15 +582,32 @@ window.addEventListener('resize', () => {
       });
     }
     resizeFlicker();
+    alignBioPhoto();
   }, 150);                                // 150ms debounce
 });
+
+// ─────────────────────────────────────────
+// Bio photo alignment — top of photo matches top of text block
+// ─────────────────────────────────────────
+function alignBioPhoto() {
+  const textBlock = document.querySelector('.about-text-block');
+  const photo = document.querySelector('.bio-photo');
+  if (!textBlock || !photo) return;
+  // Both are flex-centered; offset = half the height difference
+  const diff = photo.offsetHeight - textBlock.offsetHeight;
+  if (diff > 0) {
+    photo.style.marginTop = diff + 'px';
+  } else {
+    photo.style.marginTop = '';
+  }
+}
 
 // ─────────────────────────────────────────
 // Initialization
 // ─────────────────────────────────────────
 
 splitTextIntoWords();
-createStars();
+alignBioPhoto();
 initSnow();
 snowRAF = requestAnimationFrame(drawSnow);
 

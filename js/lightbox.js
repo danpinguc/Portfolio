@@ -10,7 +10,7 @@
   var sourceEl = null;
 
   // Selectors for clickable images
-  var IMG_SELECTOR = 'img.cs-img, img.cs-hero-img, .gallery-item img, img.project-img-inner';
+  var IMG_SELECTOR = 'img.cs-img, img.cs-hero-img, .gallery-item img, img.project-img-inner, .bio-photo img';
 
   // ── Build DOM ──────────────────────────
   var overlay = document.createElement('div');

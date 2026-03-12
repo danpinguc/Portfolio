@@ -2413,9 +2413,9 @@ html.low-end .fx-toggle-label {
   padding: 10px 16px;
   border-radius: 14px;
   border-bottom-left-radius: 0;
-  pointer-events: none;
+  pointer-events: auto;
   animation: fxTipIn 0.4s ease forwards;
-  z-index: 16;
+  z-index: 10000;
 }
 
 .fx-tooltip-out {

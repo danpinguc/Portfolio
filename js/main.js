@@ -97,6 +97,8 @@ function showFxTooltip() {
     window.removeEventListener('touchmove', dismiss);
   }
 
+  tip.style.cursor = 'pointer';
+  tip.addEventListener('click', () => { window.toggleReducedFX(); });
   window.addEventListener('wheel', dismiss, { once: true });
   window.addEventListener('touchmove', dismiss, { once: true });
 }

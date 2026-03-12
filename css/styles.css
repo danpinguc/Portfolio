@@ -2391,4 +2391,52 @@ html.low-end .fx-toggle-label {
   #fx-toggle {
     left: 0.8rem;
   }
+  .fx-toggle-label {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────
+   FX Tooltip (low-performance nudge)
+   ───────────────────────────────────────── */
+
+.fx-tooltip {
+  position: fixed;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--frost);
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border-radius: 14px;
+  border-bottom-left-radius: 0;
+  pointer-events: none;
+  animation: fxTipIn 0.4s ease forwards;
+  z-index: 16;
+}
+
+.fx-tooltip-out {
+  animation: fxTipOut 0.3s ease forwards;
+}
+
+@keyframes fxTipIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fxTipOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(4px); }
+}
+
+@media (max-width: 480px) {
+  .fx-tooltip {
+    font-size: 10px;
+    padding: 8px 12px;
+    white-space: normal;
+    max-width: 200px;
+  }
 }

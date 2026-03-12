@@ -252,6 +252,7 @@
 
     .cs-hero-img {
       object-fit: cover;
+      aspect-ratio: 5/4;
     }
 
     /* Exploded view: transparent bg, no shadow */
@@ -355,8 +356,15 @@
       gap: 0.75rem;
     }
 
+    /* ── Keyshot & ideation pairs: 5x4 crop ── */
+    .cs-image-pair-5x4 .cs-img {
+      aspect-ratio: 5/4;
+    }
+
     .cs-image-quad .cs-img {
       aspect-ratio: 335 / 189;
+      object-fit: cover;
+      object-position: center;
     }
 
     /* ── Responsive ── */
@@ -469,7 +477,7 @@
     </div>
 
     <!-- Key shots -->
-    <div class="cs-image-row cs-image-pair">
+    <div class="cs-image-row cs-image-pair cs-image-pair-5x4">
       <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/keyshot-1.jpg" alt="DAWN clock radio front view" loading="lazy" decoding="async"></div>
       <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/keyshot-2.jpg" alt="DAWN clock radio side angle" loading="lazy" decoding="async"></div>
     </div>
@@ -493,7 +501,7 @@
     <p class="cs-body"><strong>The Constraint.</strong> I took inspiration from <a href="https://teenage.engineering/designs/playdate" target="_blank" rel="noopener noreferrer">Teenage Engineering&rsquo;s Playdate&#x2197;</a>, in which the input becomes the product&rsquo;s identity. As well as the <a href="https://support.apple.com/en-us/103823#:~:text=iPod%20classic,-Navigation" target="_blank" rel="noopener noreferrer">iPod&#x2197;</a>, whose click wheel handled browsing, selecting, and confirming. I wanted DAWN to do both. I challenged myself and aimed for just one input &mdash; a dial.</p>
 
     <!-- Early Ideation -->
-    <div class="cs-image-row cs-image-pair">
+    <div class="cs-image-row cs-image-pair cs-image-pair-5x4">
       <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/ideation-1.jpg" alt="Early ideation sketches" loading="lazy" decoding="async"></div>
       <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/ideation-2.jpg" alt="Cardboard prototype with PCB" loading="lazy" decoding="async"></div>
     </div>
@@ -525,10 +533,10 @@
     <p class="cs-body"><strong>Interface.</strong> The device has four screens: <strong>clock</strong>, <strong>radio</strong>, <strong>alarm</strong>, and <strong>settings</strong>, mapped to three inputs: rotate, press, and double-press. This meant that one motion carried different meanings in different contexts. Rotate could adjust volume or navigate. Each screen needed its own logic while still feeling like one coherent gesture language. Smooth animations and transitions give weight so the interface feels as considered as the object around it.</p>
 
     <div class="cs-image-row cs-image-quad">
-      <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/interface-1.jpg" alt="Clock screen interface" loading="lazy" decoding="async"></div>
-      <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/interface-2.jpg" alt="Radio screen interface" loading="lazy" decoding="async"></div>
-      <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/interface-3.jpg" alt="Alarm screen interface" loading="lazy" decoding="async"></div>
-      <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/interface-4.jpg" alt="Settings screen interface" loading="lazy" decoding="async"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/Interface_Clock.gif" alt="Clock screen interface" loading="lazy" decoding="async"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/Interface_Radio.gif" alt="Radio screen interface" loading="lazy" decoding="async"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/Interface_Alarm.gif" alt="Alarm screen interface" loading="lazy" decoding="async"></div>
+      <div class="cs-img-wrap"><img class="cs-img" src="../../Photos/Dawn/Interface_Boot.gif" alt="Boot screen interface" loading="lazy" decoding="async"></div>
     </div>
 
     <!-- Outcomes -->

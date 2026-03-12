@@ -32,49 +32,8 @@ if (storedLowEnd === 'on') {
   // User explicitly disabled reduced effects — skip auto-detection
   isLowEnd = false;
 } else {
-  // No stored preference — auto-detect
-
-  // Hardware signals: low core count or low memory
-  const lowCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
-  const lowMemory = navigator.deviceMemory && navigator.deviceMemory <= 2;
-
-  if (lowCores || lowMemory) {
-    // Hardware signals alone are enough to flag as low-end
-    isLowEnd = true;
-    document.documentElement.classList.add('low-end');
-  } else {
-    // Sample frame rate after the page has settled (3 s delay) to avoid
-    // measuring during initial load when the browser is busy parsing,
-    // painting, and decoding images — which would give a falsely low FPS.
-    // Samples for ~2 seconds; if the average frame takes longer than 20 ms
-    // (~50 fps), the device is flagged as low-end.
-    setTimeout(() => {
-      let fpsFrames = 0;
-      let fpsStartTime = 0;
-
-      function sampleFPS(timestamp) {
-        if (!fpsStartTime) fpsStartTime = timestamp;
-        fpsFrames++;
-
-        const elapsed = timestamp - fpsStartTime;
-        if (elapsed >= 2000) {
-          const avgFrameTime = elapsed / fpsFrames;
-
-          if (avgFrameTime > 20) {
-            isLowEnd = true;
-            document.documentElement.classList.add('low-end');
-            if (snowRAF) cancelAnimationFrame(snowRAF);
-            if (flickerRAF) cancelAnimationFrame(flickerRAF);
-          }
-          return;
-        }
-
-        requestAnimationFrame(sampleFPS);
-      }
-
-      requestAnimationFrame(sampleFPS);
-    }, 3000);
-  }
+  // No stored preference — show tooltip pointing to FX toggle until first scroll
+  showFxTooltip();
 }
 
 // ─────────────────────────────────────────
@@ -90,6 +49,13 @@ window.toggleReducedFX = function () {
   const btn = document.getElementById('fx-toggle');
   if (btn) btn.setAttribute('aria-pressed', String(isLowEnd));
 
+  // Dismiss tooltip if visible
+  const tip = document.querySelector('.fx-tooltip');
+  if (tip) {
+    tip.classList.add('fx-tooltip-out');
+    tip.addEventListener('animationend', () => tip.remove(), { once: true });
+  }
+
   if (isLowEnd) {
     // Stop heavy animation loops
     if (snowRAF) cancelAnimationFrame(snowRAF);
@@ -102,6 +68,38 @@ window.toggleReducedFX = function () {
     flickerRAF = requestAnimationFrame(drawFlicker);
   }
 };
+
+// ─────────────────────────────────────────
+// FX Tooltip (shown until first scroll)
+// ─────────────────────────────────────────
+function showFxTooltip() {
+  const btn = document.getElementById('fx-toggle');
+  if (!btn || document.querySelector('.fx-tooltip')) return;
+
+  const tip = document.createElement('div');
+  tip.className = 'fx-tooltip';
+  tip.textContent = 'Toggle effects off here';
+  document.body.appendChild(tip);
+
+  // Position above the footer using fixed positioning
+  requestAnimationFrame(() => {
+    const btnRect = btn.getBoundingClientRect();
+    const footer = btn.closest('.letterbox');
+    const footerTop = footer ? footer.getBoundingClientRect().top : btnRect.top;
+    tip.style.left = btnRect.left + 'px';
+    tip.style.bottom = (window.innerHeight - footerTop + 8) + 'px';
+  });
+
+  function dismiss() {
+    tip.classList.add('fx-tooltip-out');
+    tip.addEventListener('animationend', () => tip.remove(), { once: true });
+    window.removeEventListener('wheel', dismiss);
+    window.removeEventListener('touchmove', dismiss);
+  }
+
+  window.addEventListener('wheel', dismiss, { once: true });
+  window.addEventListener('touchmove', dismiss, { once: true });
+}
 
 // ─────────────────────────────────────────
 // Constants & Configuration

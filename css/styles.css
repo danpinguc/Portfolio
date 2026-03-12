@@ -795,7 +795,7 @@ h1, h2, h3 {
 }
 
 .title-visible .scroll-hint {
-  animation: fadeIn 1.5s ease-out 2s forwards, pulse 3s ease-in-out 3.5s infinite;
+  animation: fadeIn 1.5s ease-out 2s forwards;
 }
 
 @keyframes fadeIn {
@@ -1192,7 +1192,7 @@ h1, h2, h3 {
 }
 
 .more-hint.visible {
-  animation: fadeIn 1.5s ease-out 0.5s forwards, pulse 3s ease-in-out 2s infinite;
+  animation: fadeIn 1.5s ease-out 0.5s forwards;
 }
 
 .more-hint-arrow {
@@ -1729,6 +1729,7 @@ button:focus:not(:focus-visible),
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 1.8s ease-out 0.5s, transform 1.8s ease-out 0.5s;
+  will-change: transform, opacity;
 }
 
 .bio-photo img {
@@ -2348,18 +2349,18 @@ html.low-end .cursor-ring {
   display: flex;
   align-items: center;
   gap: 6px;
-  opacity: 0.4;
+  opacity: 0.6;
   transition: opacity 0.3s ease;
 }
 
 #fx-toggle:hover {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 #fx-toggle svg {
   width: 16px;
   height: 16px;
-  stroke: var(--frost-dim);
+  stroke: var(--frost);
   fill: none;
   stroke-width: 1.5;
   stroke-linecap: round;
@@ -2372,7 +2373,7 @@ html.low-end .cursor-ring {
   font-weight: 300;
   letter-spacing: 1.8px;
   text-transform: uppercase;
-  color: var(--frost-dim);
+  color: var(--frost);
 }
 
 /* When reduced FX is active, show the icon as "struck through" / dimmed */

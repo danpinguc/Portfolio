@@ -97,6 +97,7 @@ window.toggleReducedFX = function () {
   } else {
     // Restart animation loops
     lastSnowTime = 0;
+    lastCurrentX = currentX;
     snowRAF = requestAnimationFrame(drawSnow);
     flickerRAF = requestAnimationFrame(drawFlicker);
   }
@@ -345,19 +346,31 @@ function animate() {
 // `.reveal` elements get `.visible` only after the scroll has reached
 // 60% progress toward the target section. This keeps content from
 // animating in while the section is still mostly off-screen.
+//
+// Each reveal's parent section index is cached once at startup so the
+// hot loop avoids expensive DOM lookups (closest + indexOf) every frame.
+
+const revealSectionMap = new Map();
+reveals.forEach(el => {
+  const section = el.closest('.section');
+  if (section) revealSectionMap.set(el, sectionsArray.indexOf(section));
+});
+let lastRevealedSection = -1;          // Track which section we last revealed for
 
 function revealElements() {
-  // progress = 1 when fully arrived, < 1 while still scrolling
   const progress = 1 - Math.abs(targetX - currentX) / window.innerWidth;
   if (progress < 0.6) return;
+
+  // Skip if we already revealed this section (unless it's the path-trigger section)
+  if (currentSection === lastRevealedSection) return;
+  lastRevealedSection = currentSection;
+
   reveals.forEach(el => {
-    const section = el.closest('.section');
-    if (!section) return;
-    const sectionIndex = sectionsArray.indexOf(section);
+    const sectionIndex = revealSectionMap.get(el);
+    if (sectionIndex === undefined) return;
     if (sectionIndex === currentSection) {
       el.classList.add('visible');
     } else if (el.id === 'path-trigger') {
-      // Reset forest-path so foot animation replays on return
       el.classList.remove('visible');
     }
   });
@@ -477,13 +490,23 @@ function drawSnow(timestamp) {
     flake.x += flake.wind + Math.sin(flake.wobble) * 0.25;
     flake.y += flake.speed;
 
-    // Wrap around edges
+    // Wrap vertically — flakes that fall off the bottom respawn at the top
     if (flake.y > snowCanvas.height + 10) {
       flake.y = -10;
+      flake.drawY = flake.y;
       flake.x = Math.random() * snowCanvas.width;
+      flake.drawX = flake.x;
     }
-    if (flake.x < -10) flake.x = snowCanvas.width + 10;
-    if (flake.x > snowCanvas.width + 10) flake.x = -10;
+    // Wrap horizontally — flakes pushed off one side reappear on the other
+    // so scrolling to a new section always has snow. Snap drawX to prevent
+    // the lerp from drawing a streak across the entire screen.
+    if (flake.x < -10) {
+      flake.x += snowCanvas.width + 20;
+      flake.drawX = flake.x;
+    } else if (flake.x > snowCanvas.width + 10) {
+      flake.x -= snowCanvas.width + 20;
+      flake.drawX = flake.x;
+    }
 
     // ── Subtle stop-motion jitter ──
     // Small random offset applied on a slow timer, smoothed by a gentle lerp
@@ -705,7 +728,7 @@ window.addEventListener('resize', () => {
     // Snap scroll position to current section at new viewport width
     targetX = currentSection * window.innerWidth;
     currentX = targetX;
-    lastCurrentX = currentX;              // Prevent snow delta spike after resize snap
+    lastCurrentX = currentX;
     // Reinit snow so particle sizes match the new scale factor
     initSnow();
     resizeFlicker();
@@ -765,7 +788,7 @@ if (isReturning && returnSection >= 0 && returnSection < totalSections) {
   setTimeout(() => {
     targetX = returnSection * window.innerWidth;
     currentX = targetX;
-    lastCurrentX = currentX;              // Prevent snow delta spike from the instant scroll snap
+    lastCurrentX = currentX;
   }, 1400);
 }
 
@@ -797,8 +820,8 @@ document.addEventListener('visibilitychange', () => {
     cancelAnimationFrame(snowRAF);
     cancelAnimationFrame(flickerRAF);
   } else {
-    lastCurrentX = currentX;  // Reset so drawSnow doesn't see a huge delta on first frame back
     lastSnowTime = 0;         // Reset so drawSnow uses fallback dt on first frame back (avoids huge dt from tab gap)
+    lastCurrentX = currentX;  // Prevent snow delta spike from tab gap
     animateRAF = requestAnimationFrame(animate);
     // Only restart heavy loops if not in low-end or reduced-motion mode
     if (!prefersReducedMotion && !isLowEnd) {

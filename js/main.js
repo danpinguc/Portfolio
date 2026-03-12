@@ -18,6 +18,8 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 // and disable transforms, and JS loops are cancelled.
 
 const LOW_END_KEY = 'portfolio-reduced-fx';
+let snowRAF = null;
+let flickerRAF = null;
 
 // Check if user has explicitly set a preference
 let storedLowEnd = null;
@@ -246,8 +248,6 @@ let mouseY = 0;
 
 // rAF handles — stored so loops can be cancelled when the tab is backgrounded
 let animateRAF = null;
-let snowRAF = null;
-let flickerRAF = null;
 
 function getMaxScroll() {
   return (totalSections - 1) * window.innerWidth;

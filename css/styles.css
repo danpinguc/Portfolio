@@ -2347,7 +2347,7 @@ html.low-end .cursor-ring {
   padding: 4px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
   opacity: 0.4;
   transition: opacity 0.3s ease;
 }
@@ -2366,9 +2366,23 @@ html.low-end .cursor-ring {
   stroke-linejoin: round;
 }
 
+.fx-toggle-label {
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--frost-dim);
+}
+
 /* When reduced FX is active, show the icon as "struck through" / dimmed */
 html.low-end #fx-toggle svg {
   stroke: var(--accent);
+  opacity: 0.7;
+}
+
+html.low-end .fx-toggle-label {
+  color: var(--accent);
   opacity: 0.7;
 }
 

@@ -43,38 +43,37 @@ if (storedLowEnd === 'on') {
     isLowEnd = true;
     document.documentElement.classList.add('low-end');
   } else {
-    // Sample frame rate for ~2 seconds using requestAnimationFrame.
-    // Each call to sampleFPS counts as one frame; after 2 s we divide
-    // elapsed time by frame count to get the average time per frame.
-    let fpsFrames = 0;        // number of frames counted so far
-    let fpsStartTime = 0;     // timestamp (ms) of the first sample frame
-    let fpsSamplingDone = false;
+    // Sample frame rate after the page has settled (3 s delay) to avoid
+    // measuring during initial load when the browser is busy parsing,
+    // painting, and decoding images — which would give a falsely low FPS.
+    // Samples for ~2 seconds; if the average frame takes longer than 20 ms
+    // (~50 fps), the device is flagged as low-end.
+    setTimeout(() => {
+      let fpsFrames = 0;
+      let fpsStartTime = 0;
 
-    function sampleFPS(timestamp) {
-      if (!fpsStartTime) fpsStartTime = timestamp;
-      fpsFrames++;
+      function sampleFPS(timestamp) {
+        if (!fpsStartTime) fpsStartTime = timestamp;
+        fpsFrames++;
 
-      const elapsed = timestamp - fpsStartTime;
-      if (elapsed >= 2000) {
-        // Sampling complete — e.g. 80 frames in 2000 ms → 25 ms/frame → 40 fps
-        const avgFrameTime = elapsed / fpsFrames;
-        fpsSamplingDone = true;
+        const elapsed = timestamp - fpsStartTime;
+        if (elapsed >= 2000) {
+          const avgFrameTime = elapsed / fpsFrames;
 
-        if (avgFrameTime > 25) {
-          // Averaging below ~40 fps — flag as low-end
-          isLowEnd = true;
-          document.documentElement.classList.add('low-end');
-          // Cancel running animation loops that were already started
-          if (snowRAF) cancelAnimationFrame(snowRAF);
-          if (flickerRAF) cancelAnimationFrame(flickerRAF);
+          if (avgFrameTime > 20) {
+            isLowEnd = true;
+            document.documentElement.classList.add('low-end');
+            if (snowRAF) cancelAnimationFrame(snowRAF);
+            if (flickerRAF) cancelAnimationFrame(flickerRAF);
+          }
+          return;
         }
-        return; // Stop sampling
+
+        requestAnimationFrame(sampleFPS);
       }
 
       requestAnimationFrame(sampleFPS);
-    }
-
-    requestAnimationFrame(sampleFPS);
+    }, 3000);
   }
 }
 

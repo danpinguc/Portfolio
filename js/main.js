@@ -419,6 +419,9 @@ const ctx = snowCanvas.getContext('2d');
 let snowflakes = [];
 let lastCurrentX = currentX;             // Previous frame's scroll position — used to compute how far we scrolled since last frame
 
+// Scale factor for wide screens (1600px+) — matches the CSS 1.5× scaling
+function getWideScale() { return window.innerWidth >= 1600 ? 1.5 : 1; }
+
 function resizeCanvas() {
   snowCanvas.width = window.innerWidth;
   snowCanvas.height = window.innerHeight;
@@ -428,14 +431,15 @@ function initSnow() {
   resizeCanvas();
   snowflakes = [];
   const count = 150;
+  const s = getWideScale();               // Scale up particle size on wide screens
   for (let i = 0; i < count; i++) {
     const opacity = 0.08 + Math.random() * 0.3;
     snowflakes.push({
       x: Math.random() * snowCanvas.width,
       y: Math.random() * snowCanvas.height,
-      r: 0.5 + Math.random() * 2.2,          // Radius
-      speed: 0.15 + Math.random() * 0.6,      // Fall speed
-      wind: -0.2 + Math.random() * 0.15,      // Horizontal drift (slightly left-biased)
+      r: (0.5 + Math.random() * 2.2) * s,          // Radius
+      speed: (0.15 + Math.random() * 0.6) * s,      // Fall speed
+      wind: (-0.2 + Math.random() * 0.15) * s,      // Horizontal drift (slightly left-biased)
       opacity,
       wobble: Math.random() * Math.PI * 2,    // Sine wobble phase
       wobbleSpeed: 0.004 + Math.random() * 0.012,
@@ -524,13 +528,15 @@ function drawFlicker() {
   if (prefersReducedMotion || isLowEnd) return;  // Skip flicker animation for reduced motion / low-end
   fctx.clearRect(0, 0, flickerCanvas.width, flickerCanvas.height);
 
+  const s = getWideScale();
+
   // ~2% of frames: draw 1–3 dust specks (dark or light, irregularly shaped)
   if (Math.random() < 0.02) {
     const count = Math.floor(Math.random() * 3) + 1;
     for (let i = 0; i < count; i++) {
       const x = Math.random() * flickerCanvas.width;
       const y = Math.random() * flickerCanvas.height;
-      const size = 3 + Math.random() * 5;
+      const size = (3 + Math.random() * 5) * s;
       const isDark = Math.random() < 0.4;
 
       fctx.save();
@@ -556,10 +562,10 @@ function drawFlicker() {
   if (Math.random() < 0.03) {
     const x = Math.random() * flickerCanvas.width;
     fctx.strokeStyle = `rgba(255, 255, 255, ${0.04 + Math.random() * 0.06})`;
-    fctx.lineWidth = 0.5 + Math.random() * 0.5;
+    fctx.lineWidth = (0.5 + Math.random() * 0.5) * s;
     fctx.beginPath();
     fctx.moveTo(x, 0);
-    fctx.lineTo(x + (Math.random() - 0.5) * 8, flickerCanvas.height);  // Slight slant
+    fctx.lineTo(x + (Math.random() - 0.5) * 8 * s, flickerCanvas.height);  // Slight slant
     fctx.stroke();
   }
 
@@ -700,20 +706,8 @@ window.addEventListener('resize', () => {
     targetX = currentSection * window.innerWidth;
     currentX = targetX;
     lastCurrentX = currentX;              // Prevent snow delta spike after resize snap
-    const oldW = snowCanvas.width;
-    const oldH = snowCanvas.height;
-    resizeCanvas();
-    // Rescale snowflake positions proportionally to the new canvas size
-    if (oldW > 0 && oldH > 0) {
-      const scaleX = snowCanvas.width / oldW;
-      const scaleY = snowCanvas.height / oldH;
-      snowflakes.forEach(flake => {
-        flake.x *= scaleX;
-        flake.y *= scaleY;
-        flake.drawX *= scaleX;
-        flake.drawY *= scaleY;
-      });
-    }
+    // Reinit snow so particle sizes match the new scale factor
+    initSnow();
     resizeFlicker();
     alignBioPhoto();
   }, 150);                                // 150ms debounce

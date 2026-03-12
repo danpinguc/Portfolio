@@ -25,6 +25,10 @@ const cursorRing1 = customCursor.querySelector('.cursor-ring-1');
 const cursorRing2 = customCursor.querySelector('.cursor-ring-2');
 const cursorRing3 = customCursor.querySelector('.cursor-ring-3');
 
+// Hide cursor elements until first mousemove (prevents flash at 0,0)
+customCursor.style.opacity = '0';
+if (mouseGlow) mouseGlow.style.opacity = '0';
+
 // ─────────────────────────────────────────
 // Mouse Tracking & Interpolation
 // ─────────────────────────────────────────
@@ -59,6 +63,12 @@ document.addEventListener('mousemove', (e) => {
   mouseGlow.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
   if (!cursorVisible) {
     cursorVisible = true;
+    // Position rings immediately before showing, so they don't flash at 0,0
+    const initT = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+    cursorDot.style.transform = initT;
+    cursorRing1.style.transform = initT;
+    cursorRing2.style.transform = initT;
+    cursorRing3.style.transform = initT;
     customCursor.style.opacity = '1';
     mouseGlow.style.opacity = '1';
   }
@@ -82,14 +92,43 @@ document.documentElement.addEventListener('mouseenter', () => {
 // ─────────────────────────────────────────
 // Animation Loop
 // ─────────────────────────────────────────
-// rAF loop that positions the dot and 3 rings every frame.
-// - Dot follows mouse exactly with velocity-based squeeze (oval deformation).
-// - Rings add slow organic jitter via sin/cos waves on slightly different
-//   frequencies, giving a "breathing" feel.
-// - All positioning uses GPU-composited transforms (no left/top).
-let time = 0;
+// Runs every frame via requestAnimationFrame to position the cursor elements.
+//
+// The dot follows the mouse exactly, but gets an oval "squeeze" effect based
+// on how fast the mouse is moving — fast horizontal movement compresses it
+// horizontally (scaleX < 1), and vice versa for vertical.
+//
+// The three rings trail the mouse with slow organic jitter: each ring uses
+// sin/cos waves at slightly different speeds to drift a few pixels around
+// the mouse, creating a "breathing" feel.
+//
+// All positioning uses CSS `transform` (not left/top) so the browser can
+// composite on the GPU without triggering layout recalculations.
+//
+// When prefers-reduced-motion is active, everything snaps directly to the
+// mouse position with no squeeze or jitter.
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Check for low-end device mode (set by main.js detection or user toggle).
+// Re-read the class each frame so toggling takes effect immediately.
+function isLowEndDevice() {
+  return document.documentElement.classList.contains('low-end');
+}
+
+let time = 0;              // monotonically increasing counter fed into sin/cos for ring jitter
 let cursorRAF;
 function animateCursor() {
+  if (prefersReducedMotion || isLowEndDevice()) {
+    // Simplified: all elements snap to mouse position, no squeeze or jitter
+    const t = `translate(${mousePos.x}px, ${mousePos.y}px) translate(-50%, -50%)`;
+    cursorDot.style.transform = t;
+    cursorRing1.style.transform = t;
+    cursorRing2.style.transform = t;
+    cursorRing3.style.transform = t;
+    cursorRAF = requestAnimationFrame(animateCursor);
+    return;
+  }
+
   time += 0.02;
 
   // Calculate mouse velocity for squeeze effect
@@ -98,11 +137,14 @@ function animateCursor() {
   prevMouseX = mousePos.x;
   prevMouseY = mousePos.y;
 
-  // Smooth velocity for fluid oval deformation
+    // Smooth velocity with lerp so the oval deformation eases in/out
+  // instead of snapping on sudden mouse stops
   smoothVx += (rawVx - smoothVx) * 0.15;
   smoothVy += (rawVy - smoothVy) * 0.15;
 
-  // Squeeze opposite to movement direction (compress along movement axis)
+  // Squeeze: compress the dot along the axis of movement.
+  // maxSqueeze caps the effect at 22%; sensitivity controls how much
+  // velocity is needed to reach that cap.
   const maxSqueeze = 0.22;
   const sensitivity = 0.018;
   const sx = 1 - Math.min(Math.abs(smoothVx) * sensitivity, maxSqueeze);
@@ -139,14 +181,8 @@ document.addEventListener('visibilitychange', () => {
 // Event delegation: when mouse enters/leaves any interactive element
 // (or its child), toggle the .hovering class on the cursor.
 document.addEventListener('mouseover', (e) => {
-  if (e.target.closest(INTERACTIVE_SELECTOR)) {
-    customCursor.classList.add('hovering');
-  }
-});
-document.addEventListener('mouseout', (e) => {
-  if (e.target.closest(INTERACTIVE_SELECTOR)) {
-    customCursor.classList.remove('hovering');
-  }
+  const isInteractive = !!e.target.closest(INTERACTIVE_SELECTOR);
+  customCursor.classList.toggle('hovering', isInteractive);
 });
 
 } // end customCursor guard

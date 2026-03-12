@@ -48,7 +48,7 @@
   color: #fff;
   padding: 8px 16px;
   z-index: 10000;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-size: 14px;
   text-decoration: none;
   border-radius: 0 0 4px 4px;
@@ -65,14 +65,20 @@
 html {
   background: var(--bg-deep);
   overflow: hidden;
-  cursor: none;
+}
+
+@media (pointer: fine) {
+  html {
+    cursor: none;
+  }
 }
 
 body {
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -190,7 +196,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   top: 52px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-size: 18px;
   font-weight: 400;
   letter-spacing: 0.15em;
@@ -227,6 +233,7 @@ body {
   display: flex;
   width: fit-content;
   height: 100vh;
+  height: 100dvh;
   will-change: transform;
   transition: none;
 }
@@ -235,6 +242,7 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -290,8 +298,8 @@ body {
   position: fixed;
   bottom: 0;
   left: 0;
+  height: 100dvh;
   pointer-events: none;
-  will-change: transform;
 }
 
 #trunks-far {
@@ -326,7 +334,6 @@ body {
   left: 0;
   z-index: 6;
   pointer-events: none;
-  will-change: transform;
 }
 
 #snow-ground-mid {
@@ -335,7 +342,6 @@ body {
   left: 0;
   z-index: 7;
   pointer-events: none;
-  will-change: transform;
 }
 
 #snow-ground-near {
@@ -344,7 +350,6 @@ body {
   left: 0;
   z-index: 9;
   pointer-events: none;
-  will-change: transform;
 }
 
 /* ─────────────────────────────────────────
@@ -432,9 +437,12 @@ body {
   transition-delay: 0.12s;
 }
 
-/* Hide native cursor globally */
-*, *::before, *::after {
-  cursor: none !important;
+/* Hide native cursor globally — only on devices with a precise pointer (mouse/trackpad).
+   Touch-only devices keep their native cursor as a fallback. */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
 }
 
 /* ─────────────────────────────────────────
@@ -530,7 +538,7 @@ body {
 }
 
 .letterbox-name {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 400;
   font-size: 0.62rem;
   color: var(--frost);
@@ -555,7 +563,7 @@ body {
 }
 
 .letterbox-contact {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 400;
   font-size: 0.62rem;
   color: var(--frost);
@@ -646,6 +654,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  height: 100dvh;
   padding: 2rem;
   padding-top: calc(var(--letterbox-h) + 16px);
   padding-bottom: calc(var(--snow-ground-h) + var(--letterbox-h));
@@ -660,7 +669,7 @@ body {
    ───────────────────────────────────────── */
 
 h1, h2, h3 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-weight: 300;
   letter-spacing: 0.08em;
 }
@@ -724,7 +733,7 @@ h1, h2, h3 {
 
 /* Figma: 40.96px Cormorant Garamond Light, #9898b8, tracking 22.528px, uppercase — BELOW name */
 .title-role {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-weight: 300;
   font-size: clamp(1.4rem, 2.8vw, 40.96px);
   color: var(--frost-dim);
@@ -747,7 +756,7 @@ h1, h2, h3 {
 
 /* Figma: 12.8px Inter Light, #b8c0d8, tracking 7.68px, lowercase */
 .subtitle {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: clamp(0.62rem, 0.87vw, 12.8px);
   color: var(--frost);
@@ -765,7 +774,7 @@ h1, h2, h3 {
   position: absolute;
   bottom: calc(var(--snow-ground-h) + var(--letterbox-h) + 16px);
   right: 15vw;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: clamp(7.5px, 0.64vw, 9.28px);
   color: var(--frost-dim);
@@ -836,7 +845,7 @@ h1, h2, h3 {
 
 /* Figma: 16px Inter Regular, #cc2828, tracking 4.176px, uppercase */
 .section-label {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 400;
   font-size: clamp(11px, 1.1vw, 16px);
   color: var(--accent);
@@ -862,7 +871,7 @@ h1, h2, h3 {
 
 /* Figma: 44.8px Cormorant Garamond Light, #b8c0d8, tracking 3.584px, line-height 67.2px */
 .about-text {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-weight: 300;
   font-size: clamp(1.4rem, 2.7vw, 40px);
   line-height: 1.5;
@@ -879,7 +888,7 @@ h1, h2, h3 {
 
 /* Figma: 24px Inter Light, #b8c0d8, opacity 0.7, line-height 23.712px, max-width 460px */
 .about-detail {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: clamp(12.5px, 1vw, 14.5px);
   color: var(--frost);
@@ -930,7 +939,7 @@ h1, h2, h3 {
 
 /* Figma: 48px Cormorant Garamond Light, #cc2828, tracking -0.96px */
 .project-number {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-weight: 300;
   font-size: clamp(2rem, 3.3vw, 48px);
   color: var(--accent);
@@ -940,7 +949,7 @@ h1, h2, h3 {
 
 /* Figma: 51.2px Cormorant Garamond Regular, #b8c0d8, tracking 1.024px */
 .project-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-weight: 400;
   font-size: clamp(1.8rem, 3.5vw, 51.2px);
   color: var(--frost);
@@ -963,7 +972,7 @@ h1, h2, h3 {
 
 /* Figma: 13.12px Inter Light for DAWN (24.272px line-height), 11.84px for PARD (21.904px) */
 .project-desc {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: clamp(12.5px, 1vw, 14.5px);
   color: var(--frost);
@@ -998,7 +1007,7 @@ h1, h2, h3 {
 
 /* Figma: 9.28px Inter Light, #b8c0d8, tracking 1.6704px, uppercase, border 0.571px, padding 7px 15px */
 .tag {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: clamp(7.5px, 0.64vw, 9.28px);
   color: var(--frost);
@@ -1086,7 +1095,7 @@ h1, h2, h3 {
 
 /* Figma: 67.2px Cormorant Garamond Italic, #b8c0d8, tracking 4.032px, line-height 77.28px */
 .contact-heading {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-weight: 400;
   font-style: italic;
   font-size: clamp(2rem, 4.6vw, 67.2px);
@@ -1129,7 +1138,7 @@ h1, h2, h3 {
 
 /* Figma: 11.52px Inter Light, #b8c0d8, tracking 3.2256px, uppercase, padding 7px 15px */
 .contact-link {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: clamp(9px, 0.8vw, 11.52px);
   color: var(--frost);
@@ -1168,7 +1177,7 @@ h1, h2, h3 {
   position: absolute;
   bottom: calc(var(--snow-ground-h) + var(--letterbox-h) + 16px);
   right: 15vw;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: clamp(7.5px, 0.64vw, 9.28px);
   color: var(--frost-dim);
@@ -1246,7 +1255,6 @@ h1, h2, h3 {
   pointer-events: none;
   opacity: 0;
   transition: background 0.6s ease, opacity 0.8s ease, box-shadow 0.6s ease;
-  will-change: transform;
 }
 
 #path-glow.visible {
@@ -1313,7 +1321,7 @@ h1, h2, h3 {
 }
 
 .path-label {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 400;
   font-size: 0.9rem;
   color: var(--frost-dim);
@@ -1372,6 +1380,7 @@ html.page-scrollable body {
   overflow-y: auto;
   height: auto;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 
@@ -1394,7 +1403,7 @@ html.page-scrollable body {
 }
 
 .cs-back {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: 0.6rem;
   color: var(--frost-dim);
@@ -1444,7 +1453,7 @@ html.page-scrollable body {
 }
 
 .cs-number {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-weight: 300;
   font-size: 1rem;
   color: var(--accent);
@@ -1453,7 +1462,7 @@ html.page-scrollable body {
 }
 
 .cs-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-weight: 400;
   font-size: clamp(2rem, 4vw, 3rem);
   color: var(--frost);
@@ -1471,7 +1480,7 @@ html.page-scrollable body {
 
 /* Description and body text */
 .cs-desc {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: 0.82rem;
   color: var(--text-dim);
@@ -1480,7 +1489,7 @@ html.page-scrollable body {
 }
 
 .cs-role {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: 0.68rem;
   color: var(--frost-dim);
@@ -1504,7 +1513,7 @@ html.page-scrollable body {
 }
 
 .cs-meta-item {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-size: 0.68rem;
   line-height: 1.6;
 }
@@ -1525,7 +1534,7 @@ html.page-scrollable body {
 
 /* Section titles within case study */
 .cs-section-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-weight: 400;
   font-size: clamp(1.2rem, 2.5vw, 1.6rem);
   color: var(--frost);
@@ -1534,7 +1543,7 @@ html.page-scrollable body {
 }
 
 .cs-body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: 0.78rem;
   color: var(--text-dim);
@@ -1545,7 +1554,7 @@ html.page-scrollable body {
 
 /* Pull quote with accent border */
 .cs-quote {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-weight: 300;
   font-style: italic;
   font-size: 1.05rem;
@@ -1612,7 +1621,7 @@ html.page-scrollable body {
 }
 
 .gallery-heading {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-weight: 300;
   font-size: clamp(1.4rem, 3vw, 2rem);
   color: var(--frost);
@@ -1620,7 +1629,7 @@ html.page-scrollable body {
 }
 
 .gallery-back {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: 300;
   font-size: 0.6rem;
   color: var(--frost-dim);
@@ -1863,25 +1872,25 @@ button:focus:not(:focus-visible),
   }
 
   #trunks-far {
-    width: 4800vw !important;
+    width: 800vw !important;
   }
   #trunks-mid {
-    width: 3600vw !important;
+    width: 900vw !important;
   }
   #trunks-near {
-    width: 2160vw !important;
+    width: 1000vw !important;
   }
   #trunks-front {
-    width: 2520vw !important;
+    width: 1200vw !important;
   }
   #snow-ground-far {
-    width: 1800vw !important;
+    width: 800vw !important;
   }
   #snow-ground-mid {
-    width: 1800vw !important;
+    width: 900vw !important;
   }
   #snow-ground-near {
-    width: 2160vw !important;
+    width: 1000vw !important;
   }
 }
 
@@ -2057,6 +2066,26 @@ button:focus:not(:focus-visible),
     font-size: 1.3rem;
   }
 
+  /* Loader */
+  .loader-dot { width: 9px; height: 9px; }
+  .loader-ring-1,
+  .loader-ring-2,
+  .loader-ring-3 { width: 30px; height: 30px; }
+  .loader-text { font-size: 27px; top: 78px; }
+
+  @keyframes loader-pulse {
+    0%   { width: 30px; height: 30px; opacity: 0.85; }
+    8%   { width: 39px; height: 39px; opacity: 0.8; }
+    20%  { width: 60px; height: 60px; opacity: 0.65; }
+    30%  { width: 82px; height: 82px; opacity: 0.5; }
+    45%  { width: 105px; height: 105px; opacity: 0.35; }
+    55%  { width: 98px; height: 98px; opacity: 0.4; }
+    70%  { width: 68px; height: 68px; opacity: 0.55; }
+    82%  { width: 45px; height: 45px; opacity: 0.7; }
+    92%  { width: 33px; height: 33px; opacity: 0.82; }
+    100% { width: 30px; height: 30px; opacity: 0.85; }
+  }
+
   /* Cursor */
   .cursor-dot { width: 9px; height: 9px; }
   .cursor-ring-1 { width: 30px; height: 30px; }
@@ -2130,7 +2159,7 @@ button:focus:not(:focus-visible),
   top: 20px;
   right: 28px;
   z-index: 2;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-size: 28px;
   font-weight: 300;
   color: rgba(220, 215, 225, 0.7);
@@ -2146,7 +2175,7 @@ button:focus:not(:focus-visible),
 }
 
 #lightbox-caption {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', 'Georgia', 'Times New Roman', serif;
   font-style: italic;
   font-size: 0.95rem;
   color: rgba(220, 215, 225, 0.7);
@@ -2170,8 +2199,8 @@ button:focus:not(:focus-visible),
 
 .tilt-card {
   transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
-  will-change: transform;
   transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .tilt-glare {
@@ -2187,4 +2216,164 @@ button:focus:not(:focus-visible),
     rgba(255, 255, 255, 0.18) 0%,
     transparent 60%
   );
+}
+
+/* ── Safe area insets for notched devices ── */
+@supports (padding: env(safe-area-inset-top)) {
+  .letterbox-top { padding-top: env(safe-area-inset-top); }
+  .letterbox-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .letterbox-name,
+  .letterbox-contact { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+  .progress-nav { padding-bottom: env(safe-area-inset-bottom); }
+}
+
+/* ─────────────────────────────────────────
+   Reduced Motion — Accessibility
+   Activates automatically when the user's OS
+   has "Reduce motion" / "Reduce animations"
+   enabled (e.g. macOS, iOS, Windows, Android).
+   Disables all CSS animations and transitions,
+   hides decorative canvases, and makes content
+   immediately visible without reveal animations.
+   ───────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition-duration: 0.01s !important;
+  }
+
+  /* Hide decorative canvas layers */
+  #snow-canvas,
+  #film-flicker {
+    display: none;
+  }
+
+  /* Remove parallax transforms on forest layers */
+  #trunks-far,
+  #trunks-mid,
+  #trunks-near,
+  #trunks-front,
+  #snow-ground-far,
+  #snow-ground-mid,
+  #snow-ground-near {
+    transform: none !important;
+  }
+
+  /* Make reveal elements immediately visible */
+  .reveal,
+  .reveal.visible {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .word-inner {
+    opacity: 1 !important;
+    transform: none !important;
+    transition-delay: 0s !important;
+  }
+}
+
+/* ─────────────────────────────────────────
+   Low-End Device Mode
+   Activates when JS adds the `low-end` class to <html>.
+   This happens automatically if the device has ≤ 2 CPU cores,
+   ≤ 2 GB RAM, or averages below ~40 fps during the first 2 seconds.
+   Users can also toggle it manually via the FX button in the footer.
+   These rules strip GPU-heavy effects (canvases, parallax, 3D tilt,
+   complex shadows) so the page stays responsive on weaker hardware.
+   Works alongside (not replacing) prefers-reduced-motion.
+   ───────────────────────────────────────── */
+
+/* Hide the snow and film-flicker canvas layers (animated every frame in JS) */
+html.low-end #snow-canvas,
+html.low-end #film-flicker {
+  display: none;
+}
+
+/* Hide the static film grain noise texture */
+html.low-end #grain {
+  display: none;
+}
+
+/* Freeze forest layers in place — no parallax sliding */
+html.low-end #trunks-far,
+html.low-end #trunks-mid,
+html.low-end #trunks-near,
+html.low-end #trunks-front,
+html.low-end #snow-ground-far,
+html.low-end #snow-ground-mid,
+html.low-end #snow-ground-near {
+  transform: none !important;
+}
+
+/* Replace multi-layer box shadows with a single lightweight shadow */
+html.low-end .project-img,
+html.low-end .gallery-item,
+html.low-end .cs-img-wrap {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Disable the Apple TV-style 3D tilt hover effect on image cards */
+html.low-end .tilt-card {
+  transform: none !important;
+  transition: none !important;
+}
+
+html.low-end .tilt-glare {
+  display: none;
+}
+
+html.low-end .tilt-parent {
+  perspective: none;
+}
+
+/* Remove ring transitions — JS positions them directly each frame in low-end mode */
+html.low-end .cursor-ring {
+  transition: none !important;
+}
+
+/* ─────────────────────────────────────────
+   FX Toggle Button (bottom-left of letterbox footer)
+   ───────────────────────────────────────── */
+
+#fx-toggle {
+  position: absolute;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+#fx-toggle:hover {
+  opacity: 0.8;
+}
+
+#fx-toggle svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--frost-dim);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* When reduced FX is active, show the icon as "struck through" / dimmed */
+html.low-end #fx-toggle svg {
+  stroke: var(--accent);
+  opacity: 0.7;
+}
+
+@media (max-width: 480px) {
+  #fx-toggle {
+    left: 0.8rem;
+  }
 }

@@ -1,15 +1,20 @@
 // ─────────────────────────────────────────
 // Lightbox — image zoom overlay for all pages
 // ─────────────────────────────────────────
+// Clicking any portfolio image opens a full-screen overlay showing the
+// image at its natural resolution (up to 90% of the viewport). The overlay
+// includes a dark backdrop, a close button, and an optional caption pulled
+// from `data-caption` or `data-title`/`data-description` attributes.
+// While open, page scroll and keyboard navigation are suppressed.
 
 (function () {
   'use strict';
 
-  // Track state
+  // Global flag checked by main.js to suppress scroll while the lightbox is open
   window.lightboxOpen = false;
-  var sourceEl = null;
+  var sourceEl = null;            // the <img> that was clicked, so we can return focus on close
 
-  // Selectors for clickable images
+  // All image selectors that are clickable to open the lightbox
   var IMG_SELECTOR = 'img.cs-img, img.cs-hero-img, .gallery-item img, img.project-img-inner, .bio-photo img';
 
   // ── Build DOM ──────────────────────────
@@ -37,7 +42,8 @@
 
   // ── Open ───────────────────────────────
   function sizeImage() {
-    // Scale image to fill available space while preserving aspect ratio
+    // Scale the image to be as large as possible within 90% width / 85% height
+    // of the viewport, without stretching or cropping it.
     var natW = lbImg.naturalWidth;
     var natH = lbImg.naturalHeight;
     if (!natW || !natH) return;
@@ -81,7 +87,7 @@
     document.documentElement.classList.add('lightbox-body-lock');
     window.lightboxOpen = true;
 
-    // Fix 2: recalculate image size if viewport changes while open
+    // Recalculate image size if the viewport changes while the lightbox is open
     window.addEventListener('resize', onResize);
 
     closeBtn.focus();
@@ -98,14 +104,15 @@
     document.documentElement.classList.remove('lightbox-body-lock');
     window.lightboxOpen = false;
 
-    // Fix 1: clear stale onload callback
+    // Clear the onload handler so it doesn't fire for a previous image
     lbImg.onload = null;
 
-    // Fix 2: stop listening for viewport resize
+    // Stop resizing now that the lightbox is closed
     window.removeEventListener('resize', onResize);
 
     if (sourceEl) {
-      // Fix 4: <img> elements aren't natively focusable — add tabindex if missing
+      // <img> elements aren't natively focusable — temporarily add tabindex so
+      // focus can return to the image that opened the lightbox (accessibility)
       var hadTabindex = sourceEl.hasAttribute('tabindex');
       if (!hadTabindex) sourceEl.setAttribute('tabindex', '-1');
       sourceEl.focus();
@@ -121,11 +128,12 @@
     var img = e.target.closest(IMG_SELECTOR);
     if (!img) return;
 
-    // Prevent project section navigation on image click
+    // Stop the click from bubbling up to the parent section's data-href
+    // navigation handler — we want to open the lightbox, not navigate away
     e.stopPropagation();
     e.preventDefault();
     open(img);
-  }, true); // capture phase to beat data-href handlers
+  }, true); // capture phase fires before the section's click handler
 
   // Close triggers
   backdrop.addEventListener('click', close);
@@ -141,7 +149,8 @@
       return;
     }
 
-    // Fix 3: trap focus within the lightbox dialog
+    // Trap focus within the lightbox so Tab/Shift+Tab cycles between the
+    // close button and the image instead of reaching elements behind the overlay
     if (e.key === 'Tab') {
       var focusable = [closeBtn, lbImg];
       var first = focusable[0];
@@ -170,16 +179,20 @@
 // ─────────────────────────────────────────
 // Apple TV–style 3D tilt on image containers
 // ─────────────────────────────────────────
+// When hovering an image card, it tilts toward the cursor in 3D (using CSS
+// rotateX/rotateY) and a radial glare overlay follows the mouse, mimicking
+// a glossy surface catching light. On mouse leave, the card eases back flat.
 
 (function () {
   'use strict';
 
-  var MAX_TILT = 6;             // degrees
-  var SCALE_HOVER = 1.03;       // subtle lift
-  var GLARE_MAX_OPACITY = 0.25;
+  var MAX_TILT = 6;             // maximum rotation in degrees
+  var SCALE_HOVER = 1.03;       // slight zoom-up on hover for a "lift" feel
+  var GLARE_MAX_OPACITY = 0.25; // peak opacity of the radial glare highlight
 
-  // Container selectors that get the tilt effect
-  // .cs-hero-wrap excluded — full-width heroes have ~1:1 perspective ratio causing exaggerated tilt
+  // Which containers get the tilt effect.
+  // .cs-hero-wrap is excluded because full-width heroes have a nearly 1:1
+  // width-to-perspective ratio that makes the tilt look exaggerated.
   var TILT_SELECTOR = '.project-img, .cs-img-wrap, .gallery-item, .bio-photo';
 
   // Inject glare div + add classes once per card
@@ -202,7 +215,8 @@
     card._tiltGlare = glare;
   }
 
-  // Fix 5: cache rect on mouseenter to avoid layout thrashing on every mousemove
+  // Cache the card's bounding rectangle on mouseenter so we don't force the
+  // browser to recalculate layout on every mousemove (expensive)
   function handleEnter(e) {
     var card = e.currentTarget;
     card._tiltRect = card.getBoundingClientRect();
@@ -212,11 +226,12 @@
     var card = e.currentTarget;
     var rect = card._tiltRect || card.getBoundingClientRect();
 
-    // Normalised position -1 to 1 from center
+    // Map cursor position to -1..+1 range relative to the card's center.
+    // -1 = left/top edge, 0 = center, +1 = right/bottom edge.
     var nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
     var ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
 
-    // Rotate opposite to cursor direction for natural feel
+    // Tilt the card away from the cursor — feels like pushing down one edge
     var rotateY = nx * MAX_TILT;
     var rotateX = -ny * MAX_TILT;
 
@@ -240,10 +255,10 @@
     card.style.transition = '';
     card.style.transform = '';
 
-    // Fix 5: clear cached rect
+    // Clear cached rectangle (it may be stale on next hover if the page scrolled)
     delete card._tiltRect;
 
-    // Fix 6: reset glare background + opacity to prevent stale gradient flash on next hover
+    // Reset glare so it doesn't briefly flash the old gradient on next hover
     var glare = card._tiltGlare;
     if (glare) {
       glare.style.opacity = '0';
@@ -251,9 +266,14 @@
     }
   }
 
-  // Attach listeners via delegation would be complex with mousemove,
-  // so bind directly to each card on init
+  // Bind listeners directly to each card (event delegation doesn't work well
+  // with mousemove since we need per-card state).
+  // Skip entirely when user prefers reduced motion or device is low-end.
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isLowEnd = document.documentElement.classList.contains('low-end');
+
   function setup() {
+    if (prefersReducedMotion || isLowEnd) return;
     var cards = document.querySelectorAll(TILT_SELECTOR);
     cards.forEach(function (card) {
       initCard(card);

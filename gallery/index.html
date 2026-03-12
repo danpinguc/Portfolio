@@ -14,18 +14,21 @@
     gtag('config', 'G-4NFV4D4GVB');
   </script>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#110d20">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <title>Selected Work — Through the Forest</title>
+  <title>Selected Works</title>
   <meta name="description" content="Selected works gallery — Daniel Colcock. Illustrations, animations, photography, and mixed-media pieces.">
   <meta property="og:title" content="Selected Work — Through the Forest">
   <meta property="og:description" content="Selected works gallery — Daniel Colcock. Illustrations, animations, photography, and mixed-media pieces.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="../css/styles.css">
 
   <style>
     /* ── Gallery: Deep Purple Theme ── */
@@ -39,7 +42,7 @@
     .gallery-back {
       border: 0.571px solid #2a2250;
       color: #ece8f4;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
       font-weight: 300;
       font-size: 9.6px;
       letter-spacing: 2.4px;
@@ -80,6 +83,7 @@
   </style>
 </head>
 <body class="page-scrollable" style="background:#151127;">
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
   <!-- ═══════════════════════════════════════ -->
   <!-- Custom Cursor Elements                             -->
@@ -99,8 +103,8 @@
   <!-- Name links back to index on inner pages.           -->
   <!-- ═══════════════════════════════════════ -->
   <header class="letterbox letterbox-top">
-    <a href="index.html" class="letterbox-name" style="text-decoration:none;">Daniel Colcock</a>
-    <a href="mailto:danpinguc@colcock.com" class="letterbox-contact">Contact</a>
+    <a href="../" class="letterbox-name" style="text-decoration:none;">Daniel Colcock</a>
+    <a href="#" class="letterbox-contact" data-contact>Contact</a>
   </header>
 
   <!-- ═══════════════════════════════════════ -->
@@ -109,11 +113,11 @@
   <!-- grid of selected works. First 3 images             -->
   <!-- load eagerly; rest use loading="lazy".             -->
   <!-- ═══════════════════════════════════════ -->
-  <main>
+  <main id="main-content">
   <div class="gallery-inner">
     <div class="gallery-header">
-      <a href="index.html" class="gallery-back">&larr; Back</a>
-      <h2 class="gallery-heading">Selected Work</h2>
+      <a href="../" class="gallery-back">&larr; Back</a>
+      <h1 class="gallery-heading">Selected Work</h1>
     </div>
     <div class="gallery-rule"></div>
 
@@ -125,39 +129,39 @@
     <!-- (GIF), photography, mixed-media.              -->
     <!-- ─────────────────────────────────── -->
     <div class="gallery-grid">
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Armor.png" alt="Armor — digital illustration of protective gear"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Sword.png" alt="Sword — digital illustration of a blade"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/HammerSmashFoundObject.png" alt="Hammer Smash — found object sculpture piece"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/YotonYo.png" alt="Yoton Yo — character illustration" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/DyingRobit.gif" alt="Dying Robot — animated character loop" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Match-Collage.png" alt="Match Collage — mixed-media collage composition" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Telephone-pole.png" alt="Telephone Pole — urban landscape illustration" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/FloatingTV.gif" alt="Floating TV — animated surreal object loop" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Glue.png" alt="Glue — product illustration study" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Manhole.jpg" alt="Manhole — urban photography" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/CloudAnimation.gif" alt="Cloud Animation — animated sky loop" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Mimic.png" alt="Mimic — creature illustration" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Boat.jpg" alt="Boat — photography" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Axe.png" alt="Axe — digital illustration of a weapon" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Shoes.png" alt="Shoes — footwear illustration" loading="lazy"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Armor.png" alt="Armor — digital illustration of protective gear" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Sword.png" alt="Sword — digital illustration of a blade" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/HammerSmashFoundObject.png" alt="Hammer Smash — found object sculpture piece" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/YotonYo.png" alt="Yoton Yo — character illustration" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/DyingRobit.gif" alt="Dying Robot — animated character loop" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Match-Collage.png" alt="Match Collage — mixed-media collage composition" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Telephone-pole.png" alt="Telephone Pole — urban landscape illustration" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/FloatingTV.gif" alt="Floating TV — animated surreal object loop" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Glue.png" alt="Glue — product illustration study" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Manhole.jpg" alt="Manhole — urban photography" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/CloudAnimation.gif" alt="Cloud Animation — animated sky loop" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Mimic.png" alt="Mimic — creature illustration" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Boat.jpg" alt="3D render of a red paper boat and a lighthouse" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Axe.png" alt="Axe — digital illustration of a weapon" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Shoes.png" alt="Shoes — footwear illustration" loading="lazy" decoding="async"></div>
       <!-- Camera -->
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Camera_Desk.JPG" alt="Camera on desk" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Camera_Melt.JPG" alt="Melting camera sculpture" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Camera_Sign.JPG" alt="Camera and sign" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Camera_Telephone.JPG" alt="Camera and telephone" loading="lazy"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Camera_Desk.JPG" alt="Children's camera with wires sticking out the top, screen glitched" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Camera_Melt.JPG" alt="Melting camera sculpture" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Camera_Sign.JPG" alt="Pixels melting downwards off the back of a street sign" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Camera_Telephone.JPG" alt="Green and blue neon image of a telephone pole, pixelated" loading="lazy" decoding="async"></div>
       <!-- Woodworking -->
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Woodworking_Shelf.JPG" alt="Woodworking shelf" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Woodworking_DesignLab.jpg" alt="Design lab woodworking" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Woodworking_Toolrack.jpg" alt="Woodworking tool rack" loading="lazy"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Woodworking_Shelf.JPG" alt="Wooden shelf for storing cardboard with a woodshop in the background" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Woodworking_DesignLab.jpg" alt="Blue-gray shelf storing paper in a print studio" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Woodworking_Toolrack.jpg" alt="Small wooden arms holding up hand saws on a wood wall" loading="lazy" decoding="async"></div>
       <!-- Stairs -->
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Stairs_Painted.JPG" alt="Painted stairs" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/Stairs_Unpainted.JPG" alt="Unpainted stairs" loading="lazy"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Stairs_Painted.JPG" alt="Twelve-foot tall staircase painted to look like stone in a warehouse studio" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/Stairs_Unpainted.JPG" alt="Four-foot tall section of wooden stairs in a workshop" loading="lazy" decoding="async"></div>
       <!-- DAWN -->
-      <div class="gallery-item"><img src="Photos/SelectedWorks/DAWN_wooden.jpg" alt="DAWN — wooden radio prototype" loading="lazy"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/DAWN_wooden.jpg" alt="DAWN — wooden radio prototype" loading="lazy" decoding="async"></div>
       <!-- Other -->
-      <div class="gallery-item"><img src="Photos/SelectedWorks/GiantPeach.JPG" alt="Giant peach sculpture" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/TAPE_Far.JPG" alt="Tape installation" loading="lazy"></div>
-      <div class="gallery-item"><img src="Photos/SelectedWorks/WoodPaperMushroomInk.jpg" alt="Wood paper mushroom ink artwork" loading="lazy"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/GiantPeach.JPG" alt="Giant peach sculpture" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/TAPE_Far.JPG" alt="Glitchy artwork hung by cassette tape, with tape dangling around it and a cassette player" loading="lazy" decoding="async"></div>
+      <div class="gallery-item"><img src="../Photos/SelectedWorks/WoodPaperMushroomInk.jpg" alt="Bark hung on string next to rough paper with a linocut tree artwork printed on it" loading="lazy" decoding="async"></div>
     </div>
   </div>
   </main>
@@ -167,8 +171,8 @@
   <!-- cursor.js only — no main.js on inner               -->
   <!-- pages (no parallax/snow/scroll engine).            -->
   <!-- ═══════════════════════════════════════ -->
-  <script src="js/cursor.js"></script>
-  <script src="js/lightbox.js"></script>
+  <script src="../js/cursor.js"></script>
+  <script src="../js/lightbox.js"></script>
   <script>
     (function() {
       var wrapper = document.createElement('div');
@@ -181,6 +185,17 @@
           wrapper.classList.add('page-exit-close');
           setTimeout(function() { window.location.href = href; }, 900);
         });
+      });
+    })();
+  </script>
+  <script>
+    // Assemble contact email on first interaction (anti-bot)
+    (function(){var u='daniel',d='colcock.com';
+      document.querySelectorAll('[data-contact]').forEach(function(a){
+        function s(){a.href='mai'+'lto:'+u+'@'+d;}
+        a.addEventListener('mouseenter',s,{once:true});
+        a.addEventListener('focus',s,{once:true});
+        a.addEventListener('click',function(e){if(a.href.indexOf('mai'+'lto')<0){e.preventDefault();s();a.click();}});
       });
     })();
   </script>

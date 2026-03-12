@@ -1,4 +1,107 @@
-import { WheelGestures } from 'https://esm.sh/wheel-gestures@2.2.48';
+import { WheelGestures } from './vendor/wheel-gestures.js';
+
+// ─────────────────────────────────────────
+// Reduced Motion Detection
+// ─────────────────────────────────────────
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ─────────────────────────────────────────
+// Low-End Device Detection
+// ─────────────────────────────────────────
+// Decides whether to disable heavy visual effects (snow, film grain, parallax,
+// 3D tilt) for devices that can't run them smoothly. Three-step check:
+//   1. localStorage — honours a user's explicit toggle from a previous visit.
+//   2. Hardware hints — flags devices with ≤ 2 CPU cores or ≤ 2 GB RAM.
+//   3. Frame-rate sampling — runs for ~2 seconds; if the average frame takes
+//      longer than 25 ms (~40 fps), the device is considered too slow.
+// When flagged, the `html.low-end` class is added so CSS can hide canvases
+// and disable transforms, and JS loops are cancelled.
+
+const LOW_END_KEY = 'portfolio-reduced-fx';
+
+// Check if user has explicitly set a preference
+let storedLowEnd = null;
+try { storedLowEnd = localStorage.getItem(LOW_END_KEY); } catch (e) { /* private browsing */ }
+let isLowEnd = false;
+
+if (storedLowEnd === 'on') {
+  // User explicitly enabled reduced effects
+  isLowEnd = true;
+  document.documentElement.classList.add('low-end');
+} else if (storedLowEnd === 'off') {
+  // User explicitly disabled reduced effects — skip auto-detection
+  isLowEnd = false;
+} else {
+  // No stored preference — auto-detect
+
+  // Hardware signals: low core count or low memory
+  const lowCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
+  const lowMemory = navigator.deviceMemory && navigator.deviceMemory <= 2;
+
+  if (lowCores || lowMemory) {
+    // Hardware signals alone are enough to flag as low-end
+    isLowEnd = true;
+    document.documentElement.classList.add('low-end');
+  } else {
+    // Sample frame rate for ~2 seconds using requestAnimationFrame.
+    // Each call to sampleFPS counts as one frame; after 2 s we divide
+    // elapsed time by frame count to get the average time per frame.
+    let fpsFrames = 0;        // number of frames counted so far
+    let fpsStartTime = 0;     // timestamp (ms) of the first sample frame
+    let fpsSamplingDone = false;
+
+    function sampleFPS(timestamp) {
+      if (!fpsStartTime) fpsStartTime = timestamp;
+      fpsFrames++;
+
+      const elapsed = timestamp - fpsStartTime;
+      if (elapsed >= 2000) {
+        // Sampling complete — e.g. 80 frames in 2000 ms → 25 ms/frame → 40 fps
+        const avgFrameTime = elapsed / fpsFrames;
+        fpsSamplingDone = true;
+
+        if (avgFrameTime > 25) {
+          // Averaging below ~40 fps — flag as low-end
+          isLowEnd = true;
+          document.documentElement.classList.add('low-end');
+          // Cancel running animation loops that were already started
+          if (snowRAF) cancelAnimationFrame(snowRAF);
+          if (flickerRAF) cancelAnimationFrame(flickerRAF);
+        }
+        return; // Stop sampling
+      }
+
+      requestAnimationFrame(sampleFPS);
+    }
+
+    requestAnimationFrame(sampleFPS);
+  }
+}
+
+// ─────────────────────────────────────────
+// Low-End Toggle (called from the UI button in index.html)
+// ─────────────────────────────────────────
+// Exposed on window so the inline toggle button can call it.
+window.toggleReducedFX = function () {
+  isLowEnd = !isLowEnd;
+  document.documentElement.classList.toggle('low-end', isLowEnd);
+  try { localStorage.setItem(LOW_END_KEY, isLowEnd ? 'on' : 'off'); } catch (e) { /* private browsing */ }
+
+  // Update toggle button icon state
+  const btn = document.getElementById('fx-toggle');
+  if (btn) btn.setAttribute('aria-pressed', String(isLowEnd));
+
+  if (isLowEnd) {
+    // Stop heavy animation loops
+    if (snowRAF) cancelAnimationFrame(snowRAF);
+    if (flickerRAF) cancelAnimationFrame(flickerRAF);
+  } else {
+    // Restart animation loops
+    lastSnowTime = 0;
+    snowRAF = requestAnimationFrame(drawSnow);
+    flickerRAF = requestAnimationFrame(drawFlicker);
+  }
+};
 
 // ─────────────────────────────────────────
 // Constants & Configuration
@@ -126,10 +229,13 @@ const sectionsArray = Array.from(sections);
 // ─────────────────────────────────────────
 // Scroll Engine — Targeting & Easing
 // ─────────────────────────────────────────
-// No native scroll — container is a flex row translated via transform.
-// `targetX` is the destination (snapped to section boundaries).
-// `currentX` lerps toward `targetX` each frame at 0.04 easing for
-// a slow, cinematic glide.
+// There is no native browser scrollbar — the page is a flex row of
+// full-width sections, moved left/right by changing `transform: translateX`.
+// `targetX` snaps instantly to the next section boundary when the user
+// scrolls, while `currentX` eases toward it each frame using "lerp"
+// (linear interpolation): currentX += (targetX - currentX) * 0.04.
+// The small 0.04 factor means it covers 4% of the remaining distance
+// per frame, producing a slow, cinematic glide that decelerates naturally.
 
 let currentX = 0;
 let targetX = 0;
@@ -169,10 +275,10 @@ function updateDots() {
 // positions the path glow, and triggers reveal checks.
 
 function animate() {
-  const ease = 0.04;
+  const ease = 0.04;                       // lerp factor — fraction of remaining distance moved per frame
   const diff = targetX - currentX;
 
-  // Snap when close enough to avoid sub-pixel drift
+  // Lerp toward target; snap when within half a pixel to prevent endless tiny movements
   if (Math.abs(diff) > 0.5) {
     currentX += diff * ease;
   } else {
@@ -184,20 +290,24 @@ function animate() {
   // ── Parallax ──
   // Each layer scrolls at a fraction of the content speed.
   // Rates: far 0.08, mid 0.2, near 0.4, front 0.65
-  const farOffset = currentX * 0.08;
-  const midOffset = currentX * 0.2;
-  const nearOffset = currentX * 0.4;
-  const frontOffset = currentX * 0.65;
+  // Skipped when user prefers reduced motion or device is low-end
+  // (CSS also forces transform: none for both cases)
+  if (!prefersReducedMotion && !isLowEnd) {
+    const farOffset = currentX * 0.08;
+    const midOffset = currentX * 0.2;
+    const nearOffset = currentX * 0.4;
+    const frontOffset = currentX * 0.65;
 
-  trunksFar.style.transform = `translateX(${-farOffset}px)`;
-  trunksMid.style.transform = `translateX(${-midOffset}px)`;
-  trunksNear.style.transform = `translateX(${-nearOffset}px)`;
-  trunksFront.style.transform = `translateX(${-frontOffset}px)`;
+    trunksFar.style.transform = `translateX(${-farOffset}px)`;
+    trunksMid.style.transform = `translateX(${-midOffset}px)`;
+    trunksNear.style.transform = `translateX(${-nearOffset}px)`;
+    trunksFront.style.transform = `translateX(${-frontOffset}px)`;
 
-  // Snow ground layers mirror the first 3 trunk rates
-  snowFar.style.transform = `translateX(${-farOffset}px)`;
-  snowMid.style.transform = `translateX(${-midOffset}px)`;
-  snowNear.style.transform = `translateX(${-nearOffset}px)`;
+    // Snow ground layers mirror the first 3 trunk rates
+    snowFar.style.transform = `translateX(${-farOffset}px)`;
+    snowMid.style.transform = `translateX(${-midOffset}px)`;
+    snowNear.style.transform = `translateX(${-nearOffset}px)`;
+  }
 
   // Path glow tracks at the slowest parallax rate (0.08) so it drifts in gently
   if (pathGlowEl) {
@@ -216,10 +326,13 @@ function animate() {
       pathTriggerEl.style.transform = `translateX(calc(-50% + ${compensate}px))`;
     }
 
-    const glowCX = window.innerWidth / 2 + glowOffset;
-    const glowCY = window.innerHeight * 0.6;
-    const dist = Math.hypot(mouseX - glowCX, mouseY - glowCY);
-    pathGlowEl.classList.toggle('glowing', dist < 350);
+    // Skip proximity glow effect on low-end devices (saves per-frame Math.hypot)
+    if (!isLowEnd) {
+      const glowCX = window.innerWidth / 2 + glowOffset;
+      const glowCY = window.innerHeight * 0.6;
+      const dist = Math.hypot(mouseX - glowCX, mouseY - glowCY);
+      pathGlowEl.classList.toggle('glowing', dist < 350);
+    }
   }
 
   revealElements();
@@ -295,7 +408,6 @@ function splitTextIntoWords() {
 }
 
 // ─────────────────────────────────────────
-// ─────────────────────────────────────────
 // Snow Canvas
 // ─────────────────────────────────────────
 // 150 particles drawn on a full-viewport canvas. Each flake has its own
@@ -306,7 +418,7 @@ function splitTextIntoWords() {
 const snowCanvas = document.getElementById('snow-canvas');
 const ctx = snowCanvas.getContext('2d');
 let snowflakes = [];
-let lastCurrentX = currentX;             // Tracks previous frame's scroll position for delta
+let lastCurrentX = currentX;             // Previous frame's scroll position — used to compute how far we scrolled since last frame
 
 function resizeCanvas() {
   snowCanvas.width = window.innerWidth;
@@ -342,6 +454,9 @@ function initSnow() {
 let lastSnowTime = 0;
 
 function drawSnow(timestamp) {
+  if (prefersReducedMotion || isLowEnd) return;  // Skip snow animation for reduced motion / low-end
+  // dt = "delta time" — seconds elapsed since the last frame (e.g. ~0.016 s at 60 fps).
+  // Used to keep jitter timing frame-rate-independent. Falls back to 16 ms on the first frame.
   const dt = lastSnowTime ? (timestamp - lastSnowTime) / 1000 : 0.016;
   lastSnowTime = timestamp;
 
@@ -398,7 +513,7 @@ function drawSnow(timestamp) {
 // keeping the effect subtle and random.
 
 const flickerCanvas = document.getElementById('film-flicker');
-const fctx = flickerCanvas.getContext('2d');
+const fctx = flickerCanvas.getContext('2d');  // fctx = flicker canvas 2D drawing context
 
 function resizeFlicker() {
   flickerCanvas.width = window.innerWidth;
@@ -407,6 +522,7 @@ function resizeFlicker() {
 resizeFlicker();
 
 function drawFlicker() {
+  if (prefersReducedMotion || isLowEnd) return;  // Skip flicker animation for reduced motion / low-end
   fctx.clearRect(0, 0, flickerCanvas.width, flickerCanvas.height);
 
   // ~2% of frames: draw 1–3 dust specks (dark or light, irregularly shaped)
@@ -450,14 +566,19 @@ function drawFlicker() {
 
   flickerRAF = requestAnimationFrame(drawFlicker);
 }
-drawFlicker();
+// Only start flicker loop if not in low-end or reduced-motion mode
+if (!prefersReducedMotion && !isLowEnd) {
+  drawFlicker();
+}
 
 // ─────────────────────────────────────────
 // Navigation — Wheel, Keyboard, Touch, Dots
 // ─────────────────────────────────────────
 
-// Wheel — wheel-gestures detects gesture phases, filtering out momentum.
-// Only fires on gesture start (isStart), ignoring all inertia events.
+// Wheel — uses the wheel-gestures library to distinguish a real scroll
+// gesture from trackpad momentum (inertia). Without this, one swipe on a
+// Mac trackpad would fire dozens of wheel events and skip multiple sections.
+// We only act on `isStart` (the first event of a new physical gesture).
 const wheelGestures = WheelGestures();
 wheelGestures.observe(document.documentElement);
 wheelGestures.on('wheel', (state) => {
@@ -470,11 +591,13 @@ wheelGestures.on('wheel', (state) => {
   // Only act on the start of a new gesture, ignore momentum
   if (!state.isStart) return;
 
+  // Pick whichever axis has more movement (supports both vertical
+  // scroll wheels and horizontal trackpad swipes)
   const e = state.event;
   const dy = e.deltaY;
   const dx = e.deltaX;
   const delta = Math.abs(dy) > Math.abs(dx) ? dy : dx;
-  if (Math.abs(delta) < 3) return;
+  if (Math.abs(delta) < 3) return;         // ignore tiny accidental movements
 
   if (delta > 0) goToSection(currentSection + 1);
   else goToSection(currentSection - 1);
@@ -620,7 +743,17 @@ function alignBioPhoto() {
 splitTextIntoWords();
 alignBioPhoto();
 initSnow();
-snowRAF = requestAnimationFrame(drawSnow);
+
+// Only start heavy animation loops if not in low-end or reduced-motion mode
+if (!prefersReducedMotion && !isLowEnd) {
+  snowRAF = requestAnimationFrame(drawSnow);
+}
+
+// Initialize FX toggle button state
+const fxToggle = document.getElementById('fx-toggle');
+if (fxToggle && isLowEnd) {
+  fxToggle.setAttribute('aria-pressed', 'true');
+}
 
 // If returning to a specific section, defer the snap until the loader is about to split.
 // Setting currentX/targetX immediately can cause layout scaling issues while the loader covers the screen.
@@ -674,7 +807,10 @@ document.addEventListener('visibilitychange', () => {
     lastCurrentX = currentX;  // Reset so drawSnow doesn't see a huge delta on first frame back
     lastSnowTime = 0;         // Reset so drawSnow uses fallback dt on first frame back (avoids huge dt from tab gap)
     animateRAF = requestAnimationFrame(animate);
-    snowRAF = requestAnimationFrame(drawSnow);
-    flickerRAF = requestAnimationFrame(drawFlicker);
+    // Only restart heavy loops if not in low-end or reduced-motion mode
+    if (!prefersReducedMotion && !isLowEnd) {
+      snowRAF = requestAnimationFrame(drawSnow);
+      flickerRAF = requestAnimationFrame(drawFlicker);
+    }
   }
 });

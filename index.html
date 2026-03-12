@@ -14,16 +14,19 @@
     gtag('config', 'G-4NFV4D4GVB');
   </script>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#110d20">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <title>Portfolio — Through the Forest</title>
+  <title>Daniel Colcock - Portfolio</title>
   <meta name="description" content="Portfolio of Daniel Colcock, design student at UT Austin. UX design, typography, and creative projects.">
   <meta property="og:title" content="Portfolio — Through the Forest">
   <meta property="og:description" content="Portfolio of Daniel Colcock, design student at UT Austin. UX design, typography, and creative projects.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -298,14 +301,14 @@
           <div class="accent-line reveal"></div>
           <p class="about-detail reveal">Seeking full time roles in product design.</p>
         </div>
-        <div class="bio-photo reveal"><img src="Photos/Main/BioPhoto.png" alt="Daniel Colcock portrait" loading="lazy"></div>
+        <div class="bio-photo reveal"><img src="Photos/Main/BioPhoto.png" alt="Daniel Colcock portrait" decoding="async" fetchpriority="high"></div>
       </div>
     </section>
 
     <!-- ─────────────────────────────────── -->
     <!-- Section 3: Project 1 — DAWN Clock Radio       -->
     <!-- ─────────────────────────────────── -->
-    <section class="section project-section" data-href="projects/dawn.html" tabindex="0" aria-label="View DAWN Clock Radio project">
+    <section class="section project-section" data-href="projects/dawn/" tabindex="0" aria-label="View DAWN Clock Radio project">
       <div class="section-content">
         <div class="project-info reveal">
           <span class="project-number">01</span>
@@ -320,7 +323,7 @@
           </div>
         </div>
         <div class="project-gallery reveal">
-          <div class="project-img"><img class="project-img-inner" src="Photos/Main/DawnCaseStudy.png" alt="DAWN Clock Radio case study preview" loading="lazy"></div>
+          <div class="project-img"><img class="project-img-inner" src="Photos/Main/DawnCaseStudy.png" alt="DAWN Clock Radio case study preview" loading="lazy" decoding="async"></div>
         </div>
       </div>
     </section>
@@ -328,7 +331,7 @@
     <!-- ─────────────────────────────────── -->
     <!-- Section 4: Project 2 — PARD + wkrm            -->
     <!-- ─────────────────────────────────── -->
-    <section class="section project-section" data-href="projects/pard-wkrm.html" tabindex="0" aria-label="View PARD + wkrm project">
+    <section class="section project-section" data-href="projects/pard-wkrm/" tabindex="0" aria-label="View PARD + wkrm project">
       <div class="section-content">
         <div class="project-info reveal">
           <span class="project-number">02</span>
@@ -342,7 +345,7 @@
           </div>
         </div>
         <div class="project-gallery reveal">
-          <div class="project-img"><img class="project-img-inner" src="Photos/Main/PARDCaseStudy.png" alt="PARD + wkrm case study preview" loading="lazy"></div>
+          <div class="project-img"><img class="project-img-inner" src="Photos/Main/PARDCaseStudy.png" alt="PARD + wkrm case study preview" loading="lazy" decoding="async"></div>
         </div>
       </div>
     </section>
@@ -350,7 +353,7 @@
     <!-- ─────────────────────────────────── -->
     <!-- Section 5: Project 3 — Graffiti               -->
     <!-- ─────────────────────────────────── -->
-    <section class="section project-section" data-href="projects/graffiti-type.html" tabindex="0" aria-label="View Graffiti Artists are Type Designers project">
+    <section class="section project-section" data-href="projects/graffiti-type/" tabindex="0" aria-label="View Graffiti Artists are Type Designers project">
       <div class="section-content">
         <div class="project-info reveal">
           <span class="project-number">03</span>
@@ -364,7 +367,7 @@
           </div>
         </div>
         <div class="project-gallery reveal">
-          <div class="project-img"><img class="project-img-inner" src="Photos/Main/GrafitiCaseStudy.png" alt="Graffiti Artists are Type Designers case study preview" loading="lazy"></div>
+          <div class="project-img"><img class="project-img-inner" src="Photos/Main/GrafitiCaseStudy.png" alt="Graffiti Artists are Type Designers case study preview" loading="lazy" decoding="async"></div>
         </div>
       </div>
     </section>
@@ -381,7 +384,7 @@
           <div class="contact-accent-line"></div>
         </div>
         <div class="contact-links reveal">
-          <a href="mailto:daniel@colcock.com" class="contact-link">Email</a>
+          <a href="#" class="contact-link" data-contact>Email</a>
           <a href="files/Daniel_Colcock_Resume_2026.pdf" class="contact-link" target="_blank" rel="noopener noreferrer">Resume</a>
           <a href="https://www.linkedin.com/in/daniel-colcock/" class="contact-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
@@ -396,7 +399,7 @@
     <!-- ─────────────────────────────────── -->
     <section class="section path-section">
       <div class="section-content">
-        <a class="forest-path reveal" id="path-trigger" href="gallery.html" aria-label="Explore more work in gallery">
+        <a class="forest-path reveal" id="path-trigger" href="gallery/" aria-label="Explore more work in gallery">
           <span class="path-arrow">&#8595;</span>
           <span class="path-label">Explore more work</span>
           <svg class="forest-path-svg" viewBox="0 0 500 200" preserveAspectRatio="xMidYMax meet" fill="none">
@@ -422,7 +425,7 @@
   <!-- ═══════════════════════════════════════ -->
   <header class="letterbox letterbox-top">
     <span class="letterbox-name">Daniel Colcock</span>
-    <a href="mailto:daniel@colcock.com" class="letterbox-contact">Contact</a>
+    <a href="#" class="letterbox-contact" data-contact>Contact</a>
   </header>
 
   <!-- ═══════════════════════════════════════ -->
@@ -432,6 +435,12 @@
   <!-- data-index attributes needed.                      -->
   <!-- ═══════════════════════════════════════ -->
   <footer class="letterbox letterbox-bottom">
+    <!-- FX toggle: lets users manually enable/disable heavy effects -->
+    <button id="fx-toggle" aria-label="Toggle reduced effects" aria-pressed="false" onclick="window.toggleReducedFX && window.toggleReducedFX()">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+    </button>
     <nav class="progress-bar" id="progress-bar">
       <button class="progress-dot active" aria-label="Go to intro"></button>
       <span class="progress-dash"></span>
@@ -458,6 +467,17 @@
   <!-- ═══════════════════════════════════════ -->
   <script src="js/cursor.js"></script>
   <script src="js/lightbox.js"></script>
+  <script>
+    // Assemble contact email on first interaction (anti-bot)
+    (function(){var u='daniel',d='colcock.com';
+      document.querySelectorAll('[data-contact]').forEach(function(a){
+        function s(){a.href='mai'+'lto:'+u+'@'+d;}
+        a.addEventListener('mouseenter',s,{once:true});
+        a.addEventListener('focus',s,{once:true});
+        a.addEventListener('click',function(e){if(a.href.indexOf('mai'+'lto')<0){e.preventDefault();s();a.click();}});
+      });
+    })();
+  </script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>

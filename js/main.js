@@ -619,7 +619,7 @@ wheelGestures.on('wheel', (state) => {
   state.event.preventDefault();
 
   if (state.isStart) gestureHandled = false;
-  if (gestureHandled || state.isMomentum) return;
+  if (gestureHandled) return;
 
   // Pick whichever axis has more movement (supports both vertical
   // scroll wheels and horizontal trackpad swipes)
@@ -627,7 +627,7 @@ wheelGestures.on('wheel', (state) => {
   const dy = e.deltaY;
   const dx = e.deltaX;
   const delta = Math.abs(dy) > Math.abs(dx) ? dy : dx;
-  if (Math.abs(delta) < 3) return;         // ignore tiny accidental movements
+  if (Math.abs(delta) < 1) return;         // ignore sub-pixel noise
 
   gestureHandled = true;
   if (delta > 0) goToSection(currentSection + 1);

@@ -605,9 +605,12 @@ if (!prefersReducedMotion && !isLowEnd) {
 // Wheel — uses the wheel-gestures library to distinguish a real scroll
 // gesture from trackpad momentum (inertia). Without this, one swipe on a
 // Mac trackpad would fire dozens of wheel events and skip multiple sections.
-// We only act on `isStart` (the first event of a new physical gesture).
+// We act on the first event of each gesture that exceeds the dead zone.
+// (Safari's trackpad often starts gestures with sub-pixel deltas, so we
+// can't rely solely on isStart — we keep listening until one event qualifies.)
 const wheelGestures = WheelGestures();
 wheelGestures.observe(document.documentElement);
+let gestureHandled = false;
 wheelGestures.on('wheel', (state) => {
   if (window.lightboxOpen) {
     state.event.preventDefault();
@@ -615,8 +618,8 @@ wheelGestures.on('wheel', (state) => {
   }
   state.event.preventDefault();
 
-  // Only act on the start of a new gesture, ignore momentum
-  if (!state.isStart) return;
+  if (state.isStart) gestureHandled = false;
+  if (gestureHandled || state.isMomentum) return;
 
   // Pick whichever axis has more movement (supports both vertical
   // scroll wheels and horizontal trackpad swipes)
@@ -626,6 +629,7 @@ wheelGestures.on('wheel', (state) => {
   const delta = Math.abs(dy) > Math.abs(dx) ? dy : dx;
   if (Math.abs(delta) < 3) return;         // ignore tiny accidental movements
 
+  gestureHandled = true;
   if (delta > 0) goToSection(currentSection + 1);
   else goToSection(currentSection - 1);
 });

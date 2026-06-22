@@ -44,6 +44,16 @@
     -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
             mask-image:linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
   }
+  /* On narrow screens the grid is a single column, so the radio can't be
+     nested into side whitespace. Let it flow as a full-width block below the
+     text and drop the fog (there's nothing behind the text to mask). */
+  @media (max-width:980px){
+    .hero .id{ background:none; }
+    .hero .photo.freed{
+      position:static; width:100%; height:auto; aspect-ratio:660/495;
+      background-position:center bottom; margin-top:8px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -94,7 +104,7 @@
           </div>
           <div class="cta">
             <a class="btn accent" href="#context">Read the case study <span class="gl" aria-hidden="true">↓</span></a>
-            <a class="btn ghost" href="https://daniel.colcock.com/projects/dawn/" target="_blank" rel="noopener">Live project <span class="gl" aria-hidden="true">↗</span></a>
+            <a class="btn ghost" href="https://daniel.colcock.com/projects/dawn/" target="_blank" rel="noopener">Live project <span class="gl" aria-hidden="true">↗︎</span></a>
           </div>
         </div>
         <figure class="photo freed" role="img" aria-label="DAWN wooden clock radio on a nightstand"></figure>
@@ -350,7 +360,7 @@
         <div class="links reveal">
           <a class="btn accent" href="mailto:daniel@colcock.com">Email <span class="gl" aria-hidden="true">→</span></a>
           <a class="btn ghost" href="../assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Résumé <span class="gl" aria-hidden="true">↓</span></a>
-          <a class="btn ghost" href="https://www.linkedin.com/in/daniel-colcock/" target="_blank" rel="noopener">LinkedIn <span class="gl" aria-hidden="true">↗</span></a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/daniel-colcock/" target="_blank" rel="noopener">LinkedIn <span class="gl" aria-hidden="true">↗︎</span></a>
           <a class="btn ghost" href="../gallery/">More work <span class="gl" aria-hidden="true">→</span></a>
         </div>
         <div class="foot">

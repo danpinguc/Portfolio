@@ -1,203 +1,180 @@
 <!DOCTYPE html>
-<html lang="en" class="page-scrollable">
-
-<!-- ═══════════════════════════════════════ -->
-<!-- Head / Meta                                        -->
-<!-- ═══════════════════════════════════════ -->
+<html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NFV4D4GVB"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-4NFV4D4GVB');
-  </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#110d20">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <title>Selected Works</title>
-  <meta name="description" content="Selected works gallery — Daniel Colcock. Illustrations, animations, photography, and mixed-media pieces.">
-  <meta property="og:title" content="Selected Work — Through the Forest">
-  <meta property="og:description" content="Selected works gallery — Daniel Colcock. Illustrations, animations, photography, and mixed-media pieces.">
-  <meta property="og:type" content="website">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://www.googletagmanager.com">
-  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selected Work — Daniel Colcock</title>
+<meta name="description" content="A gallery of selected side work by Daniel Colcock — props and sculpture, prints and posters, glitch experiments, woodworking, animation and 3-D renders.">
+<meta name="author" content="Daniel Colcock">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Daniel Colcock">
+<meta property="og:title" content="Selected Work — Daniel Colcock">
+<meta property="og:description" content="Selected side work — props and sculpture, prints and posters, glitch experiments, woodworking, animation and 3-D renders.">
+<meta property="og:image" content="../assets/img/gallery/Sword.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Selected Work — Daniel Colcock">
+<meta name="twitter:description" content="Selected side work — props and sculpture, prints and posters, glitch experiments, woodworking, animation and 3-D renders.">
+<meta name="twitter:image" content="../assets/img/gallery/Sword.jpg">
+<link rel="stylesheet" href="../assets.css">
+<link rel="stylesheet" href="../casestudy.css">
+<style>
+  /* Master brand theme — TE signal orange, ink-on-orange buttons */
+  :root{ --accent:#ff4d00; --accent-ink:#15140f; }
 
-  <style>
-    /* ── Gallery: Deep Purple Theme ── */
-    .gallery-heading {
-      font-size: 32px;
-      font-weight: 300;
-      color: #ece8f4;
-      letter-spacing: 1.92px;
-    }
+  /* ---- custom gallery masthead ---- */
+  .gmast{ border-bottom:1.5px solid var(--line); padding-top:44px; overflow:hidden }
+  .gmast-top{ display:flex; justify-content:space-between; gap:16px; color:var(--muted); padding-bottom:24px }
+  .gmast-top .acc{ color:var(--accent) }
+  .gmast-title{ font-size:clamp(60px,15vw,210px); line-height:.82; letter-spacing:-.045em;
+    font-weight:700; text-transform:lowercase }
+  .gmast-foot{ margin-top:30px; padding-bottom:38px }
 
-    .gallery-back {
-      border: 0.571px solid #2a2250;
-      color: #ece8f4;
-      font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
-      font-weight: 300;
-      font-size: 9.6px;
-      letter-spacing: 2.4px;
-      text-transform: uppercase;
-      padding: 8.571px 19.768px;
-    }
-
-    .gallery-back:hover {
-      color: #fff;
-      border-color: rgba(236, 232, 244, 0.25);
-    }
-
-    .gallery-rule {
-      background: #2a2250;
-    }
-
-    .gallery-item {
-      border: 0.571px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.45), 0px 1px 4px rgba(0, 0, 0, 0.25);
-    }
-
-    .gallery-item:nth-child(4n+1) {
-      background: linear-gradient(130deg, rgba(74, 69, 120, 0.7), rgba(19, 13, 32, 0.85));
-    }
-
-    .gallery-item:nth-child(4n+2) {
-      background: linear-gradient(123deg, rgba(74, 69, 120, 0.7), rgba(19, 13, 32, 0.85));
-    }
-
-    .gallery-item:nth-child(4n+3) {
-      background: linear-gradient(150deg, rgba(74, 69, 120, 0.7), rgba(19, 13, 32, 0.85));
-    }
-
-    .gallery-item:nth-child(4n+4) {
-      background: linear-gradient(143deg, rgba(74, 69, 120, 0.7), rgba(19, 13, 32, 0.85));
-    }
-  </style>
+  /* title marquee — the gallery's own ticker; click a name to jump to it */
+  .gmarq{ border-top:1.5px solid var(--line); background:var(--ink); color:var(--paper);
+    overflow:hidden; white-space:nowrap; padding:13px 0 }
+  .gmarq-track{ display:inline-block; will-change:transform; animation:gmarq 60s linear infinite }
+  .gmarq-track .gw{ font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase;
+    cursor:pointer; transition:color .15s }
+  .gmarq-track .gw:hover{ color:var(--accent) }
+  .gmarq-track .d{ color:var(--accent); padding:0 18px }
+  .gmarq:hover .gmarq-track{ animation-play-state:paused }
+  @keyframes gmarq{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
+  @media (prefers-reduced-motion:reduce){ .gmarq-track{ animation:none } }
+</style>
 </head>
-<body class="page-scrollable" style="background:#151127;">
-  <a href="#main-content" class="skip-link">Skip to content</a>
+<body>
+<a class="skip" href="#top">Skip to content</a>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Custom Cursor Elements                             -->
-  <!-- Same dot + 3 rings as all other pages.             -->
-  <!-- ═══════════════════════════════════════ -->
-  <div id="mouse-glow" aria-hidden="true"></div>
-  <div id="custom-cursor" aria-hidden="true">
-    <div class="cursor-ring cursor-dot"></div>
-    <div class="cursor-ring cursor-ring-1"></div>
-    <div class="cursor-ring cursor-ring-2"></div>
-    <div class="cursor-ring cursor-ring-3"></div>
+<!-- ============================ NAV ============================ -->
+<header class="nav">
+  <div class="wrap row">
+    <a href="../" class="brand"><span class="mark" aria-hidden="true"></span>daniel colcock</a>
+    <div class="navright">
+      <nav class="navlinks" id="navlinks">
+        <a href="../#work">case studies</a>
+        <a href="../gallery/">gallery</a>
+        <a href="../#about">about</a>
+        <a href="#contact">contact</a>
+      </nav>
+      <button class="navtoggle" aria-expanded="false" aria-controls="navlinks" aria-label="Toggle menu">menu</button>
+      <a class="btn sm" href="../assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Résumé <span class="gl" aria-hidden="true">↓</span></a>
+    </div>
   </div>
+  <div class="progress" id="progress"></div>
+</header>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Letterbox Header                                   -->
-  <!-- Fixed top bar with name + contact.                 -->
-  <!-- Name links back to index on inner pages.           -->
-  <!-- ═══════════════════════════════════════ -->
-  <header class="letterbox letterbox-top">
-    <a href="../" class="letterbox-name" style="text-decoration:none;">Daniel Colcock</a>
-    <a href="#" class="letterbox-contact" data-contact>Contact</a>
+<!-- ============================ TICKER ============================ -->
+<div class="ticker">
+  <div class="wrap">
+    <div class="row">
+      <div class="cell tlabel"><a href="../#work"><span class="gl" aria-hidden="true">←</span> back to work</a></div>
+      <div class="cell tlabel">Gallery</div>
+      <div class="cell tlabel"><span class="tnum">28</span> pieces</div>
+      <div class="cell tlabel"><span class="led" aria-hidden="true"></span>2022–26</div>
+    </div>
+  </div>
+</div>
+
+<main id="top" data-screen-label="Selected work gallery">
+
+  <!-- ============================ MASTHEAD ============================ -->
+  <header class="gmast">
+    <div class="wrap">
+      <div class="gmast-top tlabel reveal">
+        <span><span class="acc">fig. 00</span> · gallery · selected work</span>
+        <span class="tnum">№ DC—2026 · 28 pieces</span>
+      </div>
+      <h1 class="gmast-title reveal">selected<br>work</h1>
+      <div class="gmast-foot reveal"><a class="tlink" href="../#work">View the case studies <span class="gl" aria-hidden="true">→</span></a></div>
+    </div>
+
+
+    <!-- title marquee -->
+    <div class="gmarq" aria-hidden="true">
+      <div class="gmarq-track">
+        <span class="gw" data-jump="w01">Master Sword</span><span class="d">◆</span><span class="gw" data-jump="w02">Mimic Chest</span><span class="d">◆</span><span class="gw" data-jump="w03">Yötön Yö</span><span class="d">◆</span><span class="gw" data-jump="w04">Paper Boat</span><span class="d">◆</span><span class="gw" data-jump="w05">Mania</span><span class="d">◆</span><span class="gw" data-jump="w06">Everything Is Temporary</span><span class="d">◆</span><span class="gw" data-jump="w07">Leviathan Axe</span><span class="d">◆</span><span class="gw" data-jump="w08">Manhole</span><span class="d">◆</span><span class="gw" data-jump="w09">Giant Peach</span><span class="d">◆</span><span class="gw" data-jump="w10">Nightbird</span><span class="d">◆</span><span class="gw" data-jump="w11">Dying Robot</span><span class="d">◆</span><span class="gw" data-jump="w12">Custom Sneakers</span><span class="d">◆</span><span class="gw" data-jump="w13">Datamosh</span><span class="d">◆</span><span class="gw" data-jump="w14">Armor</span><span class="d">◆</span><span class="gw" data-jump="w15">Bark Prints</span><span class="d">◆</span><span class="gw" data-jump="w16">Floating TV</span><span class="d">◆</span><span class="gw" data-jump="w17">Relief Print</span><span class="d">◆</span><span class="gw" data-jump="w18">Stone Stairs</span><span class="d">◆</span><span class="gw" data-jump="w19">Neon Pole</span><span class="d">◆</span><span class="gw" data-jump="w20">DAWN Prototype</span><span class="d">◆</span><span class="gw" data-jump="w21">Hammer Smash</span><span class="d">◆</span><span class="gw" data-jump="w22">Cloud</span><span class="d">◆</span><span class="gw" data-jump="w23">Saw Rack</span><span class="d">◆</span><span class="gw" data-jump="w24">Glitch Camera</span><span class="d">◆</span><span class="gw" data-jump="w25">Stair Build</span><span class="d">◆</span><span class="gw" data-jump="w26">Cardboard Store</span><span class="d">◆</span><span class="gw" data-jump="w27">Paper Rack</span><span class="d">◆</span><span class="gw" data-jump="w28">Tape</span><span class="d">◆</span><span class="gw" data-jump="w01">Master Sword</span><span class="d">◆</span><span class="gw" data-jump="w02">Mimic Chest</span><span class="d">◆</span><span class="gw" data-jump="w03">Yötön Yö</span><span class="d">◆</span><span class="gw" data-jump="w04">Paper Boat</span><span class="d">◆</span><span class="gw" data-jump="w05">Mania</span><span class="d">◆</span><span class="gw" data-jump="w06">Everything Is Temporary</span><span class="d">◆</span><span class="gw" data-jump="w07">Leviathan Axe</span><span class="d">◆</span><span class="gw" data-jump="w08">Manhole</span><span class="d">◆</span><span class="gw" data-jump="w09">Giant Peach</span><span class="d">◆</span><span class="gw" data-jump="w10">Nightbird</span><span class="d">◆</span><span class="gw" data-jump="w11">Dying Robot</span><span class="d">◆</span><span class="gw" data-jump="w12">Custom Sneakers</span><span class="d">◆</span><span class="gw" data-jump="w13">Datamosh</span><span class="d">◆</span><span class="gw" data-jump="w14">Armor</span><span class="d">◆</span><span class="gw" data-jump="w15">Bark Prints</span><span class="d">◆</span><span class="gw" data-jump="w16">Floating TV</span><span class="d">◆</span><span class="gw" data-jump="w17">Relief Print</span><span class="d">◆</span><span class="gw" data-jump="w18">Stone Stairs</span><span class="d">◆</span><span class="gw" data-jump="w19">Neon Pole</span><span class="d">◆</span><span class="gw" data-jump="w20">DAWN Prototype</span><span class="d">◆</span><span class="gw" data-jump="w21">Hammer Smash</span><span class="d">◆</span><span class="gw" data-jump="w22">Cloud</span><span class="d">◆</span><span class="gw" data-jump="w23">Saw Rack</span><span class="d">◆</span><span class="gw" data-jump="w24">Glitch Camera</span><span class="d">◆</span><span class="gw" data-jump="w25">Stair Build</span><span class="d">◆</span><span class="gw" data-jump="w26">Cardboard Store</span><span class="d">◆</span><span class="gw" data-jump="w27">Paper Rack</span><span class="d">◆</span><span class="gw" data-jump="w28">Tape</span><span class="d">◆</span>
+      </div>
+    </div>
   </header>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Gallery Content                                    -->
-  <!-- Back link, heading, rule, then masonry             -->
-  <!-- grid of selected works. First 3 images             -->
-  <!-- load eagerly; rest use loading="lazy".             -->
-  <!-- ═══════════════════════════════════════ -->
-  <main id="main-content">
-  <div class="gallery-inner">
-    <div class="gallery-header">
-      <a href="../" class="gallery-back">&larr; Back</a>
-      <h1 class="gallery-heading">Selected Work</h1>
-    </div>
-    <div class="gallery-rule"></div>
+  <div class="wrap">
 
-    <!-- ─────────────────────────────────── -->
-    <!-- Gallery Grid                                  -->
-    <!-- Masonry layout via CSS columns.               -->
-    <!-- 28 items: illustrations, animations,           -->
-    <!-- photography, woodworking, mixed-media.          -->
-    <!-- (GIF), photography, mixed-media.              -->
-    <!-- ─────────────────────────────────── -->
-    <div class="gallery-grid">
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Armor.png" alt="Armor — digital illustration of protective gear" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Sword.png" alt="Sword — digital illustration of a blade" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/HammerSmashFoundObject.png" alt="Hammer Smash — found object sculpture piece" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/YotonYo.png" alt="Yoton Yo — character illustration" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/DyingRobit.gif" alt="Dying Robot — animated character loop" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Match-Collage.png" alt="Match Collage — mixed-media collage composition" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Telephone-pole.png" alt="Telephone Pole — urban landscape illustration" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/FloatingTV.gif" alt="Floating TV — animated surreal object loop" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Glue.png" alt="Glue — product illustration study" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Manhole.jpg" alt="Manhole — urban photography" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/CloudAnimation.gif" alt="Cloud Animation — animated sky loop" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Mimic.png" alt="Mimic — creature illustration" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Boat.jpg" alt="3D render of a red paper boat and a lighthouse" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Axe.png" alt="Axe — digital illustration of a weapon" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Shoes.png" alt="Shoes — footwear illustration" loading="lazy" decoding="async"></div>
-      <!-- Camera -->
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Camera_Desk.JPG" alt="Children's camera with wires sticking out the top, screen glitched" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Camera_Melt.JPG" alt="Melting camera sculpture" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Camera_Sign.JPG" alt="Pixels melting downwards off the back of a street sign" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Camera_Telephone.JPG" alt="Green and blue neon image of a telephone pole, pixelated" loading="lazy" decoding="async"></div>
-      <!-- Woodworking -->
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Woodworking_Shelf.JPG" alt="Wooden shelf for storing cardboard with a woodshop in the background" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Woodworking_DesignLab.jpg" alt="Blue-gray shelf storing paper in a print studio" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Woodworking_Toolrack.jpg" alt="Small wooden arms holding up hand saws on a wood wall" loading="lazy" decoding="async"></div>
-      <!-- Stairs -->
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Stairs_Painted.JPG" alt="Twelve-foot tall staircase painted to look like stone in a warehouse studio" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/Stairs_Unpainted.JPG" alt="Four-foot tall section of wooden stairs in a workshop" loading="lazy" decoding="async"></div>
-      <!-- DAWN -->
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/DAWN_wooden.jpg" alt="DAWN — wooden radio prototype" loading="lazy" decoding="async"></div>
-      <!-- Other -->
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/GiantPeach.JPG" alt="Giant peach sculpture" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/TAPE_Far.JPG" alt="Glitchy artwork hung by cassette tape, with tape dangling around it and a cassette player" loading="lazy" decoding="async"></div>
-      <div class="gallery-item"><img src="../Photos/SelectedWorks/WoodPaperMushroomInk.jpg" alt="Bark hung on string next to rough paper with a linocut tree artwork printed on it" loading="lazy" decoding="async"></div>
-    </div>
+    <!-- ============================ GRID ============================ -->
+    <section class="sec" id="grid">
+      <div class="sechead reveal">
+        <span class="l"><span class="sq" aria-hidden="true"></span>the shelf</span>
+        <span class="r"><span class="tnum">28</span> — pieces · click to enlarge</span>
+      </div>
+
+      <div class="masonry">
+        <figure class="tile reveal" id="w01"><span class="pin tnum" aria-hidden="true">01</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Sword.jpg" alt="Hand-finished Master Sword replica planted in a tree stump"></div><figcaption class="cap"><span class="t">Master Sword</span><span class="m">prop</span></figcaption></figure>
+        <figure class="tile reveal" id="w02"><span class="pin tnum" aria-hidden="true">02</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Mimic.jpg" alt="Leather mimic chest sculpture with teeth and eyes"></div><figcaption class="cap"><span class="t">Mimic Chest</span><span class="m">sculpture</span></figcaption></figure>
+        <figure class="tile reveal" id="w03"><span class="pin tnum" aria-hidden="true">03</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/YotonYo.jpg" alt="Yötön Yö film poster illustration"></div><figcaption class="cap"><span class="t">Yötön Yö</span><span class="m">poster</span></figcaption></figure>
+        <figure class="tile reveal" id="w04"><span class="pin tnum" aria-hidden="true">04</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Boat.jpg" alt="3D render of a red paper boat near a lighthouse at night"></div><figcaption class="cap"><span class="t">Paper Boat</span><span class="m">3d render</span></figcaption></figure>
+        <figure class="tile reveal" id="w05"><span class="pin tnum" aria-hidden="true">05</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Camera_Sign.jpg" alt="Databent street sign in magenta glitch"></div><figcaption class="cap"><span class="t">Mania</span><span class="m">glitch</span></figcaption></figure>
+        <figure class="tile reveal" id="w06"><span class="pin tnum" aria-hidden="true">06</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Match-Collage.jpg" alt="Newspaper collage of a burning match — Everything Is Temporary"></div><figcaption class="cap"><span class="t">Everything Is Temporary</span><span class="m">collage</span></figcaption></figure>
+        <figure class="tile reveal" id="w07"><span class="pin tnum" aria-hidden="true">07</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Axe.jpg" alt="Hand-finished Leviathan axe replica against a tree"></div><figcaption class="cap"><span class="t">Leviathan Axe</span><span class="m">prop</span></figcaption></figure>
+        <figure class="tile reveal" id="w08"><span class="pin tnum" aria-hidden="true">08</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Manhole.jpg" alt="Surreal blue-toned photo composite of a manhole portal to the sky"></div><figcaption class="cap"><span class="t">Manhole</span><span class="m">photo</span></figcaption></figure>
+        <figure class="tile reveal" id="w09"><span class="pin tnum" aria-hidden="true">09</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/GiantPeach.jpg" alt="Theatre set: an arched staircase build on a stage"></div><figcaption class="cap"><span class="t">Giant Peach</span><span class="m">set build</span></figcaption></figure>
+        <figure class="tile reveal" id="w10"><span class="pin tnum" aria-hidden="true">10</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Telephone-pole.jpg" alt="Halftone print of a bird perched on telephone wires"></div><figcaption class="cap"><span class="t">Nightbird</span><span class="m">print</span></figcaption></figure>
+        <figure class="tile reveal" id="w11"><span class="pin tnum" aria-hidden="true">11</span><div class="frame"><video style="aspect-ratio:600/694" src="../assets/img/gallery/DyingRobit.mp4" aria-label="Dying Robot — looping animation" poster="assets/img/gallery/DyingRobit-poster.jpg" autoplay loop muted playsinline></video></div><figcaption class="cap"><span class="t">Dying Robot</span><span class="m">animation</span></figcaption></figure>
+        <figure class="tile reveal" id="w12"><span class="pin tnum" aria-hidden="true">12</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Shoes.jpg" alt="Hand-painted custom sneakers on a weathered plank"></div><figcaption class="cap"><span class="t">Custom Sneakers</span><span class="m">custom</span></figcaption></figure>
+        <figure class="tile reveal" id="w13"><span class="pin tnum" aria-hidden="true">13</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Camera_Melt.jpg" alt="Green and magenta datamoshed abstract image"></div><figcaption class="cap"><span class="t">Datamosh</span><span class="m">glitch</span></figcaption></figure>
+        <figure class="tile reveal" id="w14"><span class="pin tnum" aria-hidden="true">14</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Armor.jpg" alt="Sculpted armour piece resting on a log in the woods"></div><figcaption class="cap"><span class="t">Armor</span><span class="m">prop</span></figcaption></figure>
+        <figure class="tile reveal" id="w15"><span class="pin tnum" aria-hidden="true">15</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/WoodPaperMushroomInk.jpg" alt="Linocut tree prints on handmade paper hung beside pieces of bark"></div><figcaption class="cap"><span class="t">Bark Prints</span><span class="m">print install</span></figcaption></figure>
+        <figure class="tile reveal" id="w16"><span class="pin tnum" aria-hidden="true">16</span><div class="frame"><video style="aspect-ratio:600/338" src="../assets/img/gallery/FloatingTV.mp4" aria-label="Floating TV — looping animation" poster="assets/img/gallery/FloatingTV-poster.jpg" autoplay loop muted playsinline></video></div><figcaption class="cap"><span class="t">Floating TV</span><span class="m">animation</span></figcaption></figure>
+        <figure class="tile reveal" id="w17"><span class="pin tnum" aria-hidden="true">17</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Glue.jpg" alt="Abstract green relief print on a red ground"></div><figcaption class="cap"><span class="t">Relief Print</span><span class="m">printmaking</span></figcaption></figure>
+        <figure class="tile reveal" id="w18"><span class="pin tnum" aria-hidden="true">18</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Stairs_Painted.jpg" alt="Wooden staircase painted to look like stone, in a studio"></div><figcaption class="cap"><span class="t">Stone Stairs</span><span class="m">set build</span></figcaption></figure>
+        <figure class="tile reveal" id="w19"><span class="pin tnum" aria-hidden="true">19</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Camera_Telephone.jpg" alt="Neon, pixelated telephone pole — glitch image"></div><figcaption class="cap"><span class="t">Neon Pole</span><span class="m">glitch</span></figcaption></figure>
+        <figure class="tile reveal" id="w20"><span class="pin tnum" aria-hidden="true">20</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/DAWN_wooden.jpg" alt="Wooden DAWN clock radio prototype"></div><figcaption class="cap"><span class="t">DAWN Prototype</span><span class="m">product</span></figcaption></figure>
+        <figure class="tile reveal" id="w21"><span class="pin tnum" aria-hidden="true">21</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/HammerSmashFoundObject.jpg" alt="Halftone digital composite of a hammer in blue, yellow and pink"></div><figcaption class="cap"><span class="t">Hammer Smash</span><span class="m">digital</span></figcaption></figure>
+        <figure class="tile reveal" id="w22"><span class="pin tnum" aria-hidden="true">22</span><div class="frame"><video style="aspect-ratio:600/338" src="../assets/img/gallery/CloudAnimation.mp4" aria-label="Cloud — looping animation" poster="assets/img/gallery/CloudAnimation-poster.jpg" autoplay loop muted playsinline></video></div><figcaption class="cap"><span class="t">Cloud</span><span class="m">animation</span></figcaption></figure>
+        <figure class="tile reveal" id="w23"><span class="pin tnum" aria-hidden="true">23</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Woodworking_Toolrack.jpg" alt="Wall-mounted wooden rack holding hand saws"></div><figcaption class="cap"><span class="t">Saw Rack</span><span class="m">woodwork</span></figcaption></figure>
+        <figure class="tile reveal" id="w24"><span class="pin tnum" aria-hidden="true">24</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Camera_Desk.jpg" alt="Modified children's camera with exposed wires and a glitched screen"></div><figcaption class="cap"><span class="t">Glitch Camera</span><span class="m">device</span></figcaption></figure>
+        <figure class="tile reveal" id="w25"><span class="pin tnum" aria-hidden="true">25</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Stairs_Unpainted.jpg" alt="Raw wooden staircase section under construction in a workshop"></div><figcaption class="cap"><span class="t">Stair Build</span><span class="m">fabrication</span></figcaption></figure>
+        <figure class="tile reveal" id="w26"><span class="pin tnum" aria-hidden="true">26</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Woodworking_Shelf.jpg" alt="Wooden shelf built for storing cardboard in a woodshop"></div><figcaption class="cap"><span class="t">Cardboard Store</span><span class="m">woodwork</span></figcaption></figure>
+        <figure class="tile reveal" id="w27"><span class="pin tnum" aria-hidden="true">27</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/Woodworking_DesignLab.jpg" alt="Blue-grey shelf storing paper in a print studio"></div><figcaption class="cap"><span class="t">Paper Rack</span><span class="m">woodwork</span></figcaption></figure>
+        <figure class="tile reveal" id="w28"><span class="pin tnum" aria-hidden="true">28</span><div class="frame"><img loading="lazy" src="../assets/img/gallery/TAPE_Far.jpg" alt="Gallery installation: prints hung by tangled cassette tape with a cassette player"></div><figcaption class="cap"><span class="t">Tape</span><span class="m">installation</span></figcaption></figure>
+      </div>
+    </section>
+
   </div>
-  </main>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Scripts                                            -->
-  <!-- cursor.js only — no main.js on inner               -->
-  <!-- pages (no parallax/snow/scroll engine).            -->
-  <!-- ═══════════════════════════════════════ -->
-  <script src="../js/cursor.js"></script>
-  <script src="../js/lightbox.js"></script>
-  <script>
-    (function() {
-      var wrapper = document.createElement('div');
-      wrapper.innerHTML = '<div class="page-exit-half page-exit-top"></div><div class="page-exit-half page-exit-bottom"></div>';
-      document.body.appendChild(wrapper);
-      document.querySelectorAll('.gallery-back, .letterbox-name').forEach(function(link) {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          var href = link.href;
-          wrapper.classList.add('page-exit-close');
-          setTimeout(function() { window.location.href = href; }, 900);
-        });
-      });
-    })();
-  </script>
-  <script>
-    // Assemble contact email on first interaction (anti-bot)
-    (function(){var u='daniel',d='colcock.com';
-      document.querySelectorAll('[data-contact]').forEach(function(a){
-        function s(){a.href='mai'+'lto:'+u+'@'+d;}
-        a.addEventListener('mouseenter',s,{once:true});
-        a.addEventListener('focus',s,{once:true});
-        a.addEventListener('click',function(e){if(a.href.indexOf('mai'+'lto')<0){e.preventDefault();s();a.click();}});
-      });
-    })();
-  </script>
+  <!-- ============================ CONTACT ============================ -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="inner">
+        <div class="kfig tlabel reveal"><span class="acc">fig. 01</span><span>contact</span><span class="bar" aria-hidden="true"></span><span class="tnum">get in touch</span></div>
+        <h2 class="reveal">let’s cross<br>paths</h2>
+        <div class="links reveal">
+          <a class="btn accent" href="mailto:daniel@colcock.com">Email <span class="gl" aria-hidden="true">→</span></a>
+          <a class="btn ghost" href="../assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Résumé <span class="gl" aria-hidden="true">↓</span></a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/daniel-colcock/" target="_blank" rel="noopener">LinkedIn <span class="gl" aria-hidden="true">↗</span></a>
+          <a class="btn ghost" href="../#work">Case studies <span class="gl" aria-hidden="true">→</span></a>
+        </div>
+        <div class="foot">
+          <div class="fc">
+            <span class="k">Designer</span>
+            <span class="v">Daniel Colcock<span class="mk"> ●</span></span>
+          </div>
+          <div class="fc">
+            <span class="k">Location</span>
+            <span class="v">Santa Ana, California <span class="tnum">· US</span></span>
+          </div>
+          <div class="fc">
+            <span class="k">Edition</span>
+            <span class="v tnum">© 2026 · № DC—2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<button class="to-top" aria-label="Back to top">top <span class="gl" aria-hidden="true">↑</span></button>
+<script src="../site.js" defer></script>
+
 </body>
 </html>

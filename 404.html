@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Daniel Colcock</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<style>
+  :root{
+    --paper:#fff; --paper2:#f2f1ec; --ink:#15140f; --muted:#6f6d63;
+    --line:#15140f; --accent:#ff4d00; --accent-ink:#15140f;
+    --sans:"Helvetica Neue",Helvetica,Arial,"Liberation Sans",sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--paper2); color:var(--ink);
+    font-family:var(--sans); -webkit-font-smoothing:antialiased;
+    display:flex; align-items:center; justify-content:center; padding:32px;
+  }
+  .panel{
+    max-width:560px; width:100%; background:var(--paper);
+    border:1px solid var(--line); padding:48px 40px;
+  }
+  .tlabel{
+    font-family:var(--mono); font-size:11px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); margin:0 0 20px;
+  }
+  h1{
+    font-size:clamp(40px,9vw,72px); line-height:.95; font-weight:700;
+    letter-spacing:-.02em; text-transform:lowercase; margin:0 0 16px;
+  }
+  p{ font-size:16px; line-height:1.5; color:var(--muted); margin:0 0 28px; max-width:42ch }
+  .btn{
+    display:inline-block; font-family:var(--mono); font-size:12px;
+    letter-spacing:.08em; text-transform:uppercase; text-decoration:none;
+    background:var(--accent); color:var(--accent-ink);
+    padding:13px 20px; border:1px solid var(--line);
+  }
+  .btn:focus-visible{ outline:2.5px solid var(--ink); outline-offset:3px }
+  .foot{
+    font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--muted); margin:32px 0 0;
+    padding-top:20px; border-top:1px solid #d8d6cc;
+  }
+</style>
+</head>
+<body>
+  <main class="panel">
+    <p class="tlabel">error · 404</p>
+    <h1>page not found</h1>
+    <p>The page you were looking for has wandered off the grid. Let's get you back to the work.</p>
+    <a class="btn" href="/">← back to portfolio</a>
+    <p class="foot">Daniel Colcock · Santa Ana, California · US</p>
+  </main>
+</body>
+</html>

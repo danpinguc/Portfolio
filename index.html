@@ -1,486 +1,439 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- ═══════════════════════════════════════ -->
-<!-- Head / Meta                                        -->
-<!-- ═══════════════════════════════════════ -->
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NFV4D4GVB"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-4NFV4D4GVB');
-  </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#110d20">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <title>Daniel Colcock - Portfolio</title>
-  <meta name="description" content="Portfolio of Daniel Colcock, design student at UT Austin. UX design, typography, and creative projects.">
-  <meta property="og:title" content="Portfolio — Through the Forest">
-  <meta property="og:description" content="Portfolio of Daniel Colcock, design student at UT Austin. UX design, typography, and creative projects.">
-  <meta property="og:type" content="website">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://www.googletagmanager.com">
-  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel Colcock — Product Designer</title>
+<meta name="description" content="Product designer in Santa Ana, California. Portfolio of UX, product and industrial design — including the DAWN clock radio and Austin Parks volunteer research.">
+<meta name="author" content="Daniel Colcock">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Daniel Colcock">
+<meta property="og:title" content="Daniel Colcock — Product Designer">
+<meta property="og:description" content="Product designer in Santa Ana, California. Portfolio of UX, product and industrial design — including the DAWN clock radio and Austin Parks volunteer research.">
+<meta property="og:image" content="assets/img/dawn/hero2.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Daniel Colcock — Product Designer">
+<meta name="twitter:description" content="Product designer in Santa Ana, California. Portfolio of UX, product and industrial design — including the DAWN clock radio and Austin Parks volunteer research.">
+<meta name="twitter:image" content="assets/img/dawn/hero2.jpg">
+<link rel="stylesheet" href="assets.css">
+<style>
+  /* UX/a11y pass — contrast, focus, clickable cards, mobile nav */
+  .skip{ position:absolute; left:-9999px; top:0; z-index:200; background:var(--ink); color:#fff;
+    font-family:var(--sans); font-weight:600; font-size:12px; letter-spacing:.06em; text-transform:uppercase; padding:11px 16px }
+  .skip:focus{ left:8px; top:8px }
+  :focus-visible{ outline:2.5px solid var(--ink); outline-offset:2px; border-radius:1px }
+  .btn:focus-visible{ outline-offset:3px }
+  .navlinks a:focus-visible::after{ right:0 }
+  /* whole project card is one click target (stretched link) */
+  .featured,.card{ position:relative }
+  .cardlink::after{ content:""; position:absolute; inset:0; z-index:2 }
+  .cardlink:focus-visible{ outline-offset:4px }
+  /* a stretched-link must not be transformed, or its ::after hit area
+     collapses from the whole card down to the link itself */
+  .btn.cardlink, .btn.cardlink:hover{ transform:none }
+  /* mobile nav toggle */
+  .navtoggle{ display:none; background:transparent; border:1.5px solid var(--ink); color:var(--ink);
+    font-family:var(--sans); font-weight:600; font-size:11px; line-height:1; letter-spacing:.1em;
+    text-transform:uppercase; padding:9px 12px; cursor:pointer; align-items:center }
+  @media (max-width:760px){
+    .navtoggle{ display:inline-flex }
+    .navlinks{ position:absolute; top:60px; left:0; right:0; flex-direction:column; gap:0;
+      background:rgba(255,255,255,.97); backdrop-filter:blur(10px); border-bottom:1.5px solid var(--line);
+      padding:4px 0; display:none }
+    .nav.open .navlinks{ display:flex }
+    .navlinks a{ padding:14px 18px; font-size:12px }
+    .navlinks a::after{ display:none }
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{ scroll-behavior:auto !important }
+    .featured:hover .media .img,.card:hover .media .img{ transform:none !important }
+    .btn:hover{ transform:none !important }
+  }
+</style>
+<style>
+:root{
+  --paper:#ffffff;
+  --paper2:#f2f1ec;
+  --panel:#ebe9e2;
+  --ink:#15140f;
+  --soft:#56544c;
+  --muted:#6f6d63;      /* darkened for AA contrast */
+  --line:#15140f;       /* strong hairline */
+  --hair:#d8d6cc;       /* light hairline */
+  --accent:#ff4d00;     /* TE signal orange */
+  --sans:"Helvetica Neue",Helvetica,Arial,"Liberation Sans",sans-serif;
+  --gridw:1240px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  font-feature-settings:"tnum" 1,"kern" 1;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ---------- type helpers ---------- */
+.tlabel{font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;line-height:1}
+.tnum{font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.lede{font-size:17px;line-height:1.55;color:var(--soft);font-weight:400;max-width:46ch}
+
+/* ---------- shell ---------- */
+.wrap{max-width:var(--gridw);margin:0 auto;padding:0 32px}
+.section-rule{border-top:1.5px solid var(--line)}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--line)}
+.nav .row{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:11px;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.brand .mark{width:13px;height:13px;background:var(--accent);border-radius:50%;flex:none}
+.navright{display:flex;align-items:center;gap:22px}
+.navlinks{display:flex;gap:22px}
+.navlinks a{font-size:11px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--soft);position:relative;padding:3px 0;transition:color .2s}
+.navlinks a::after{content:"";position:absolute;left:0;right:100%;bottom:-1px;height:1.5px;background:var(--accent);transition:right .25s ease}
+.navlinks a:hover{color:var(--ink)}
+.navlinks a:hover::after{right:0}
+
+.btn{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;padding:11px 17px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);display:inline-flex;align-items:center;gap:9px;border-radius:0;cursor:pointer;transition:background .18s,color .18s,transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn .gl{color:var(--accent)}
+.btn:hover .gl{color:var(--paper)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.btn.ghost:hover .gl{color:var(--paper)}
+.btn.sm{padding:9px 14px}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:#15140f}
+.btn.accent .gl{color:#15140f}
+.btn.accent:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.accent:hover .gl{color:var(--paper)}
+
+/* ---------- ticker / meta strip ---------- */
+.ticker{border-bottom:1.5px solid var(--line);background:var(--paper)}
+.ticker .row{display:grid;grid-template-columns:1.4fr 1fr 1.2fr 1fr;}
+.ticker .cell{padding:9px 0;display:flex;align-items:center;gap:9px;color:var(--soft);border-right:1px solid var(--hair)}
+.ticker .cell:first-child{padding-left:0}
+.ticker .cell{padding-left:20px}
+.ticker .cell:first-child{padding-left:0}
+.ticker .cell:last-child{border-right:none}
+.led{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px color-mix(in oklab,var(--accent) 22%,transparent);flex:none}
+
+/* ---------- hero ---------- */
+.hero{border-bottom:1.5px solid var(--line)}
+.herogrid{display:grid;grid-template-columns:1fr 432px;gap:0;}
+.hero .id{padding:60px 56px 52px 0;display:flex;flex-direction:column;border-right:1.5px solid var(--line);position:relative}
+.kfig{display:flex;align-items:center;gap:10px;color:var(--muted);margin-bottom:26px}
+.kfig .bar{flex:1;height:1px;background:var(--hair)}
+.kfig .acc{color:var(--accent)}
+.hero h1{font-size:108px;line-height:.86;letter-spacing:-.035em;font-weight:700;text-transform:lowercase}
+.hero .role{font-size:13px;font-weight:600;letter-spacing:.04em;margin-top:26px;color:var(--ink)}
+.hero .role b{color:var(--accent);font-weight:600}
+.hero .ledewrap{margin-top:16px}
+.hero .cta{display:flex;gap:10px;margin-top:34px;flex-wrap:wrap}
+
+/* photo module */
+.photo{position:relative;display:flex;flex-direction:column;border-right:1.5px solid var(--line)}
+.phead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1.5px solid var(--line);color:var(--soft)}
+.phead .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:7px;vertical-align:middle}
+.pimg{flex:1;background-size:cover;background-position:50% 18%;filter:grayscale(.12) contrast(1.02)}
+.pfoot{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-top:1.5px solid var(--line);color:var(--muted)}
+
+/* ---------- specs ---------- */
+.specs{border-bottom:1.5px solid var(--line);background:var(--paper)}
+.specgrid{display:grid;grid-template-columns:repeat(4,1fr)}
+.spec{padding:20px 22px 22px;border-right:1px solid var(--hair);display:flex;flex-direction:column;gap:9px}
+.spec:first-child{padding-left:0}
+.spec:last-child{border-right:none}
+.spec .k{color:var(--muted);display:flex;align-items:center;gap:7px}
+.spec .k .n{color:var(--accent)}
+.spec .v{font-size:18px;font-weight:600;letter-spacing:-.01em;line-height:1.1}
+
+/* ---------- section head ---------- */
+.sec{padding:60px 0 0}
+.sechead{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1.5px solid var(--line);padding-bottom:13px;margin-bottom:0}
+.sechead .l{font-size:13px;font-weight:700;letter-spacing:.02em;text-transform:lowercase;display:flex;align-items:baseline;gap:12px}
+.sechead .l .sq{width:9px;height:9px;background:var(--accent);transform:translateY(-1px)}
+.sechead .r{color:var(--muted);display:flex;align-items:center;gap:8px}
+
+/* ---------- featured ---------- */
+.featured{display:grid;grid-template-columns:1.32fr 1fr;border:1.5px solid var(--line);border-top:none}
+.featured .media{position:relative;overflow:hidden;min-height:440px;border-right:1.5px solid var(--line)}
+.media .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.featured:hover .media .img{transform:scale(1.035)}
+.media .mtag{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;color:#fff;mix-blend-mode:difference}
+.media .num{position:absolute;left:14px;bottom:12px;font-size:64px;font-weight:700;letter-spacing:-.04em;color:#fff;mix-blend-mode:difference;line-height:.8}
+.featured .body{padding:30px 32px 30px;display:flex;flex-direction:column}
+.featured .lab{color:var(--accent);display:flex;align-items:center;gap:8px}
+.featured h2{font-size:42px;line-height:.96;letter-spacing:-.025em;font-weight:700;margin-top:14px;text-transform:lowercase}
+.featured .desc{font-size:16px;line-height:1.55;color:var(--soft);margin-top:15px;max-width:42ch}
+.speclist{margin-top:22px;border-top:1px solid var(--hair)}
+.speclist .r{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--hair);color:var(--soft)}
+.speclist .r .kk{color:var(--muted)}
+.speclist .r .vv{font-weight:500;color:var(--ink);letter-spacing:.01em}
+.featured .foot{margin-top:auto;padding-top:24px}
+
+/* ---------- pair ---------- */
+.pair{display:grid;grid-template-columns:1fr 1fr;margin-top:26px;border:1.5px solid var(--line)}
+.card{display:flex;flex-direction:column;transition:background .2s}
+.card:first-child{border-right:1.5px solid var(--line)}
+.card .media{position:relative;overflow:hidden;height:280px;border-bottom:1.5px solid var(--line)}
+.card:hover .media .img{transform:scale(1.04)}
+.card .num{position:absolute;left:13px;bottom:10px;font-size:46px;font-weight:700;letter-spacing:-.04em;color:#fff;mix-blend-mode:difference;line-height:.8}
+.card .mtag{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:9px 13px;color:#fff;mix-blend-mode:difference}
+.card .body{padding:24px 24px 26px;display:flex;flex-direction:column;flex:1}
+.card .lab{color:var(--accent);margin-bottom:11px}
+.card h3{font-size:26px;line-height:1.02;letter-spacing:-.02em;font-weight:700;margin-bottom:11px;text-transform:lowercase}
+.card .desc{font-size:15px;line-height:1.55;color:var(--soft)}
+.card .chips,.featured .chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}
+.chip{font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border:1px solid var(--hair);color:var(--soft);white-space:nowrap}
+.card .arrow{margin-top:auto;padding-top:20px;color:var(--ink);display:inline-flex;align-items:center;gap:8px;transition:gap .2s}
+.card .arrow .gl{color:var(--accent)}
+.card:hover .arrow{gap:13px}
+
+/* ---------- image fallback ---------- */
+.imgfb{position:absolute;inset:0;background:repeating-linear-gradient(45deg,#e6e3da 0 7px,#efece4 7px 14px);display:flex;align-items:center;justify-content:center}
+.imgfb span{font-size:10px;letter-spacing:.08em;color:#6b6960;background:var(--paper);padding:5px 10px;border:1px dashed #a4a194;text-transform:uppercase}
+
+/* ---------- contact ---------- */
+.contact{margin-top:72px;border-top:1.5px solid var(--line);background:var(--paper2)}
+.contact .inner{padding:64px 0 0}
+.contact .kfig{margin-bottom:30px}
+.contact h2{font-size:104px;line-height:.86;letter-spacing:-.035em;font-weight:700;text-transform:lowercase}
+.contact .links{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}
+.contact .foot{display:grid;grid-template-columns:1fr 1fr 1fr;margin-top:60px;border-top:1.5px solid var(--line)}
+.contact .foot .fc{padding:16px 20px 18px;border-right:1px solid var(--hair);display:flex;flex-direction:column;gap:7px}
+.contact .foot .fc:first-child{padding-left:0}
+.contact .foot .fc:last-child{border-right:none}
+.contact .foot .fc .k{color:var(--muted)}
+.contact .foot .fc .v{font-size:14px;font-weight:600;letter-spacing:-.01em}
+.contact .foot .fc .v .mk{color:var(--accent)}
+
+/* ---------- motion ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .herogrid{grid-template-columns:1fr}
+  .hero .id{border-right:none;border-bottom:1.5px solid var(--line);padding:48px 0 40px}
+  .photo{min-height:440px}
+  .ticker .row{grid-template-columns:1fr 1fr}
+  .ticker .cell:nth-child(2){border-right:none}
+  .ticker .cell:nth-child(1),.ticker .cell:nth-child(2){border-bottom:1px solid var(--hair)}
+}
+@media (max-width:760px){
+  .wrap{padding:0 18px}
+  .hero h1{font-size:62px}
+  .contact h2{font-size:54px}
+  .specgrid{grid-template-columns:1fr 1fr}
+  .spec{padding:16px 16px 18px}
+  .spec:nth-child(2){border-right:none}
+  .spec:nth-child(1),.spec:nth-child(2){border-bottom:1px solid var(--hair)}
+  .featured{grid-template-columns:1fr}
+  .featured .media{border-right:none;border-bottom:1.5px solid var(--line)}
+  .pair{grid-template-columns:1fr}
+  .pair .card:first-child{border-right:none;border-bottom:1.5px solid var(--line)}
+  .contact .foot{grid-template-columns:1fr}
+  .contact .foot .fc{border-right:none;border-bottom:1px solid var(--hair)}
+  .navlinks{display:none}
+}
+</style>
 </head>
 <body>
-  <a href="#scroll-container" class="skip-link">Skip to content</a>
+<a class="skip" href="#top">Skip to content</a>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Loading Screen                                     -->
-  <!-- Halves shrink to letterbox-h on load;              -->
-  <!-- rings mirror the custom cursor shape.              -->
-  <!-- ═══════════════════════════════════════ -->
-  <div id="loader">
-    <div class="loader-half loader-top"></div>
-    <div class="loader-half loader-bottom"></div>
-    <div class="loader-rings" id="loader-rings">
-      <div class="loader-dot"></div>
-      <div class="loader-ring loader-ring-1"></div>
-      <div class="loader-ring loader-ring-2"></div>
-      <div class="loader-ring loader-ring-3"></div>
-      <span class="loader-text"><span style="animation-delay:0s">l</span><span style="animation-delay:0.12s">o</span><span style="animation-delay:0.24s">a</span><span style="animation-delay:0.36s">d</span><span style="animation-delay:0.48s">i</span><span style="animation-delay:0.6s">n</span><span style="animation-delay:0.72s">g</span></span>
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap row">
+    <a href="#top" class="brand"><span class="mark" aria-hidden="true"></span>daniel colcock</a>
+    <div class="navright">
+      <nav class="navlinks" id="navlinks">
+        <a href="#work">case studies</a>
+        <a href="gallery/">gallery</a>
+        <a href="#about">about</a>
+        <a href="#contact">contact</a>
+      </nav>
+      <button class="navtoggle" aria-expanded="false" aria-controls="navlinks" aria-label="Toggle menu">menu</button>
+      <a class="btn sm" href="assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Résumé <span class="gl" aria-hidden="true">↓</span></a>
     </div>
   </div>
+</header>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Fixed Atmospheric Layers                           -->
-  <!-- Sky gradient, ambient glow,                        -->
-  <!-- path glow, vignette, grain, scratches              -->
-  <!-- — all fixed-position, behind content.              -->
-  <!-- ═══════════════════════════════════════ -->
-  <div id="sky"></div>
-  <div id="ambient-glow"></div>
-  <div id="path-glow"></div>
+<!-- META TICKER -->
+<div class="ticker">
+  <div class="wrap">
+    <div class="row">
+      <div class="cell tlabel"><span class="tnum">№ DC—2026</span> · Portfolio</div>
+      <div class="cell tlabel">Product Designer</div>
+      <div class="cell tlabel">Santa Ana CA · <span class="tnum">33.75°N</span></div>
+      <div class="cell tlabel"><span class="led" aria-hidden="true"></span>Open to work</div>
+    </div>
+  </div>
+</div>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Snow & Flicker Canvases                            -->
-  <!-- snow-canvas: 150 stop-motion flakes                -->
-  <!-- film-flicker: random dust/scratch marks            -->
-  <!-- Both run continuous rAF loops in main.js           -->
-  <!-- ═══════════════════════════════════════ -->
-  <canvas id="snow-canvas" aria-hidden="true"></canvas>
+<main id="top">
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Custom Cursor Elements                             -->
-  <!-- Dot + 3 concentric rings, positioned               -->
-  <!-- by cursor.js. mouse-glow is the radial             -->
-  <!-- gradient that follows the pointer.                 -->
-  <!-- ═══════════════════════════════════════ -->
-  <div id="mouse-glow" aria-hidden="true"></div>
-  <div id="custom-cursor" aria-hidden="true">
-    <div class="cursor-ring cursor-dot"></div>
-    <div class="cursor-ring cursor-ring-1"></div>
-    <div class="cursor-ring cursor-ring-2"></div>
-    <div class="cursor-ring cursor-ring-3"></div>
+  <!-- HERO -->
+  <section class="hero" id="about">
+    <div class="wrap">
+      <div class="herogrid">
+        <div class="id">
+          <div class="kfig tlabel"><span class="acc">fig. 01</span><span>designer</span><span class="bar" aria-hidden="true"></span><span class="tnum">UT '26</span></div>
+          <h1>daniel<br>colcock</h1>
+          <div class="role">Product Designer — <b>digital &amp; physical</b></div>
+          <div class="ledewrap">
+            <p class="lede">Graduating design student at UT Austin, working across product design — from physical product form to user research and prototyping. I build things that earn their place on a desk, a nightstand, or a screen.</p>
+          </div>
+          <div class="cta">
+            <a class="btn accent" href="assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Download Résumé <span class="gl" aria-hidden="true">↓</span></a>
+            <a class="btn ghost" href="#contact">Get in touch <span class="gl" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <figure class="photo">
+          <div class="phead tlabel"><span><span class="dot" aria-hidden="true"></span>bio.jpg</span><span class="tnum">1536 × 2048</span></div>
+          <div class="pimg bg-bio" role="img" aria-label="Daniel Colcock"></div>
+          <div class="pfoot tlabel"><span></span><span class="tnum">fig. 01</span></div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECS -->
+  <section class="specs">
+    <div class="wrap">
+      <div class="specgrid">
+        <div class="spec">
+          <div class="k tlabel"><span class="n tnum">A</span><span>Education</span></div>
+          <div class="v">UT Austin, ’26</div>
+        </div>
+        <div class="spec">
+          <div class="k tlabel"><span class="n tnum">B</span><span>Disciplines</span></div>
+          <div class="v">Product · Research</div>
+        </div>
+        <div class="spec">
+          <div class="k tlabel"><span class="n tnum">C</span><span>Practice</span></div>
+          <div class="v">Digital &amp; Physical</div>
+        </div>
+        <div class="spec">
+          <div class="k tlabel"><span class="n tnum">D</span><span>Status</span></div>
+          <div class="v">Open · full-time</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <div class="wrap" id="work">
+    <section class="sec">
+      <div class="sechead reveal">
+        <span class="l"><span class="sq" aria-hidden="true"></span>selected work</span>
+        <span class="r tlabel"><span class="tnum">index — 03</span> · 2024–26</span>
+      </div>
+
+      <!-- FEATURED 001 -->
+      <article class="featured reveal">
+        <div class="media">
+          <div class="img bg-dawn" role="img" aria-label="DAWN clock radio"></div>
+          <div class="mtag tlabel"><span>dawn.jpg</span><span class="tnum">001 / 03</span></div>
+          <div class="num tnum">01</div>
+        </div>
+        <div class="body">
+          <span class="lab tlabel">◆ Featured Project</span>
+          <h2>dawn<br>clock radio</h2>
+          <p class="desc">A wooden clock radio that replaces the smartphone on your nightstand — waking you with local community radio, controlled entirely through a single dial.</p>
+          <div class="chips">
+            <span class="chip">Product Design</span>
+            <span class="chip">Fabrication</span>
+            <span class="chip">Rapid Prototyping</span>
+            <span class="chip">Electronics</span>
+          </div>
+          <div class="foot"><a class="btn accent cardlink" href="dawn/">Read case study <span class="gl" aria-hidden="true">→</span></a></div>
+        </div>
+      </article>
+
+      <!-- PAIR 002 / 003 -->
+      <div class="pair">
+        <article class="card reveal">
+          <div class="media">
+            <div class="img bg-pard" role="img" aria-label="PARD + wkrm"></div>
+            <div class="mtag tlabel"><span>pard.jpg</span><span class="tnum">002 / 03</span></div>
+            <div class="num tnum">02</div>
+          </div>
+          <div class="body">
+            <span class="lab tlabel">◆ Design Research</span>
+            <h3>pard + wkrm</h3>
+            <p class="desc">Research for the Austin Parks &amp; Recreation department that surfaced volunteer coordination breakdowns across divisions, proposing digital, physical, and community-facing solutions.</p>
+            <div class="chips">
+              <span class="chip">Dashboard</span>
+              <span class="chip">User Research</span>
+              <span class="chip">Journey Mapping</span>
+            </div>
+            <a class="arrow tlabel cardlink" href="pard/">Read case study <span class="gl" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="media">
+            <div class="img bg-grafiti" role="img" aria-label="Graffiti Artists are Type Designers"></div>
+            <div class="mtag tlabel"><span>graffiti.jpg</span><span class="tnum">003 / 03</span></div>
+            <div class="num tnum">03</div>
+          </div>
+          <div class="body">
+            <span class="lab tlabel">◆ Editorial</span>
+            <h3>graffiti artists are type designers</h3>
+            <p class="desc">A handbound editorial book exploring how graffiti artists and type designers share the same iterative process of critique, form development, and letterform mastery.</p>
+            <div class="chips">
+              <span class="chip">Editorial</span>
+              <span class="chip">Book Binding</span>
+              <span class="chip">Typography</span>
+            </div>
+            <a class="arrow tlabel cardlink" href="graffiti/">Read case study <span class="gl" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </div>
+    </section>
   </div>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Post-Processing Overlays                           -->
-  <!-- Vignette, film flicker canvas, grain,              -->
-  <!-- and scratch textures — stacked on top              -->
-  <!-- of everything via z-index.                         -->
-  <!-- ═══════════════════════════════════════ -->
-  <div id="vignette" aria-hidden="true"></div>
-  <canvas id="film-flicker" aria-hidden="true"></canvas>
-  <div id="grain" aria-hidden="true"></div>
-  <div id="scratches" aria-hidden="true"></div>
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Forest SVG Layers — Parallax Trunks                -->
-  <!-- 4 layers at increasing parallax rates:             -->
-  <!--   far  (0.08) — thin, faint, 600vw                 -->
-  <!--   mid  (0.2)  — medium weight, 600vw               -->
-  <!--   near (0.4)  — thicker, 720vw                     -->
-  <!--   front(0.65) — widest/darkest, 840vw              -->
-  <!-- Each contains hand-placed <rect> trunks            -->
-  <!-- with slight rotations for organic feel.            -->
-  <!-- ═══════════════════════════════════════ -->
-
-  <!-- FAR trunks (thin, faint, deep in forest) -->
-  <svg id="trunks-far" class="forest-layer" viewBox="0 0 6000 1000" preserveAspectRatio="none" style="width:600vw;height:100vh;" aria-hidden="true">
-    <g fill="#2a2250">
-      <rect x="80" y="50" width="8" height="950" transform="rotate(-1, 84, 500)"/>
-      <rect x="240" y="30" width="10" height="970" transform="rotate(0.5, 245, 500)"/>
-      <rect x="420" y="60" width="7" height="940" transform="rotate(-0.8, 423, 500)"/>
-      <rect x="580" y="20" width="9" height="980" transform="rotate(0.3, 584, 500)"/>
-      <rect x="760" y="45" width="8" height="955" transform="rotate(-0.5, 764, 500)"/>
-      <rect x="950" y="35" width="10" height="965" transform="rotate(0.7, 955, 500)"/>
-      <rect x="1120" y="55" width="7" height="945" transform="rotate(-1.2, 1123, 500)"/>
-      <rect x="1300" y="25" width="9" height="975" transform="rotate(0.4, 1304, 500)"/>
-      <rect x="1480" y="50" width="8" height="950" transform="rotate(-0.6, 1484, 500)"/>
-      <rect x="1650" y="40" width="10" height="960" transform="rotate(1, 1655, 500)"/>
-      <rect x="1830" y="60" width="7" height="940" transform="rotate(-0.3, 1833, 500)"/>
-      <rect x="2010" y="30" width="9" height="970" transform="rotate(0.8, 2014, 500)"/>
-      <rect x="2180" y="50" width="8" height="950" transform="rotate(-0.9, 2184, 500)"/>
-      <rect x="2370" y="35" width="10" height="965" transform="rotate(0.2, 2375, 500)"/>
-      <rect x="2550" y="45" width="7" height="955" transform="rotate(-0.7, 2553, 500)"/>
-      <rect x="2720" y="20" width="9" height="980" transform="rotate(1.1, 2724, 500)"/>
-      <rect x="2900" y="55" width="8" height="945" transform="rotate(-0.4, 2904, 500)"/>
-      <rect x="3080" y="40" width="10" height="960" transform="rotate(0.6, 3085, 500)"/>
-      <rect x="3260" y="30" width="7" height="970" transform="rotate(-1, 3263, 500)"/>
-      <rect x="3440" y="50" width="9" height="950" transform="rotate(0.3, 3444, 500)"/>
-      <rect x="3620" y="35" width="8" height="965" transform="rotate(-0.5, 3624, 500)"/>
-      <rect x="3800" y="60" width="10" height="940" transform="rotate(0.9, 3805, 500)"/>
-      <rect x="3980" y="25" width="7" height="975" transform="rotate(-0.8, 3983, 500)"/>
-      <rect x="4160" y="45" width="9" height="955" transform="rotate(0.5, 4164, 500)"/>
-      <rect x="4340" y="40" width="8" height="960" transform="rotate(-1.1, 4344, 500)"/>
-      <rect x="4520" y="50" width="10" height="950" transform="rotate(0.7, 4525, 500)"/>
-      <rect x="4700" y="30" width="7" height="970" transform="rotate(-0.3, 4703, 500)"/>
-      <rect x="4880" y="55" width="9" height="945" transform="rotate(1, 4884, 500)"/>
-      <rect x="5060" y="35" width="8" height="965" transform="rotate(-0.6, 5064, 500)"/>
-      <rect x="5240" y="20" width="10" height="980" transform="rotate(0.4, 5245, 500)"/>
-      <rect x="5420" y="45" width="7" height="955" transform="rotate(-0.9, 5423, 500)"/>
-      <rect x="5600" y="40" width="9" height="960" transform="rotate(0.8, 5604, 500)"/>
-      <rect x="5780" y="50" width="8" height="950" transform="rotate(-0.2, 5784, 500)"/>
-    </g>
-  </svg>
-
-  <!-- MID trunks (medium weight) -->
-  <svg id="trunks-mid" class="forest-layer" viewBox="0 0 6000 1000" preserveAspectRatio="none" style="width:600vw;height:100vh;" aria-hidden="true">
-    <g fill="#231c42">
-      <rect x="150" y="0" width="14" height="1000" transform="rotate(-1.5, 157, 500)"/>
-      <rect x="380" y="0" width="16" height="1000" transform="rotate(0.8, 388, 500)"/>
-      <rect x="620" y="0" width="12" height="1000" transform="rotate(-0.5, 626, 500)"/>
-      <rect x="850" y="0" width="15" height="1000" transform="rotate(1.2, 857, 500)"/>
-      <rect x="1090" y="0" width="13" height="1000" transform="rotate(-0.8, 1096, 500)"/>
-      <rect x="1320" y="0" width="16" height="1000" transform="rotate(0.5, 1328, 500)"/>
-      <rect x="1560" y="0" width="14" height="1000" transform="rotate(-1, 1567, 500)"/>
-      <rect x="1790" y="0" width="12" height="1000" transform="rotate(1.5, 1796, 500)"/>
-      <rect x="2030" y="0" width="15" height="1000" transform="rotate(-0.3, 2037, 500)"/>
-      <rect x="2260" y="0" width="13" height="1000" transform="rotate(0.7, 2266, 500)"/>
-      <rect x="2500" y="0" width="16" height="1000" transform="rotate(-1.2, 2508, 500)"/>
-      <rect x="2730" y="0" width="14" height="1000" transform="rotate(0.4, 2737, 500)"/>
-      <rect x="2970" y="0" width="12" height="1000" transform="rotate(-0.9, 2976, 500)"/>
-      <rect x="3200" y="0" width="15" height="1000" transform="rotate(1, 3207, 500)"/>
-      <rect x="3440" y="0" width="13" height="1000" transform="rotate(-0.6, 3446, 500)"/>
-      <rect x="3670" y="0" width="16" height="1000" transform="rotate(1.3, 3678, 500)"/>
-      <rect x="3910" y="0" width="14" height="1000" transform="rotate(-0.7, 3917, 500)"/>
-      <rect x="4140" y="0" width="12" height="1000" transform="rotate(0.5, 4146, 500)"/>
-      <rect x="4380" y="0" width="15" height="1000" transform="rotate(-1.1, 4387, 500)"/>
-      <rect x="4610" y="0" width="13" height="1000" transform="rotate(0.8, 4616, 500)"/>
-      <rect x="4850" y="0" width="16" height="1000" transform="rotate(-0.4, 4858, 500)"/>
-      <rect x="5080" y="0" width="14" height="1000" transform="rotate(1.2, 5087, 500)"/>
-      <rect x="5320" y="0" width="12" height="1000" transform="rotate(-0.8, 5326, 500)"/>
-      <rect x="5550" y="0" width="15" height="1000" transform="rotate(0.6, 5557, 500)"/>
-      <rect x="5780" y="0" width="13" height="1000" transform="rotate(-1, 5786, 500)"/>
-    </g>
-  </svg>
-
-  <!-- NEAR trunks (thicker, darker) -->
-  <svg id="trunks-near" class="forest-layer" viewBox="0 0 7200 1000" preserveAspectRatio="none" style="width:720vw;height:100vh;" aria-hidden="true">
-    <g fill="#1c1635">
-      <rect x="100" y="0" width="22" height="1000" transform="rotate(-2, 111, 500)"/>
-      <rect x="450" y="0" width="18" height="1000" transform="rotate(1.5, 459, 500)"/>
-      <rect x="780" y="0" width="24" height="1000" transform="rotate(-1, 792, 500)"/>
-      <rect x="1120" y="0" width="20" height="1000" transform="rotate(2, 1130, 500)"/>
-      <rect x="1460" y="0" width="22" height="1000" transform="rotate(-1.5, 1471, 500)"/>
-      <rect x="1800" y="0" width="18" height="1000" transform="rotate(0.8, 1809, 500)"/>
-      <rect x="2140" y="0" width="24" height="1000" transform="rotate(-2.2, 2152, 500)"/>
-      <rect x="2480" y="0" width="20" height="1000" transform="rotate(1.2, 2490, 500)"/>
-      <rect x="2820" y="0" width="22" height="1000" transform="rotate(-0.7, 2831, 500)"/>
-      <rect x="3160" y="0" width="18" height="1000" transform="rotate(1.8, 3169, 500)"/>
-      <rect x="3500" y="0" width="24" height="1000" transform="rotate(-1.3, 3512, 500)"/>
-      <rect x="3840" y="0" width="20" height="1000" transform="rotate(0.5, 3850, 500)"/>
-      <rect x="4180" y="0" width="22" height="1000" transform="rotate(-1.8, 4191, 500)"/>
-      <rect x="4520" y="0" width="18" height="1000" transform="rotate(2.2, 4529, 500)"/>
-      <rect x="4860" y="0" width="24" height="1000" transform="rotate(-0.5, 4872, 500)"/>
-      <rect x="5200" y="0" width="20" height="1000" transform="rotate(1.5, 5210, 500)"/>
-      <rect x="5540" y="0" width="22" height="1000" transform="rotate(-1.2, 5551, 500)"/>
-      <rect x="5880" y="0" width="18" height="1000" transform="rotate(0.8, 5889, 500)"/>
-      <rect x="6220" y="0" width="24" height="1000" transform="rotate(-2, 6232, 500)"/>
-      <rect x="6560" y="0" width="20" height="1000" transform="rotate(1, 6570, 500)"/>
-      <rect x="6900" y="0" width="22" height="1000" transform="rotate(-0.8, 6911, 500)"/>
-    </g>
-  </svg>
-
-  <!-- FRONT trunks (very close, widest, darkest) -->
-  <svg id="trunks-front" class="forest-layer" viewBox="0 0 8400 1000" preserveAspectRatio="none" style="width:840vw;height:100vh;" aria-hidden="true">
-    <g fill="#120e22">
-      <rect x="0" y="0" width="55" height="1000" transform="rotate(-3, 27, 500)"/>
-      <rect x="600" y="0" width="45" height="1000" transform="rotate(2.5, 622, 500)"/>
-      <rect x="1250" y="0" width="50" height="1000" transform="rotate(-2, 1275, 500)"/>
-      <rect x="1900" y="0" width="42" height="1000" transform="rotate(3, 1921, 500)"/>
-      <rect x="2550" y="0" width="48" height="1000" transform="rotate(-2.5, 2574, 500)"/>
-      <rect x="3200" y="0" width="55" height="1000" transform="rotate(2, 3227, 500)"/>
-      <rect x="3850" y="0" width="45" height="1000" transform="rotate(-3, 3872, 500)"/>
-      <rect x="4500" y="0" width="50" height="1000" transform="rotate(2.5, 4525, 500)"/>
-      <rect x="5150" y="0" width="42" height="1000" transform="rotate(-2, 5171, 500)"/>
-      <rect x="5800" y="0" width="48" height="1000" transform="rotate(3, 5824, 500)"/>
-      <rect x="6450" y="0" width="55" height="1000" transform="rotate(-2.5, 6477, 500)"/>
-      <rect x="7100" y="0" width="45" height="1000" transform="rotate(2, 7122, 500)"/>
-      <rect x="7750" y="0" width="50" height="1000" transform="rotate(-3, 7775, 500)"/>
-    </g>
-  </svg>
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Forest SVG Layers — Snow Ground                    -->
-  <!-- 3 layered drift SVGs parallaxing with              -->
-  <!-- the first 3 trunk layers (far/mid/near)            -->
-  <!-- ═══════════════════════════════════════ -->
-
-  <!-- Far snow ground (highest horizon line, lightest) -->
-  <svg id="snow-ground-far" viewBox="0 0 6000 300" preserveAspectRatio="none" style="width:600vw;height:22vh;" aria-hidden="true">
-    <defs>
-      <linearGradient id="snow-far-grad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#7585a8"/>
-        <stop offset="40%" stop-color="#6a78a0"/>
-        <stop offset="100%" stop-color="#5a6890"/>
-      </linearGradient>
-    </defs>
-    <path d="M0,80 C100,60 200,90 350,70 C500,50 600,85 800,65 C1000,50 1100,80 1300,60 C1500,45 1600,75 1800,55 C2000,40 2100,70 2300,50 C2500,35 2600,65 2800,48 C3000,35 3100,60 3300,45 C3500,30 3600,55 3800,40 C4000,25 4100,50 4300,35 C4500,20 4600,48 4800,30 C5000,18 5100,45 5300,28 C5500,15 5700,40 5800,30 L6000,25 L6000,300 L0,300 Z" fill="url(#snow-far-grad)"/>
-  </svg>
-
-  <!-- Mid snow ground (with snow mounds/drifts) -->
-  <svg id="snow-ground-mid" viewBox="0 0 6000 250" preserveAspectRatio="none" style="width:600vw;height:18vh;" aria-hidden="true">
-    <defs>
-      <linearGradient id="snow-mid-grad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#8090b5"/>
-        <stop offset="30%" stop-color="#7585a8"/>
-        <stop offset="100%" stop-color="#607095"/>
-      </linearGradient>
-    </defs>
-    <!-- Undulating snow surface with mounds -->
-    <path d="M0,100 C80,85 150,95 250,70 Q320,50 400,65 C500,80 560,55 650,45 Q740,35 830,50 C920,65 980,40 1080,35 Q1170,28 1260,42 C1350,55 1420,30 1520,25 Q1610,18 1700,35 C1790,48 1860,22 1960,18 Q2050,12 2140,28 C2230,40 2300,18 2400,15 Q2490,10 2580,22 C2670,35 2740,12 2840,10 Q2930,6 3020,18 C3110,28 3180,8 3280,6 Q3370,2 3460,14 C3550,24 3620,5 3720,4 Q3810,1 3900,10 C3990,18 4060,3 4160,2 Q4250,0 4340,8 C4430,14 4500,2 4600,1 Q4700,0 4800,6 C4900,10 4980,1 5080,0 Q5200,0 5300,4 C5400,8 5500,1 5600,0 L6000,0 L6000,250 L0,250 Z" fill="url(#snow-mid-grad)"/>
-  </svg>
-
-  <!-- Near snow ground (closest, largest drifts with warm highlights) -->
-  <svg id="snow-ground-near" viewBox="0 0 7200 200" preserveAspectRatio="none" style="width:720vw;height:14vh;" aria-hidden="true">
-    <defs>
-      <linearGradient id="snow-near-grad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#95a5c8"/>
-        <stop offset="20%" stop-color="#8898b8"/>
-        <stop offset="60%" stop-color="#7585a8"/>
-        <stop offset="100%" stop-color="#5a6890"/>
-      </linearGradient>
-    </defs>
-    <path d="M0,60 Q120,30 250,50 C380,70 450,20 580,15 Q700,8 830,30 C960,50 1030,10 1160,8 Q1290,4 1420,25 C1550,42 1620,8 1750,5 Q1880,2 2010,18 C2140,32 2210,5 2340,3 Q2470,0 2600,14 C2730,26 2800,4 2930,2 Q3060,0 3190,10 C3320,18 3390,2 3520,1 Q3650,0 3780,8 C3910,14 3980,1 4110,0 Q4250,0 4380,6 C4510,10 4580,0 4710,0 Q4850,0 4980,4 C5110,8 5180,0 5310,0 Q5440,0 5570,3 C5700,6 5770,0 5900,0 Q6030,0 6160,2 C6290,4 6360,0 6500,0 L7200,0 L7200,200 L0,200 Z" fill="url(#snow-near-grad)"/>
-  </svg>
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Scroll Container                                   -->
-  <!-- Flex row of 100vw sections, moved by               -->
-  <!-- transform: translateX() in main.js.                -->
-  <!-- No native scroll — entirely custom JS.             -->
-  <!-- ═══════════════════════════════════════ -->
-  <main>
-  <div id="scroll-container" tabindex="-1">
-
-    <!-- ─────────────────────────────────── -->
-    <!-- Section 0: Title                              -->
-    <!-- ─────────────────────────────────── -->
-    <section class="section title-section">
-      <div class="section-content">
-        <div class="title-block">
-          <h1 class="main-title">
-            <span class="title-line title-large">Daniel Colcock</span>
-          </h1>
-          <p class="title-role">Product Designer</p>
-          <p class="subtitle">2026 design portfolio</p>
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="inner">
+        <div class="kfig tlabel reveal"><span class="acc">fig. 04</span><span>contact</span><span class="bar" aria-hidden="true"></span><span class="tnum">get in touch</span></div>
+        <h2 class="reveal">let’s cross<br>paths</h2>
+        <div class="links reveal">
+          <a class="btn accent" href="mailto:daniel@colcock.com">Email <span class="gl" aria-hidden="true">→</span></a>
+          <a class="btn ghost" href="assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Résumé <span class="gl" aria-hidden="true">↓</span></a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/daniel-colcock/" target="_blank" rel="noopener">LinkedIn <span class="gl" aria-hidden="true">↗</span></a>
+          <a class="btn ghost" href="gallery/">More work <span class="gl" aria-hidden="true">→</span></a>
         </div>
-        <div class="scroll-hint">Scroll to Continue<span class="scroll-hint-arrow">→</span></div>
-      </div>
-    </section>
-
-    <!-- ─────────────────────────────────── -->
-    <!-- Section 1: About                              -->
-    <!-- ─────────────────────────────────── -->
-    <section class="section about-section">
-      <div class="lantern-glow" style="top: 20%; right: 15%;"></div>
-      <div class="section-content">
-        <div class="about-text-block">
-          <span class="section-label reveal">About</span>
-          <h2 class="about-text stagger-text reveal">Graduating design student at UT Austin. I work across product design, both digital and physical, handling product form, user research, and prototyping.</h2>
-          <div class="accent-line reveal"></div>
-          <p class="about-detail reveal">Seeking full time roles in product design.</p>
-        </div>
-        <div class="bio-photo reveal"><img src="Photos/Main/BioPhoto.png" alt="Daniel Colcock portrait" decoding="async" fetchpriority="high"></div>
-      </div>
-    </section>
-
-    <!-- ─────────────────────────────────── -->
-    <!-- Section 3: Project 1 — DAWN Clock Radio       -->
-    <!-- ─────────────────────────────────── -->
-    <section class="section project-section" data-href="projects/dawn/" tabindex="0" aria-label="View DAWN Clock Radio project">
-      <div class="section-content">
-        <div class="project-info reveal">
-          <span class="project-number">01</span>
-          <h3 class="project-title">DAWN Clock Radio <svg class="project-arrow" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.2"/></svg></h3>
-          <div class="project-rule"></div>
-          <p class="project-desc">Dawn is a wooden clock radio that replaces the smartphone on your nightstand. Waking you with local community radio, controlled entirely through a single dial.</p>
-          <div class="project-tags">
-            <span class="tag">Product Design</span>
-            <span class="tag">Fabrication</span>
-            <span class="tag">Rapid Prototyping</span>
-            <span class="tag">Electronics</span>
+        <div class="foot">
+          <div class="fc">
+            <span class="k tlabel">Designer</span>
+            <span class="v">Daniel Colcock<span class="mk"> ●</span></span>
+          </div>
+          <div class="fc">
+            <span class="k tlabel">Location</span>
+            <span class="v">Santa Ana, California <span class="tnum">· US</span></span>
+          </div>
+          <div class="fc">
+            <span class="k tlabel">Edition</span>
+            <span class="v tnum">© 2026 · № DC—2026</span>
           </div>
         </div>
-        <div class="project-gallery reveal">
-          <div class="project-img"><img class="project-img-inner" src="Photos/Main/DawnCaseStudy.png" alt="DAWN Clock Radio case study preview" loading="lazy" decoding="async"></div>
-        </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ─────────────────────────────────── -->
-    <!-- Section 4: Project 2 — PARD + wkrm            -->
-    <!-- ─────────────────────────────────── -->
-    <section class="section project-section" data-href="projects/pard-wkrm/" tabindex="0" aria-label="View PARD + wkrm project">
-      <div class="section-content">
-        <div class="project-info reveal">
-          <span class="project-number">02</span>
-          <h3 class="project-title">PARD + wkrm <svg class="project-arrow" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.2"/></svg></h3>
-          <div class="project-rule"></div>
-          <p class="project-desc">Design research for the Austin Parks & Recreation department that surfaced volunteer coordination breakdowns across divisions. <a href="files/PARD+++wkrm_Volunteer+Coordination.pdf" target="_blank" rel="noopener noreferrer">Proposed<span class="link-arrow">&#8599;</span></a> digital, physical, and community-facing solutions to key stakeholders.</p>
-          <div class="project-tags">
-            <span class="tag">Dashboard Design</span>
-            <span class="tag">User Research</span>
-            <span class="tag">Figma</span>
-            <span class="tag">Journey Mapping</span>
-          </div>
-        </div>
-        <div class="project-gallery reveal">
-          <div class="project-img"><img class="project-img-inner" src="Photos/Main/PARDCaseStudy.png" alt="PARD + wkrm case study preview" loading="lazy" decoding="async"></div>
-        </div>
-      </div>
-    </section>
+</main>
 
-    <!-- ─────────────────────────────────── -->
-    <!-- Section 5: Project 3 — Graffiti               -->
-    <!-- ─────────────────────────────────── -->
-    <section class="section project-section" data-href="projects/graffiti-type/" tabindex="0" aria-label="View Graffiti Artists are Type Designers project">
-      <div class="section-content">
-        <div class="project-info reveal">
-          <span class="project-number">03</span>
-          <h3 class="project-title">Graffiti Artists are Type Designers <svg class="project-arrow" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.2"/></svg></h3>
-          <div class="project-rule"></div>
-          <p class="project-desc"><a href="files/Graffiti-Artists-are-Type-Designers.pdf" target="_blank" rel="noopener noreferrer">A handbound editorial book<span class="link-arrow">&#8599;</span></a> exploring how graffiti artists and type designers share the same iterative process of critique, form development, and letterform mastery. Features torn-image layouts, acrylic-painted covers, and screw-post binding.</p>
-          <div class="project-tags">
-            <span class="tag">Editorial Design</span>
-            <span class="tag">Book Binding</span>
-            <span class="tag">Typography</span>
-            <span class="tag">Grid Systems</span>
-          </div>
-        </div>
-        <div class="project-gallery reveal">
-          <div class="project-img"><img class="project-img-inner" src="Photos/Main/GrafitiCaseStudy.png" alt="Graffiti Artists are Type Designers case study preview" loading="lazy" decoding="async"></div>
-        </div>
-      </div>
-    </section>
+<script src="site.js" defer></script>
 
-    <!-- ─────────────────────────────────── -->
-    <!-- Section 6: Contact                            -->
-    <!-- ─────────────────────────────────── -->
-    <section class="section contact-section">
-      <div class="lantern-glow" style="top: 30%; left: 40%;"></div>
-      <div class="section-content">
-        <div class="contact-text-block">
-          <span class="section-label reveal">Get in Touch</span>
-          <h2 class="contact-heading stagger-text reveal">Let's Cross Paths</h2>
-          <div class="contact-accent-line"></div>
-        </div>
-        <div class="contact-links reveal">
-          <a href="#" class="contact-link" data-contact>Email</a>
-          <a href="files/Daniel_Colcock_Resume_2026.pdf" class="contact-link" target="_blank" rel="noopener noreferrer">Resume</a>
-          <a href="https://www.linkedin.com/in/daniel-colcock/" class="contact-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </div>
-        <div class="more-hint reveal">There's More<span class="more-hint-arrow">→</span></div>
-      </div>
-    </section>
-
-    <!-- ─────────────────────────────────── -->
-    <!-- Section 7: Gallery Path                       -->
-    <!-- Link to gallery.html with footprint           -->
-    <!-- SVG as a visual "continue" cue.               -->
-    <!-- ─────────────────────────────────── -->
-    <section class="section path-section">
-      <div class="section-content">
-        <a class="forest-path reveal" id="path-trigger" href="gallery/" aria-label="Explore more work in gallery">
-          <span class="path-arrow">&#8595;</span>
-          <span class="path-label">Explore more work</span>
-          <svg class="forest-path-svg" viewBox="0 0 500 200" preserveAspectRatio="xMidYMax meet" fill="none">
-            <!-- Step 1: Left foot (closest) — fades in first -->
-            <rect class="foot foot-left" x="165" y="120" width="70" height="120" rx="28" fill="#1e2130" opacity="0" transform="rotate(-10,200,180)"/>
-            <!-- Step 2: Right foot (farther) — fades in second -->
-            <rect class="foot foot-right" x="284" y="63" width="52" height="90" rx="22" fill="#1e2130" opacity="0" transform="rotate(7,310,108)"/>
-          </svg>
-        </a>
-      </div>
-    </section>
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- End Scroll Container                               -->
-  <!-- ═══════════════════════════════════════ -->
-  </div>
-  </main>
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Letterbox Bars                                     -->
-  <!-- Fixed top header and bottom footer.                -->
-  <!-- Height set by --letterbox-h (48px).                -->
-  <!-- ═══════════════════════════════════════ -->
-  <header class="letterbox letterbox-top">
-    <span class="letterbox-name">Daniel Colcock</span>
-    <a href="#" class="letterbox-contact" data-contact>Contact</a>
-  </header>
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Navigation / Progress Bar                          -->
-  <!-- Dots + dashes for 8 sections.                      -->
-  <!-- Index derived from DOM order — no                  -->
-  <!-- data-index attributes needed.                      -->
-  <!-- ═══════════════════════════════════════ -->
-  <footer class="letterbox letterbox-bottom">
-    <!-- FX toggle: lets users manually enable/disable heavy effects -->
-    <button id="fx-toggle" aria-label="Toggle reduced effects" aria-pressed="false" onclick="window.toggleReducedFX && window.toggleReducedFX()">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-      </svg>
-      <span class="fx-toggle-label">Effects</span>
-    </button>
-    <nav class="progress-bar" id="progress-bar">
-      <button class="progress-dot active" aria-label="Go to intro"></button>
-      <span class="progress-dash"></span>
-      <button class="progress-dot" aria-label="Go to about"></button>
-      <span class="progress-dash"></span>
-      <button class="progress-dot" aria-label="Go to project 1"></button>
-      <span class="progress-dash"></span>
-      <button class="progress-dot" aria-label="Go to project 2"></button>
-      <span class="progress-dash"></span>
-      <button class="progress-dot" aria-label="Go to project 3"></button>
-      <span class="progress-dash"></span>
-      <button class="progress-dot" aria-label="Go to contact"></button>
-      <span class="progress-dash"></span>
-      <button class="progress-dot" aria-label="Go to gallery path"></button>
-    </nav>
-  </footer>
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- Scripts                                            -->
-  <!-- cursor.js: custom cursor (all pages)               -->
-  <!-- main.js: scroll engine, parallax,                  -->
-  <!--   snow, flicker, stars, reveals (this              -->
-  <!--   page only)                                       -->
-  <!-- ═══════════════════════════════════════ -->
-  <script src="js/cursor.js"></script>
-  <script src="js/lightbox.js"></script>
-  <script>
-    // Assemble contact email on first interaction (anti-bot)
-    (function(){var u='daniel',d='colcock.com';
-      document.querySelectorAll('[data-contact]').forEach(function(a){
-        function s(){a.href='mai'+'lto:'+u+'@'+d;}
-        a.addEventListener('mouseenter',s,{once:true});
-        a.addEventListener('focus',s,{once:true});
-        a.addEventListener('click',function(e){if(a.href.indexOf('mai'+'lto')<0){e.preventDefault();s();a.click();}});
-      });
-    })();
-  </script>
-  <script type="module" src="js/main.js"></script>
 </body>
 </html>

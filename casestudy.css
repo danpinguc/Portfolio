@@ -1,0 +1,569 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ============================================================
+   DANIEL COLCOCK — CASE STUDY SYSTEM
+   A library of reusable "containers". Each block below is a
+   self-contained module you can drop into any case study.
+   Search for  >>> CONTAINER:  to jump between them.
+   ============================================================ */
+
+:root{
+  --paper:#ffffff;
+  --paper2:#f2f1ec;
+  --panel:#ebe9e2;
+  --ink:#15140f;
+  --soft:#56544c;
+  --muted:#6f6d63;           /* darkened for AA contrast on white/paper */
+  --line:#15140f;            /* strong hairline */
+  --hair:#d8d6cc;            /* light hairline */
+  --accent:#ff4d00;          /* TE signal orange */
+  --accent-ink:#fff;
+  --sans:"Helvetica Neue",Helvetica,Arial,"Liberation Sans",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --gridw:1240px;
+  --air:1;                   /* spacing multiplier */
+  --nav-h:60px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  font-feature-settings:"tnum" 1,"kern" 1;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:var(--accent-ink)}
+
+/* ---------- type helpers ---------- */
+.tlabel{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;line-height:1;white-space:nowrap}
+.tnum{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:0;white-space:nowrap}
+.mono{font-family:var(--mono)}
+.acc{color:var(--accent)}
+.lede{font-size:17px;line-height:1.55;color:var(--soft);font-weight:400;max-width:46ch}
+
+/* ---------- shell ---------- */
+.wrap{max-width:var(--gridw);margin:0 auto;padding:0 32px}
+
+/* ============================================================
+   >>> CONTAINER: NAV  (sticky top bar)
+   ============================================================ */
+.nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--line)}
+.nav .row{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h)}
+.brand{display:flex;align-items:center;gap:11px;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.brand .mark{width:13px;height:13px;background:var(--accent);border-radius:50%;flex:none}
+.navright{display:flex;align-items:center;gap:22px}
+.navlinks{display:flex;gap:22px}
+.navlinks a{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.10em;text-transform:uppercase;color:var(--soft);position:relative;padding:3px 0;transition:color .2s}
+.navlinks a::after{content:"";position:absolute;left:0;right:100%;bottom:-1px;height:1.5px;background:var(--accent);transition:right .25s ease}
+.navlinks a:hover{color:var(--ink)}
+.navlinks a:hover::after{right:0}
+
+/* reading progress bar (sits at base of nav) */
+.nav .progress{position:absolute;left:0;bottom:-1.5px;height:1.5px;width:0;background:var(--accent);z-index:2;transition:width .1s linear}
+
+/* ---------- buttons ---------- */
+.btn{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;padding:11px 17px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);display:inline-flex;align-items:center;gap:9px;cursor:pointer;transition:background .18s,color .18s,transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn .gl{color:var(--accent)}
+.btn:hover .gl{color:var(--paper)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.btn.ghost:hover .gl{color:var(--paper)}
+.btn.sm{padding:9px 14px}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.accent .gl{color:var(--accent-ink)}
+.btn.accent:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.accent:hover .gl{color:var(--paper)}
+.tlink{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--ink);padding-bottom:2px;border-bottom:1.5px solid var(--ink);transition:color .2s,border-color .2s}
+.tlink .gl{color:var(--accent);transition:transform .25s}
+.tlink:hover{color:var(--accent);border-color:var(--accent)}
+.tlink:hover .gl{transform:translateX(4px)}
+
+/* ============================================================
+   >>> CONTAINER: TICKER  (breadcrumb / type / index / year)
+   ============================================================ */
+.ticker{border-bottom:1.5px solid var(--line);background:var(--paper)}
+.ticker .row{display:grid;grid-template-columns:1.4fr 1fr 1.2fr 1fr}
+.ticker .cell{padding:9px 0 9px 20px;display:flex;align-items:center;gap:9px;color:var(--soft);border-right:1px solid var(--hair)}
+.ticker .cell:first-child{padding-left:0}
+.ticker .cell:last-child{border-right:none}
+.ticker .cell a{color:var(--soft);display:inline-flex;align-items:center;gap:7px;transition:color .2s}
+.ticker .cell a:hover{color:var(--ink)}
+.ticker .cell a .gl{color:var(--accent)}
+.led{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px color-mix(in oklab,var(--accent) 22%,transparent);flex:none}
+
+/* ============================================================
+   >>> CONTAINER: HERO  (object ID card + photo plate)
+   ============================================================ */
+.hero{border-bottom:1.5px solid var(--line)}
+.herogrid{display:grid;grid-template-columns:1fr 432px;gap:0}
+.hero .id{padding:58px 56px 50px 0;display:flex;flex-direction:column;border-right:1px solid var(--hair)}
+.kfig{display:flex;align-items:center;gap:10px;color:var(--muted);margin-bottom:26px}
+.kfig .bar{flex:1;height:1px;background:var(--hair)}
+.kfig .acc{color:var(--accent)}
+.hero h1{font-size:clamp(52px,6.6vw,86px);line-height:.86;letter-spacing:-.035em;font-weight:700;text-transform:lowercase}
+.hero .role{font-size:14px;font-weight:600;letter-spacing:.01em;margin-top:26px;color:var(--ink)}
+.hero .role b{color:var(--accent);font-weight:600}
+.hero .ledewrap{margin-top:16px}
+.hero .cta{display:flex;gap:10px;margin-top:34px;flex-wrap:wrap}
+
+/* photo plate (technical caption frame around an image)
+   line on the right closes the hero image into a grid cell — grey
+   hairline matching the .id divider on the left */
+.photo{position:relative;display:flex;flex-direction:column;border-right:1px solid var(--hair)}
+.phead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--hair);color:var(--soft)}
+.phead .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:7px;vertical-align:middle}
+.pimg{flex:1;min-height:380px;background-size:cover;background-position:50% 50%;filter:grayscale(.12) contrast(1.02)}
+.pfoot{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-top:1px solid var(--hair);color:var(--muted)}
+
+/* ============================================================
+   >>> CONTAINER: SPECS  (4-up meta strip)
+   ============================================================ */
+.specs{border-bottom:1.5px solid var(--line);background:var(--paper)}
+.specgrid{display:grid;grid-template-columns:repeat(4,1fr)}
+.spec{padding:20px 22px 22px;border-right:1px solid var(--hair);display:flex;flex-direction:column;gap:9px}
+.spec:first-child{padding-left:0}
+.spec:last-child{border-right:none}
+.spec .k{color:var(--muted);display:flex;align-items:center;gap:7px}
+.spec .k .n{color:var(--accent)}
+.spec .v{font-size:17px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+
+/* ============================================================
+   >>> SECTION SYSTEM  (head + margin number + divider)
+   wrap a group of containers in <section class="sec">
+   ============================================================ */
+.sec{padding:calc(82px * var(--air)) 0 0;position:relative}
+.sechead{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--hair);padding-bottom:12px}
+.sechead .l{font-size:13px;font-weight:700;letter-spacing:.02em;text-transform:lowercase;display:flex;align-items:baseline;gap:12px}
+.sechead .l .sq{width:9px;height:9px;background:var(--accent);transform:translateY(-1px)}
+.sechead{flex-wrap:nowrap;gap:18px}
+.sechead .l{flex:none}
+.sechead .r{font-family:var(--mono);color:var(--muted);display:flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;flex:none}
+/* oversized ghost section number, pinned to the left margin */
+.secno{position:absolute;top:calc(82px * var(--air) - 18px);left:-2px;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.04em;pointer-events:none}
+
+/* generic spacing helper for stacking containers */
+.block{padding-top:calc(40px * var(--air));max-width:74ch}
+.block.wide{max-width:none}
+
+/* ============================================================
+   >>> CONTAINER 01: STATEMENT  (thesis headline + lead)
+   ============================================================ */
+.statement{font-size:clamp(30px,4.4vw,50px);line-height:1.04;letter-spacing:-.03em;font-weight:700;text-transform:lowercase;text-wrap:balance}
+.statement .mk{color:var(--accent)}
+.lead{font-size:18px;line-height:1.62;color:var(--soft);margin-top:22px;max-width:68ch}
+.lead b{color:var(--ink);font-weight:600}
+
+/* ============================================================
+   >>> CONTAINER 02: COLS2  (two-column running text)
+   ============================================================ */
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:46px;padding-top:calc(40px * var(--air))}
+.cols2 .col{font-size:15.5px;line-height:1.62;color:var(--soft)}
+.cols2 .col b{color:var(--ink);font-weight:600}
+.cols2 .col + .col{}
+
+/* ============================================================
+   >>> CONTAINER 03: BAND  (full-width image + caption)
+   ============================================================ */
+.band{position:relative;width:100%;height:clamp(340px,52vh,560px);overflow:hidden;background:var(--panel);margin-top:calc(40px * var(--air))}
+.band.tall{height:clamp(420px,70vh,720px)}
+.band .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.band:hover .img{transform:scale(1.025)}
+.band .ph,.proc .ph,.gcell .ph,.split .ph,.comparepane .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--panel)}
+.band .ph::before,.split .ph::before{content:"";position:absolute;inset:18px;border:1px solid color-mix(in oklab,var(--ink) 13%,transparent)}
+.proc .ph::before,.gcell .ph::before,.comparepane .ph::before{content:"";position:absolute;inset:14px;border:1px solid color-mix(in oklab,var(--ink) 13%,transparent)}
+.band .ph span,.split .ph span{font-family:var(--mono);font-size:11px;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);text-align:center;padding:0 14px}
+.proc .ph span,.gcell .ph span,.comparepane .ph span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;padding:0 10px}
+.cap{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;letter-spacing:.02em;margin-top:13px;font-family:var(--mono)}
+
+/* ============================================================
+   >>> CONTAINER 04: SPLIT  (image | text, 50/50, alternating)
+   add .flip to reverse the order
+   ============================================================ */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:calc(40px * var(--air));border:1.5px solid var(--line)}
+.split .media{position:relative;overflow:hidden;min-height:380px;border-right:1.5px solid var(--line)}
+.split .media .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.split:hover .media .img{transform:scale(1.03)}
+.split .txt{padding:46px 40px;display:flex;flex-direction:column;justify-content:center}
+.split .txt .ix{color:var(--accent);font-family:var(--mono);font-size:10.5px;letter-spacing:.10em;text-transform:uppercase;margin-bottom:16px}
+.split .txt h3{font-size:27px;line-height:1.06;letter-spacing:-.02em;font-weight:700;text-transform:lowercase;margin-bottom:14px}
+.split .txt p{font-size:15.5px;line-height:1.6;color:var(--soft)}
+.split .txt p b{color:var(--ink);font-weight:600}
+.split.flip .media{order:2;border-right:none;border-left:1.5px solid var(--line)}
+.split.flip .txt{order:1}
+
+/* ============================================================
+   >>> CONTAINER 05: THREEUP  (numbered insight cards)
+   ============================================================ */
+.threeup{display:grid;grid-template-columns:repeat(3,1fr);gap:46px;padding-top:calc(44px * var(--air))}
+.threeup.two{grid-template-columns:repeat(2,1fr)}
+.threeup .it .no{font-family:var(--mono);font-size:24px;font-weight:600;color:var(--accent);letter-spacing:-.02em;line-height:1;margin-bottom:16px}
+.threeup .it h3{font-size:19px;font-weight:700;letter-spacing:-.02em;line-height:1.18;margin-bottom:10px;text-transform:lowercase}
+.threeup .it p{font-size:15px;line-height:1.58;color:var(--soft)}
+
+/* ============================================================
+   >>> CONTAINER 06: PROCROW  (process images w/ captions)
+   ============================================================ */
+.procrow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:calc(38px * var(--air))}
+.procrow.two{grid-template-columns:repeat(2,1fr)}
+.proc{position:relative;min-height:300px;overflow:hidden;background:var(--panel)}
+.proc .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.proc:hover .img{transform:scale(1.04)}
+.proc .cap2{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;padding:9px 13px;color:var(--soft);font-size:11px;letter-spacing:.02em;text-transform:uppercase;font-family:var(--mono);background:linear-gradient(to top,rgba(242,241,236,.96),rgba(242,241,236,0))}
+
+/* ============================================================
+   >>> CONTAINER 07: FIGURE  (annotated image w/ numbered legend)
+   ============================================================ */
+.annot{margin-top:calc(40px * var(--air));border:1.5px solid var(--line);display:grid;grid-template-columns:1.55fr 1fr}
+.annot .stage{position:relative;overflow:hidden;min-height:440px;background:var(--panel);border-right:1.5px solid var(--line)}
+.annot .stage .img{position:absolute;inset:0;background-size:cover;background-position:center}
+.annot .pin{position:absolute;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--mono);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);box-shadow:0 0 0 4px color-mix(in oklab,var(--accent) 26%,transparent),0 2px 8px rgba(0,0,0,.25)}
+.annot .legend{padding:34px 30px;display:flex;flex-direction:column;justify-content:center;gap:0}
+.annot .legend .lt{font-family:var(--mono);color:var(--muted);font-size:10.5px;letter-spacing:.10em;text-transform:uppercase;margin-bottom:18px}
+.annot .legend .li{display:grid;grid-template-columns:24px 1fr;gap:13px;padding:13px 0;border-top:1px solid var(--hair);align-items:start}
+.annot .legend .li:last-child{border-bottom:1px solid var(--hair)}
+.annot .legend .li .n{font-family:var(--mono);width:22px;height:22px;border:1.5px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--accent)}
+.annot .legend .li .d .h{font-size:15px;font-weight:600;letter-spacing:-.01em}
+.annot .legend .li .d .p{font-size:13px;line-height:1.5;color:var(--soft);margin-top:3px}
+
+/* ============================================================
+   >>> CONTAINER 08: QUOTE  (pull quote + attribution)
+   ============================================================ */
+.quote{margin-top:calc(46px * var(--air));border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line);padding:calc(44px * var(--air)) 0;display:grid;grid-template-columns:48px 1fr;gap:8px}
+.quote .mark{font-size:54px;line-height:.6;color:var(--accent);font-weight:700}
+.quote blockquote{font-size:clamp(24px,3vw,34px);line-height:1.18;letter-spacing:-.02em;font-weight:600;color:var(--ink);max-width:24ch;text-wrap:balance}
+.quote .by{font-family:var(--mono);grid-column:2;margin-top:20px;color:var(--muted);font-size:11px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.quote .by .ln{width:26px;height:1.5px;background:var(--accent)}
+
+/* ============================================================
+   >>> CONTAINER 08b: QUOTEPAIR  (pull quote beside a framed photo)
+   Quote on the left, the photo in its own plate frame on the right,
+   the whole section ruled above and below. Add .flip to swap sides.
+   ============================================================ */
+.quotepair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,4vw,60px);align-items:center;margin-top:calc(46px * var(--air));border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line);padding:calc(44px * var(--air)) 0}
+.quotepair .qt{display:flex;flex-direction:column;justify-content:center}
+.quotepair .qt .mark{font-size:54px;line-height:.6;color:var(--accent);font-weight:700;margin-bottom:16px}
+.quotepair .qt blockquote{font-size:clamp(22px,2.6vw,31px);line-height:1.2;letter-spacing:-.02em;font-weight:600;color:var(--ink);text-wrap:balance}
+.quotepair .qt .by{font-family:var(--mono);margin-top:22px;color:var(--muted);font-size:11px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.quotepair .qt .by .ln{width:26px;height:1.5px;background:var(--accent)}
+.quotepair .plate{margin-top:0}
+.quotepair.flip .qt{order:2}
+.quotepair.flip .plate{order:1}
+
+/* ============================================================
+   >>> CONTAINER 09: GESTURES  (icon / interaction row)
+   ============================================================ */
+.gestures{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;padding-top:calc(42px * var(--air));max-width:760px}
+.gestures .g{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.gestures .g .ic{width:56px;height:56px;border:1.5px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:23px;color:var(--accent)}
+.gestures .g .t{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.gestures .g .x{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+
+/* ============================================================
+   >>> CONTAINER 10: METRICS  (by-the-numbers)
+   ============================================================ */
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;padding-top:calc(44px * var(--air))}
+.metric{display:flex;flex-direction:column;gap:12px}
+.metric .big{font-family:var(--mono);font-size:clamp(50px,6vw,72px);font-weight:600;letter-spacing:-.04em;line-height:.82}
+.metric .big .u{font-size:.30em;color:var(--accent);margin-left:6px;letter-spacing:0}
+.metric .lab{font-family:var(--mono);color:var(--muted);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.metric .x{font-size:14px;line-height:1.5;color:var(--soft);max-width:28ch}
+
+/* ============================================================
+   >>> CONTAINER 11: STEPS  (numbered process timeline)
+   ============================================================ */
+.steps{margin-top:calc(40px * var(--air));border-top:1px solid var(--hair)}
+.step{display:grid;grid-template-columns:96px 1fr;gap:28px;padding:26px 0;border-bottom:1px solid var(--hair);align-items:baseline}
+.step .sn{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.04em;display:flex;align-items:center;gap:10px}
+.step .sn::after{content:"";flex:1;height:1px;background:var(--hair)}
+.step .sb h3{font-size:21px;font-weight:700;letter-spacing:-.02em;text-transform:lowercase;margin-bottom:8px}
+.step .sb p{font-size:15px;line-height:1.58;color:var(--soft);max-width:60ch}
+
+/* ============================================================
+   >>> CONTAINER 12: SPECTABLE  (formal two-column spec list)
+   ============================================================ */
+.spectable{margin-top:calc(40px * var(--air));border-top:1.5px solid var(--line)}
+.spectable .tr{display:grid;grid-template-columns:240px 1fr;gap:24px;padding:15px 0;border-bottom:1px solid var(--hair)}
+.spectable .tr .tk{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:baseline;gap:10px}
+.spectable .tr .tk .ti{color:var(--accent)}
+.spectable .tr .tv{font-size:16px;color:var(--ink);font-weight:500;letter-spacing:-.01em}
+.spectable .tr .tv b{color:var(--accent);font-weight:500}
+
+/* ============================================================
+   >>> CONTAINER 13: LIST  (checklist / principle list)
+   ============================================================ */
+.list{margin-top:calc(40px * var(--air));display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+.list .li{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:18px 0;border-bottom:1px solid var(--hair);align-items:start}
+.list .li .mk{width:9px;height:9px;background:var(--accent);margin-top:6px;flex:none}
+.list .li .h{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.list .li .p{font-size:14px;line-height:1.55;color:var(--soft);margin-top:4px}
+
+/* ============================================================
+   >>> CONTAINER 14: COMPARE  (before / after, two panes)
+   ============================================================ */
+.compare{display:grid;grid-template-columns:1fr 1fr;margin-top:calc(40px * var(--air));border:1.5px solid var(--line)}
+.comparepane{position:relative;display:flex;flex-direction:column}
+.comparepane:first-child{border-right:1.5px solid var(--line)}
+.comparepane .ch{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--hair);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.comparepane .ch .tag{color:var(--accent)}
+.comparepane .pic{position:relative;min-height:300px;overflow:hidden;background:var(--panel)}
+.comparepane .pic .img{position:absolute;inset:0;background-size:cover;background-position:center}
+.comparepane .cx{padding:16px;font-size:14px;line-height:1.55;color:var(--soft);border-top:1px solid var(--hair)}
+
+/* ============================================================
+   >>> CONTAINER 15: GALLERY  (small multi-image grid)
+   ============================================================ */
+.gallery{margin-top:calc(40px * var(--air));display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.gallery.two{grid-template-columns:repeat(2,1fr)}
+.gallery.three{grid-template-columns:repeat(3,1fr)}
+.gcell{position:relative;overflow:hidden;background:var(--panel);aspect-ratio:4/5}
+.gcell.wide{grid-column:span 2;aspect-ratio:auto}
+.gcell .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.gcell:hover .img{transform:scale(1.05)}
+.gcell .gt{position:absolute;left:0;bottom:0;white-space:nowrap;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);padding:7px 10px;background:linear-gradient(to top,rgba(242,241,236,.96),rgba(242,241,236,0))}
+
+/* ============================================================
+   >>> CONTAINER 16: REFLECT  (reflection note)
+   ============================================================ */
+.reflect{display:grid;grid-template-columns:170px 1fr;gap:30px;margin-top:calc(46px * var(--air));padding-top:calc(34px * var(--air));border-top:1px solid var(--hair)}
+.reflect .k{font-family:var(--mono);color:var(--muted);display:flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.reflect .k .sq{width:8px;height:8px;background:var(--accent)}
+.reflect p{font-size:17px;line-height:1.62;color:var(--soft);max-width:62ch}
+.reflect p + p{margin-top:16px}
+.reflect p b{color:var(--ink);font-weight:600}
+
+/* ============================================================
+   >>> CONTAINER: NEXT  (next-project card)
+   ============================================================ */
+.next{margin-top:calc(64px * var(--air))}
+.nextcard{display:grid;grid-template-columns:1fr 1.1fr;border:1.5px solid var(--line);transition:background .2s}
+.nextcard:hover{background:var(--paper2)}
+.nextcard .body{padding:40px 34px;display:flex;flex-direction:column;justify-content:center}
+.nextcard .lab{font-family:var(--mono);color:var(--muted);margin-bottom:14px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.nextcard h2{font-size:50px;line-height:.94;letter-spacing:-.03em;font-weight:700;text-transform:lowercase}
+.nextcard .arrow{font-family:var(--mono);margin-top:20px;color:var(--ink);display:inline-flex;align-items:center;gap:9px;transition:gap .2s;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.nextcard .arrow .gl{color:var(--accent)}
+.nextcard:hover .arrow{gap:14px}
+.nextcard .media{position:relative;overflow:hidden;min-height:260px;border-left:1.5px solid var(--line)}
+.nextcard .media .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.nextcard:hover .media .img{transform:scale(1.04)}
+
+/* ============================================================
+   >>> CONTAINER: CONTACT  (closing block + footer)
+   ============================================================ */
+.contact{margin-top:calc(72px * var(--air));border-top:1.5px solid var(--line);background:var(--paper2)}
+.contact .inner{padding:64px 0 0}
+.contact .kfig{margin-bottom:30px}
+.contact h2{font-size:clamp(54px,8vw,104px);line-height:.86;letter-spacing:-.035em;font-weight:700;text-transform:lowercase}
+.contact .links{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}
+.contact .foot{display:grid;grid-template-columns:1fr 1fr 1fr;margin-top:60px;border-top:1.5px solid var(--line)}
+.contact .foot .fc{padding:16px 20px 18px;border-right:1px solid var(--hair);display:flex;flex-direction:column;gap:7px}
+.contact .foot .fc:first-child{padding-left:0}
+.contact .foot .fc:last-child{border-right:none}
+.contact .foot .fc .k{font-family:var(--mono);color:var(--muted);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.contact .foot .fc .v{font-size:14px;font-weight:600;letter-spacing:-.01em}
+.contact .foot .fc .v .mk{color:var(--accent)}
+
+/* ============================================================
+   >>> CONTAINER 17: PLATE  (real artifact shown IN FULL, never cropped)
+   For spreads, mockups, diagrams and photos that must be read
+   end to end. The image sets its own height — nothing is cropped.
+   ============================================================ */
+.plate{margin-top:calc(40px * var(--air));border:1.5px solid var(--line);background:var(--paper)}
+.plate .ph,.plate .pf{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 14px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.plate .ph{border-bottom:1.5px solid var(--line);color:var(--soft)}
+.plate .pf{border-top:1.5px solid var(--line);color:var(--muted)}
+.plate .ph .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:8px;vertical-align:middle}
+.plate img,.plate video{display:block;width:100%;height:auto;background:var(--paper2)}     /* full image/video, uncropped */
+
+/* a row of plates — each still shown in full */
+.plates{margin-top:calc(40px * var(--air));display:grid;gap:18px;align-items:start}
+.plates.two{grid-template-columns:1fr 1fr}
+.plates.three{grid-template-columns:repeat(3,1fr)}
+.plates .plate{margin-top:0}
+
+/* .match — force a row of differently-proportioned images to equal height
+   (controlled crop) so the grid reads clean and intentional */
+.plates.match .plate img{height:320px;object-fit:cover}
+
+/* .portrait — a tall image gets a frame that hugs it, centred in the
+   column, so it reads as a deliberate portrait rather than a small image
+   floating in a wide empty frame */
+.plate.portrait{max-width:480px;margin-left:auto;margin-right:auto;background:#fff}
+.plate.portrait img{width:100%;height:auto;object-fit:contain}
+
+/* hero photo plate — fill the id-column height (cover) so a wide cover
+   image doesn't letterbox inside a tall frame */
+.photo .pfull{flex:1;width:100%;min-height:340px;object-fit:cover;background:var(--paper2)}
+
+/* next-card teaser — real image */
+.nextcard .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ---------- motion ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .herogrid{grid-template-columns:1fr}
+  .hero .id{border-right:none;border-bottom:1.5px solid var(--line);padding:46px 0 40px}
+  .photo .pimg{min-height:340px}
+  .ticker .row{grid-template-columns:1fr 1fr}
+  .ticker .cell:nth-child(2){border-right:none}
+  .ticker .cell:nth-child(1),.ticker .cell:nth-child(2){border-bottom:1px solid var(--hair)}
+  .annot{grid-template-columns:1fr}
+  .annot .stage{border-right:none;border-bottom:1.5px solid var(--line);min-height:380px}
+  .nextcard{grid-template-columns:1fr}
+  .nextcard .media{border-left:none;border-top:1.5px solid var(--line)}
+  .secno{display:none}
+  .gallery{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:720px){
+  .wrap{padding:0 18px}
+  .specgrid{grid-template-columns:1fr 1fr}
+  .spec:nth-child(2){border-right:none}
+  .spec:nth-child(1),.spec:nth-child(2){border-bottom:1px solid var(--hair)}
+  .cols2{grid-template-columns:1fr;gap:22px}
+  .threeup,.threeup.two{grid-template-columns:1fr;gap:34px}
+  .procrow,.procrow.two{grid-template-columns:1fr;gap:14px}
+  .proc{min-height:240px}
+  .split{grid-template-columns:1fr}
+  .split .media{border-right:none;border-bottom:1.5px solid var(--line);min-height:300px}
+  .split.flip .media{order:1;border-left:none}
+  .split.flip .txt{order:2}
+  .split .txt{padding:32px 26px}
+  .gestures{grid-template-columns:1fr;gap:26px;max-width:none}
+  .metrics{grid-template-columns:1fr;gap:34px}
+  .steps .step{grid-template-columns:1fr;gap:8px}
+  .step .sn::after{display:none}
+  .spectable .tr{grid-template-columns:1fr;gap:6px}
+  .list{grid-template-columns:1fr;gap:0}
+  .compare{grid-template-columns:1fr}
+  .comparepane:first-child{border-right:none;border-bottom:1.5px solid var(--line)}
+  .gallery,.gallery.three{grid-template-columns:1fr 1fr}
+  .gcell.wide{grid-column:span 2}
+  .quote{grid-template-columns:32px 1fr}
+  .quotepair,.quotepair.flip{grid-template-columns:1fr;gap:26px}
+  .quotepair .qt,.quotepair.flip .qt{order:1}
+  .quotepair .plate,.quotepair.flip .plate{order:2}
+  .plates.two,.plates.three{grid-template-columns:1fr}
+  .reflect{grid-template-columns:1fr;gap:14px}
+  .contact .foot{grid-template-columns:1fr}
+  .contact .foot .fc{border-right:none;border-bottom:1px solid var(--hair)}
+}
+
+/* ============================================================
+   >>> CONTAINER 18: MASONRY  (gallery — full images, no crop)
+   Column-flow masonry so every piece shows at its own aspect.
+   ============================================================ */
+.masonry{margin-top:calc(40px * var(--air));column-count:3;column-gap:18px}
+.masonry .tile{break-inside:avoid;margin:0 0 18px;border:1.5px solid var(--line);background:#fff;position:relative;scroll-margin-top:84px}
+.masonry .tile.flash{outline:2.5px solid var(--accent);outline-offset:3px}
+/* media frame — clips the media (so no sub-pixel white seam against the
+   border, and no bleed-over) WITHOUT clipping the caption, which lives
+   outside the frame. media overfills by 1px each side and is clipped. */
+.masonry .tile .frame{display:block;position:relative;overflow:hidden;line-height:0;font-size:0;background:#fff}
+.masonry .tile .frame > img,.masonry .tile .frame > video{display:block;width:calc(100% + 2px);max-width:none;margin-left:-1px;height:auto;vertical-align:bottom;background:#fff}
+.masonry .tile .frame > img{cursor:zoom-in}
+.masonry .tile .cap{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 13px;border-top:1.5px solid var(--line);font-family:var(--mono);font-size:10px;
+  letter-spacing:.06em;text-transform:uppercase}
+.masonry .tile .cap .t{color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.masonry .tile .cap .m{color:var(--muted);white-space:nowrap;flex:none}
+.masonry .tile .pin{position:absolute;top:0;left:0;font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.04em;color:#fff;mix-blend-mode:difference;padding:8px 11px;pointer-events:none}
+.masonry .tile .frame > img:focus-visible{outline:2.5px solid var(--accent);outline-offset:-3px}
+/* looping clips behave like gifs — a small on-brand pause/play chip
+   replaces native video chrome so the tile keeps its framed caption */
+.masonry .tile .frame > video{cursor:pointer}
+.masonry .tile .frame > video:focus-visible{outline:2.5px solid var(--accent);outline-offset:-3px}
+.masonry .tile .clipctl{position:absolute;top:8px;right:8px;z-index:3;display:inline-flex;align-items:center;
+  gap:6px;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  line-height:1;padding:7px 9px;border:1.5px solid var(--ink);background:rgba(255,255,255,.86);color:var(--ink);
+  cursor:pointer;backdrop-filter:blur(4px);transition:background .15s,color .15s,border-color .15s}
+.masonry .tile .clipctl .g{font-size:10px;letter-spacing:0}
+.masonry .tile .clipctl:hover{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.masonry .tile .clipctl:focus-visible{outline:2.5px solid var(--ink);outline-offset:2px}
+@media (max-width:980px){.masonry{column-count:2}}
+@media (max-width:600px){.masonry{column-count:1}}
+
+/* ============================================================
+   >>> INTERACTION & ACCESSIBILITY
+   ============================================================ */
+
+/* visible keyboard focus — ink ring reads on every accent theme */
+:focus-visible{outline:2.5px solid var(--ink);outline-offset:2px;border-radius:1px}
+.btn:focus-visible{outline-offset:3px}
+.navlinks a:focus-visible::after{right:0}
+
+/* skip link — first tab stop, hidden until focused */
+.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--ink);color:var(--paper);
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:11px 16px}
+.skip:focus{left:8px;top:8px}
+
+/* content images invite a click → lightbox */
+.plate img.zoomable,.photo img.zoomable{cursor:zoom-in}
+.plate img.zoomable:focus-visible,.photo img.zoomable:focus-visible{outline:2.5px solid var(--accent);outline-offset:-2px}
+
+/* ---------- lightbox ---------- */
+.lightbox{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;
+  padding:clamp(16px,4vw,56px);background:color-mix(in oklab,var(--ink) 86%,transparent)}
+.lightbox.on{display:flex}
+.lightbox .lb-figure{margin:0;max-width:100%;max-height:100%;display:flex;flex-direction:column;gap:12px;align-items:center}
+.lightbox img{max-width:100%;max-height:82vh;width:auto;height:auto;object-fit:contain;background:var(--paper);border:1.5px solid var(--paper)}
+.lightbox .lb-cap{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--paper);text-align:center;max-width:70ch}
+.lightbox .lb-close{position:absolute;top:16px;right:16px;background:transparent;border:1.5px solid var(--paper);
+  color:var(--paper);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  padding:9px 13px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.lightbox .lb-close:hover{background:var(--paper);color:var(--ink)}
+.lightbox .lb-close:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+
+/* ---------- mobile nav toggle ---------- */
+.navtoggle{display:none;background:transparent;border:1.5px solid var(--ink);color:var(--ink);
+  font-family:var(--mono);font-size:13px;line-height:1;letter-spacing:.08em;text-transform:uppercase;
+  padding:9px 12px;cursor:pointer;align-items:center;gap:8px}
+
+/* ---------- back-to-top ---------- */
+.to-top{position:fixed;right:18px;bottom:18px;z-index:120;background:var(--ink);color:var(--paper);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;border:none;
+  padding:11px 14px;cursor:pointer;opacity:0;transform:translateY(8px);pointer-events:none;
+  transition:opacity .25s,transform .25s;display:inline-flex;align-items:center;gap:8px}
+.to-top .gl{color:var(--accent)}
+.to-top.show{opacity:1;transform:none;pointer-events:auto}
+.to-top:hover{background:var(--accent);color:var(--accent-ink)}
+.to-top:hover .gl{color:var(--accent-ink)}
+.to-top:focus-visible{outline:2.5px solid var(--ink);outline-offset:2px}
+
+@media (max-width:760px){
+  .navtoggle{display:inline-flex}
+  .navlinks{position:absolute;top:var(--nav-h);left:0;right:0;flex-direction:column;gap:0;
+    background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--line);
+    padding:4px 0;display:none}
+  .nav.open .navlinks{display:flex}
+  .navlinks a{padding:14px 32px;font-size:12px}
+  .navlinks a::after{display:none}
+}
+
+/* honour reduced-motion everywhere (not just the reveal system) */
+@media (prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto !important}
+  .band:hover .img,.split:hover .media .img,.proc:hover .img,.gcell:hover .img,
+  .nextcard:hover .media .img,.featured:hover .media .img,.card:hover .media .img{transform:none !important}
+  .btn:hover,.to-top:hover{transform:none !important}
+}
+
+/* ---------- print (recruiter PDF) ---------- */
+@media print{
+  .nav,.progress,.btn,.cta,.next{display:none !important}
+  .reveal{opacity:1 !important;transform:none !important}
+  .band,.split .media,.proc,.annot .stage,.gcell{break-inside:avoid}
+  .sec{padding-top:34px}
+  a{color:inherit}
+}

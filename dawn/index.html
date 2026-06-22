@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAWN Clock Radio — Daniel Colcock</title>
+<meta name="description" content="DAWN — a wooden clock radio that replaces the smartphone on your nightstand, controlled entirely through a single rotary dial. Senior Design Capstone case study by Daniel Colcock.">
+<meta name="author" content="Daniel Colcock">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Daniel Colcock">
+<meta property="og:title" content="DAWN Clock Radio — Daniel Colcock">
+<meta property="og:description" content="A wooden clock radio that replaces the smartphone on your nightstand, controlled entirely through a single rotary dial. Senior Design Capstone case study.">
+<meta property="og:image" content="../assets/img/dawn/hero2.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DAWN Clock Radio — Daniel Colcock">
+<meta name="twitter:description" content="A wooden clock radio that replaces the smartphone on your nightstand, controlled entirely through a single rotary dial.">
+<meta name="twitter:image" content="../assets/img/dawn/hero2.jpg">
+<link rel="stylesheet" href="../assets.css">
+<link rel="stylesheet" href="../casestudy.css">
+<style>
+  /* Project theme — DAWN · TE signal orange */
+  :root{ --accent:#ff4d00; --accent-ink:#15140f; }
+
+  /* hero product photo: freed from its frame and the flanking grid lines,
+     nested into the hero whitespace and resting on the baseline. */
+  .hero .herogrid{ position:relative; }
+  /* text sits above the radio, on a white fog that dissolves into it.
+     The fade is anchored in px from the column's right edge — which keeps a
+     constant offset to the radio at every width — so the fog follows the text
+     smoothly instead of jumping on resize. Invisible over the white paper. */
+  .hero .id{
+    border-right:none; position:relative; z-index:2;
+    background:linear-gradient(to left, rgba(255,255,255,0) 0, rgba(255,255,255,.86) 220px);
+  }
+  .hero .photo.freed{
+    position:absolute; right:0; bottom:0; margin:0; border:none; z-index:1;
+    width:660px; height:495px;                     /* width-fit at 660 → radio keeps its width, antenna restored */
+    background-image:url(assets/img/dawn/hero2.jpg);
+    background-repeat:no-repeat;
+    background-position:left bottom;               /* pull the radio leftward, nested toward the text */
+    background-size:contain;
+    /* fade only the table wood at the far left/right — stops sit outside the radio body */
+    -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+            mask-image:linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#top">Skip to content</a>
+
+<!-- ============================ NAV ============================ -->
+<header class="nav">
+  <div class="wrap row">
+    <a href="../" class="brand"><span class="mark" aria-hidden="true"></span>daniel colcock</a>
+    <div class="navright">
+      <nav class="navlinks" id="navlinks">
+        <a href="../#work">case studies</a>
+        <a href="../gallery/">gallery</a>
+        <a href="../#about">about</a>
+        <a href="#contact">contact</a>
+      </nav>
+      <button class="navtoggle" aria-expanded="false" aria-controls="navlinks" aria-label="Toggle menu">menu</button>
+      <a class="btn sm" href="../assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Résumé <span class="gl" aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<!-- ============================ TICKER ============================ -->
+<div class="ticker">
+  <div class="wrap">
+    <div class="row">
+      <div class="cell tlabel"><a href="../#work"><span class="gl" aria-hidden="true">←</span> all projects</a></div>
+      <div class="cell tlabel">Physical Product</div>
+      <div class="cell tlabel"><span class="tnum">001 / 03</span> · Case Study</div>
+      <div class="cell tlabel"><span class="led" aria-hidden="true"></span>2025–26</div>
+    </div>
+  </div>
+</div>
+
+<main id="top" data-screen-label="Dawn case study">
+
+  <!-- ============================ HERO ============================ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="herogrid">
+        <div class="id">
+          <div class="kfig tlabel"><span class="acc">fig. 00</span><span>case study</span><span class="bar" aria-hidden="true"></span><span class="tnum">DAWN—01</span></div>
+          <h1>dawn<br>clock radio</h1>
+          <div class="role">Replacing the phone on your nightstand with <b>a single dial</b></div>
+          <div class="ledewrap">
+            <p class="lede">What's the first thing you did this morning? You probably picked up your phone. Dawn is a wooden clock radio designed to take its place — it shows the time, lets you explore the airwaves, and wakes you with local community radio, all through one rotary dial. No notifications, no feeds; just a local voice and the sounds of your city waking up with you.</p>
+          </div>
+          <div class="cta">
+            <a class="btn accent" href="#context">Read the case study <span class="gl" aria-hidden="true">↓</span></a>
+            <a class="btn ghost" href="https://daniel.colcock.com/projects/dawn/" target="_blank" rel="noopener">Live project <span class="gl" aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <figure class="photo freed" role="img" aria-label="DAWN wooden clock radio on a nightstand"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ SPECS ============================ -->
+  <section class="specs">
+    <div class="wrap">
+      <div class="specgrid">
+        <div class="spec"><div class="k tlabel"><span class="n tnum">01</span><span>Role</span></div><div class="v">Product design<br>&amp; UX</div></div>
+        <div class="spec"><div class="k tlabel"><span class="n tnum">02</span><span>Timeline</span></div><div class="v">46 weeks<br>2025–26</div></div>
+        <div class="spec"><div class="k tlabel"><span class="n tnum">03</span><span>Course</span></div><div class="v">Senior Capstone<br>UT Austin</div></div>
+        <div class="spec"><div class="k tlabel"><span class="n tnum">04</span><span>Tools</span></div><div class="v">Rhino · KiCad ·<br>Figma · Wood</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <!-- ==================== 01 · CONTEXT ==================== -->
+    <section class="sec" id="context" data-sec="01 context">
+      <span class="secno">01</span>
+      <div class="sechead reveal">
+        <span class="l"><span class="sq" aria-hidden="true"></span>the brief</span>
+        <span class="r"><span class="tnum">01</span> — context</span>
+      </div>
+
+      <div class="block reveal">
+        <h2 class="statement">one dial.<br>no <span class="mk">feeds.</span></h2>
+        <p class="lead">Taking cues from Teenage Engineering's Playdate and Apple's iPod click wheel, the challenge I set was deliberately strict: <b>everything Dawn does is controlled through a single rotary dial.</b> The constraint forced clarity — the device can only do what one hand, one motion can express.</p>
+      </div>
+
+      <div class="plates two reveal">
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>keyshot_01.jpg</span><span class="tnum">a</span></div>
+          <img loading="lazy" src="../assets/img/dawn/keyshot-1.jpg" alt="DAWN clock radio product key shot">
+        </div>
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>keyshot_02.jpg</span><span class="tnum">b</span></div>
+          <img loading="lazy" src="../assets/img/dawn/keyshot-2.jpg" alt="DAWN clock radio product key shot, detail">
+        </div>
+      </div>
+
+      <div class="cols2 reveal">
+        <div class="col">Dawn is aimed at young adults who feel their phone creeping into the edges of the day — the last thing at night, the first thing in the morning. It offers a calmer ritual in those moments.</div>
+        <div class="col">FM radio is the answer to the feed. <b>It's live and passive:</b> you tune in and something is already happening, and has been happening — a local voice, a familiar station — which builds a greater sense of community than anything you scroll.</div>
+      </div>
+
+      <div class="plate reveal">
+        <div class="ph"><span><span class="dot" aria-hidden="true"></span>audience.jpg</span><span>who it's for</span></div>
+        <img loading="lazy" src="../assets/img/dawn/audience-key.jpg" alt="DAWN in context on a nightstand, with its intended audience">
+        <div class="pf"><span>a calmer ritual for the first and last moments of the day</span><span class="tnum">fig. 01</span></div>
+      </div>
+
+      <div class="quote reveal">
+        <span class="mark" aria-hidden="true">“</span>
+        <blockquote>FM radio is live and passive. You tune in and something is already happening — it builds a greater sense of community.</blockquote>
+        <div class="by"><span class="ln"></span>design rationale</div>
+      </div>
+    </section>
+
+    <!-- ==================== 02 · PROCESS ==================== -->
+    <section class="sec" id="form" data-sec="02 form">
+      <span class="secno">02</span>
+      <div class="sechead reveal">
+        <span class="l"><span class="sq" aria-hidden="true"></span>finding the form</span>
+        <span class="r"><span class="tnum">02</span> — ideation</span>
+      </div>
+
+      <div class="block reveal">
+        <h2 class="statement">from cylinder<br>to <span class="mk">pill.</span></h2>
+        <p class="lead">I prototyped in cardboard before anything else. Early cylindrical forms looked clean but failed in the hand — you couldn't hold the body and work the dial one-handed. Iterating on the silhouette led to a compact, pill-shaped form that sits naturally under the fingers.</p>
+      </div>
+
+      <div class="plates two reveal">
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>ideation_01.jpg</span><span class="tnum">sketch</span></div>
+          <img loading="lazy" src="../assets/img/dawn/ideation-1.jpg" alt="DAWN early ideation sketches and studies">
+        </div>
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>ideation_02.jpg</span><span class="tnum">cardboard</span></div>
+          <img loading="lazy" src="../assets/img/dawn/ideation-2.jpg" alt="DAWN cardboard prototypes testing single-hand use">
+        </div>
+      </div>
+
+      <div class="plate reveal">
+        <div class="ph"><span><span class="dot" aria-hidden="true"></span>form_evolution.jpg</span><span>silhouette study</span></div>
+        <img loading="lazy" src="../assets/img/dawn/form-evolution.jpg" alt="DAWN form evolution from cylinder to compact pill shape">
+        <div class="pf"><span>the silhouette earned its shape in the hand, not on screen</span><span class="tnum">fig. 02</span></div>
+      </div>
+    </section>
+
+    <!-- ==================== 03 · DEVELOPMENT ==================== -->
+    <section class="sec" id="build" data-sec="03 build">
+      <span class="secno">03</span>
+      <div class="sechead reveal">
+        <span class="l"><span class="sq" aria-hidden="true"></span>making it real</span>
+        <span class="r"><span class="tnum">03</span> — material · circuit · interface</span>
+      </div>
+
+      <!-- material -->
+      <div class="block reveal">
+        <h2 class="statement">wood was a <span class="mk">functional</span> choice.</h2>
+        <p class="lead">Wood started as an aesthetic instinct and turned out to be essential: the resonant warmth it gives the dial's click is part of the product's character. Each of the three housings has a laser-cut faceplate, a hand-shaped body, 3D-printed internal brackets and a dark acrylic screen.</p>
+      </div>
+
+      <div class="plate reveal">
+        <div class="ph"><span><span class="dot" aria-hidden="true"></span>material.jpg</span><span>turned hardwood</span></div>
+        <img loading="lazy" src="../assets/img/dawn/material.jpg" alt="DAWN wooden housings — laser-cut faceplates and hand-shaped bodies">
+        <div class="pf"><span>laser-cut faceplate · hand-shaped body · acrylic screen</span><span class="tnum">fig. 03</span></div>
+      </div>
+
+      <!-- electronics -->
+      <div class="block reveal">
+        <h2 class="statement">a board built <span class="mk">from scratch.</span></h2>
+        <p class="lead">To reach the compact form, I designed a custom PCB in KiCad that unifies every component on a single board — removing the wiring constraints that would otherwise dictate the size and shape of the enclosure.</p>
+      </div>
+
+      <div class="plate reveal">
+        <div class="ph"><span><span class="dot" aria-hidden="true"></span>pcb_assembly.jpg</span><span>custom board</span></div>
+        <img loading="lazy" src="../assets/img/dawn/circuit-large.jpg" alt="DAWN custom PCB, fully assembled">
+        <div class="pf"><span>one board, every component — the enclosure follows the electronics, not the wiring</span><span class="tnum">fig. 04</span></div>
+      </div>
+
+      <div class="plates two reveal">
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>pcb_top.jpg</span><span class="tnum">front</span></div>
+          <img loading="lazy" src="../assets/img/dawn/circuit-top.jpg" alt="DAWN PCB — top side">
+        </div>
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>pcb_bottom.jpg</span><span class="tnum">back</span></div>
+          <img loading="lazy" src="../assets/img/dawn/circuit-bottom.jpg" alt="DAWN PCB — bottom side">
+        </div>
+      </div>
+
+      <!-- interface -->
+      <div class="block reveal">
+        <h2 class="statement">four screens,<br><span class="mk">three gestures.</span></h2>
+        <p class="lead">The whole interface — clock, radio, alarm and settings — maps to just three inputs on the dial: <b>rotate, press, and double-press.</b> A contextual gesture language, carried by smooth animation, keeps that small vocabulary legible across every screen.</p>
+      </div>
+
+      <div class="plates two reveal">
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>screen · clock</span><span class="tnum">rotate</span></div>
+          <img loading="lazy" src="../assets/img/dawn/Interface_Clock.gif" alt="DAWN clock screen interface animation">
+        </div>
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>screen · radio</span><span class="tnum">rotate</span></div>
+          <img loading="lazy" src="../assets/img/dawn/Interface_Radio.gif" alt="DAWN radio tuning interface animation">
+        </div>
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>screen · alarm</span><span class="tnum">press</span></div>
+          <img loading="lazy" src="../assets/img/dawn/Interface_Alarm.gif" alt="DAWN alarm setting interface animation">
+        </div>
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>screen · boot</span><span class="tnum">power</span></div>
+          <img loading="lazy" src="../assets/img/dawn/Interface_Boot.gif" alt="DAWN boot animation">
+        </div>
+      </div>
+
+      <div class="plate reveal">
+        <div class="ph"><span><span class="dot" aria-hidden="true"></span>exploded_view.jpg</span><span>assembly</span></div>
+        <img loading="lazy" src="../assets/img/dawn/exploded-view.jpg" alt="DAWN exploded view — every part in the stack">
+        <div class="pf"><span>faceplate · body · board · brackets · screen</span><span class="tnum">fig. 05</span></div>
+      </div>
+    </section>
+
+    <!-- ==================== 04 · OUTCOME ==================== -->
+    <section class="sec" id="outcome" data-sec="04 outcome">
+      <span class="secno">04</span>
+      <div class="sechead reveal">
+        <span class="l"><span class="sq" aria-hidden="true"></span>where it landed</span>
+        <span class="r"><span class="tnum">04</span> — outcome</span>
+      </div>
+
+      <div class="metrics">
+        <div class="metric reveal">
+          <div class="big tnum">1<span class="u">dial</span></div>
+          <div class="lab">rotate · press · double-press</div>
+          <div class="x">the single input the whole product is built around.</div>
+        </div>
+        <div class="metric reveal">
+          <div class="big tnum">3<span class="u">builds</span></div>
+          <div class="lab">working wooden prototypes</div>
+          <div class="x">each with a custom board and hand-shaped housing.</div>
+        </div>
+        <div class="metric reveal">
+          <div class="big tnum">4<span class="u">screens</span></div>
+          <div class="lab">clock · radio · alarm · settings</div>
+          <div class="x">one coherent gesture language across all of them.</div>
+        </div>
+      </div>
+
+      <div class="plate reveal">
+        <div class="ph"><span><span class="dot" aria-hidden="true"></span>final_build.jpg</span><span>display unit</span></div>
+        <img loading="lazy" src="../assets/img/dawn/display-large.jpg" alt="DAWN final build, on display">
+        <div class="pf"><span>three prototypes &amp; a display, refining for the may 2026 capstone exhibition</span><span class="tnum">fig. 06</span></div>
+      </div>
+
+      <div class="plates two reveal">
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>display_top.jpg</span><span class="tnum">above</span></div>
+          <img loading="lazy" src="../assets/img/dawn/display-top.jpg" alt="DAWN display, from above">
+        </div>
+        <div class="plate">
+          <div class="ph"><span><span class="dot" aria-hidden="true"></span>display_detail.jpg</span><span class="tnum">detail</span></div>
+          <img loading="lazy" src="../assets/img/dawn/display-bottom.jpg" alt="DAWN display, detail">
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 05 · REFLECTION ==================== -->
+    <section class="sec" id="reflection" data-sec="05 reflection">
+      <span class="secno">05</span>
+      <div class="sechead reveal">
+        <span class="l"><span class="sq" aria-hidden="true"></span>what i learned</span>
+        <span class="r"><span class="tnum">05</span> — reflection</span>
+      </div>
+
+      <div class="reflect reveal">
+        <div class="k"><span class="sq" aria-hidden="true"></span>reflection</div>
+        <div>
+          <p>Dawn demanded expertise across product design, electronics engineering, firmware and interface design — and none of those decisions could be made alone. The board shaped the body; the body shaped the gesture set; the gesture set shaped the firmware. <b>Every domain pulled on the others.</b></p>
+          <p>Carrying one idea through all of them — that a single dial could be enough — is what made the project hard, and what made it whole.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== NEXT ==================== -->
+    <div class="next reveal">
+      <a class="nextcard" href="../pard/">
+        <div class="body">
+          <div class="lab">Next — 002 / 03 · Design Research</div>
+          <h2>pard<br>+ wkrm</h2>
+          <span class="arrow">View case study <span class="gl" aria-hidden="true">→</span></span>
+        </div>
+        <div class="media">
+          <div class="img bg-pard" role="img" aria-label="PARD + wkrm"></div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ============================ CONTACT ============================ -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="inner">
+        <div class="kfig tlabel reveal"><span class="acc">fig. 07</span><span>contact</span><span class="bar" aria-hidden="true"></span><span class="tnum">get in touch</span></div>
+        <h2 class="reveal">let’s cross<br>paths</h2>
+        <div class="links reveal">
+          <a class="btn accent" href="mailto:daniel@colcock.com">Email <span class="gl" aria-hidden="true">→</span></a>
+          <a class="btn ghost" href="../assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Résumé <span class="gl" aria-hidden="true">↓</span></a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/daniel-colcock/" target="_blank" rel="noopener">LinkedIn <span class="gl" aria-hidden="true">↗</span></a>
+          <a class="btn ghost" href="../gallery/">More work <span class="gl" aria-hidden="true">→</span></a>
+        </div>
+        <div class="foot">
+          <div class="fc">
+            <span class="k">Designer</span>
+            <span class="v">Daniel Colcock<span class="mk"> ●</span></span>
+          </div>
+          <div class="fc">
+            <span class="k">Location</span>
+            <span class="v">Santa Ana, California <span class="tnum">· US</span></span>
+          </div>
+          <div class="fc">
+            <span class="k">Edition</span>
+            <span class="v tnum">© 2026 · № DC—2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<button class="to-top" aria-label="Back to top">top <span class="gl" aria-hidden="true">↑</span></button>
+<script src="../site.js" defer></script>
+
+</body>
+</html>

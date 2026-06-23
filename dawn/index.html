@@ -35,14 +35,11 @@
   }
   .hero .photo.freed{
     position:absolute; right:0; bottom:0; margin:0; border:none; z-index:1;
-    width:660px; height:495px;                     /* width-fit at 660 → radio keeps its width, antenna restored */
+    width:660px; height:495px;
     background-image:url(../assets/img/dawn/hero2.jpg);
     background-repeat:no-repeat;
-    background-position:left bottom;               /* pull the radio leftward, nested toward the text */
-    background-size:contain;
-    /* fade only the table wood at the far left/right — stops sit outside the radio body */
-    -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
-            mask-image:linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+    background-position:center bottom;             /* radio centred, filling the frame to match the Figma crop */
+    background-size:cover;                         /* fill the box (the cutout already sits on white paper) */
   }
   /* On narrow screens the grid is a single column, so the radio can't be
      nested into side whitespace. Let it flow as a full-width block below the
@@ -51,7 +48,7 @@
     .hero .id{ background:none; }
     .hero .photo.freed{
       position:static; width:100%; height:auto; aspect-ratio:660/495;
-      background-position:center bottom; margin-top:8px;
+      background-position:center bottom; background-size:cover; margin-top:8px;
     }
   }
 
@@ -163,7 +160,6 @@
       <div class="plate reveal">
         <div class="ph"><span><span class="dot" aria-hidden="true"></span>audience.jpg</span><span>who it's for</span></div>
         <img loading="lazy" src="../assets/img/dawn/audience-key.jpg" alt="DAWN in context on a nightstand, with its intended audience">
-        <div class="pf"><span>a calmer ritual for the first and last moments of the day</span><span class="tnum">fig. 01</span></div>
       </div>
 
       <div class="statementband reveal">
@@ -213,7 +209,11 @@
       <div class="plate reveal">
         <div class="ph"><span><span class="dot" aria-hidden="true"></span>form_evolution.jpg</span><span>silhouette study</span></div>
         <img loading="lazy" src="../assets/img/dawn/form-evolution.jpg" alt="DAWN form evolution from cylinder to compact pill shape">
-        <div class="pf"><span>the silhouette earned its shape in the hand, not on screen</span><span class="tnum">fig. 02</span></div>
+      </div>
+
+      <div class="plate portrait reveal">
+        <div class="ph"><span><span class="dot" aria-hidden="true"></span>dawn_prototype.jpg</span><span>wooden build</span></div>
+        <img loading="lazy" src="../assets/img/gallery/DAWN_wooden.jpg" alt="Wooden DAWN clock radio prototype">
       </div>
 
       <!-- electronics -->
@@ -225,13 +225,11 @@
       <div class="plate reveal">
         <div class="ph"><span><span class="dot" aria-hidden="true"></span>material.jpg</span><span>turned hardwood</span></div>
         <img loading="lazy" src="../assets/img/dawn/material.jpg" alt="DAWN wooden housings — laser-cut faceplates and hand-shaped bodies">
-        <div class="pf"><span>laser-cut faceplate · hand-shaped body · acrylic screen</span><span class="tnum">fig. 03</span></div>
       </div>
 
       <div class="plate reveal">
         <div class="ph"><span><span class="dot" aria-hidden="true"></span>pcb_assembly.jpg</span><span>custom board</span></div>
         <img loading="lazy" src="../assets/img/dawn/circuit-large.jpg" alt="DAWN custom PCB, fully assembled">
-        <div class="pf"><span>one board, every component — the enclosure follows the electronics, not the wiring</span><span class="tnum">fig. 04</span></div>
       </div>
 
       <div class="plates two reveal">

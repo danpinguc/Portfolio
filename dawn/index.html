@@ -54,6 +54,28 @@
       background-position:center bottom; margin-top:8px;
     }
   }
+
+  /* dial gesture row — the three inputs the whole interface maps to.
+     Centred columns split by dashed hairlines, knob drawn as line art. */
+  .dialgestures{ display:grid; grid-template-columns:repeat(3,1fr);
+    margin-top:calc(40px * var(--air)); }
+  .dialgestures .dg{ display:flex; flex-direction:column; align-items:center;
+    text-align:center; gap:5px; padding:18px 18px 6px; border-right:1px dashed var(--hair); }
+  .dialgestures .dg:last-child{ border-right:none; }
+  .dialgestures .dg svg{ width:118px; height:118px; display:block; margin-bottom:6px; }
+  .dialgestures svg .ac{ fill:none; stroke:var(--accent); }
+  .dialgestures svg .ik{ fill:none; stroke:var(--ink); }
+  .dialgestures svg .acf{ fill:var(--accent); }
+  .dialgestures .dg .t{ font-size:13px; font-weight:700; letter-spacing:.04em;
+    text-transform:uppercase; }
+  .dialgestures .dg .x{ font-family:var(--mono); font-size:10px; color:var(--muted);
+    letter-spacing:.06em; text-transform:uppercase; }
+  @media (max-width:720px){
+    .dialgestures{ grid-template-columns:1fr; }
+    .dialgestures .dg{ border-right:none; border-bottom:1px dashed var(--hair);
+      padding:22px 18px; }
+    .dialgestures .dg:last-child{ border-bottom:none; }
+  }
 </style>
 </head>
 <body>
@@ -71,7 +93,7 @@
         <a href="#contact">contact</a>
       </nav>
       <button class="navtoggle" aria-expanded="false" aria-controls="navlinks" aria-label="Toggle menu">menu</button>
-      <a class="btn sm" href="../assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Résumé <span class="gl" aria-hidden="true">↓</span></a>
+      <a class="btn sm" href="../assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Resume <span class="gl" aria-hidden="true">↓</span></a>
     </div>
   </div>
   <div class="progress" id="progress"></div>
@@ -81,10 +103,10 @@
 <div class="ticker">
   <div class="wrap">
     <div class="row">
-      <div class="cell tlabel"><a href="../#work"><span class="gl" aria-hidden="true">←</span> all projects</a></div>
-      <div class="cell tlabel">Physical Product</div>
-      <div class="cell tlabel"><span class="tnum">001 / 03</span> · Case Study</div>
-      <div class="cell tlabel"><span class="led" aria-hidden="true"></span>2025–26</div>
+      <div class="cell tlabel"><span class="tnum">№ DC—2026</span> · Portfolio</div>
+      <div class="cell tlabel">Product Designer</div>
+      <div class="cell tlabel">Santa Ana CA · <span class="tnum">33.75°N</span></div>
+      <div class="cell tlabel"><span class="led" aria-hidden="true"></span>Open to work</div>
     </div>
   </div>
 </div>
@@ -101,9 +123,6 @@
           <div class="role">Replacing the phone on your nightstand with <b>a single dial</b></div>
           <div class="ledewrap">
             <p class="lede">What's the first thing you did this morning? You probably picked up your phone. Dawn is a wooden clock radio designed to take its place — it shows the time, lets you explore the airwaves, and wakes you with local community radio, all through one rotary dial. No notifications, no feeds; just a local voice and the sounds of your city waking up with you.</p>
-          </div>
-          <div class="cta">
-            <a class="btn accent" href="#context">Read the case study <span class="gl" aria-hidden="true">↓</span></a>
           </div>
         </div>
         <figure class="photo freed" role="img" aria-label="DAWN wooden clock radio on a nightstand"></figure>
@@ -160,10 +179,8 @@
         <div class="pf"><span>a calmer ritual for the first and last moments of the day</span><span class="tnum">fig. 01</span></div>
       </div>
 
-      <div class="quote reveal">
-        <span class="mark" aria-hidden="true">“</span>
-        <blockquote>FM radio is live and passive. You tune in and something is already happening — it builds a greater sense of community.</blockquote>
-        <div class="by"><span class="ln"></span>design rationale</div>
+      <div class="block reveal">
+        <h2 class="statement">fm radio is live and passive,<br>you tune in and something is already happening<br><span class="mk">it builds a greater sense of active community.</span></h2>
       </div>
     </section>
 
@@ -247,6 +264,60 @@
         <p class="lead">The whole interface — clock, radio, alarm and settings — maps to just three inputs on the dial: <b>rotate, press, and double-press.</b> A contextual gesture language, carried by smooth animation, keeps that small vocabulary legible across every screen.</p>
       </div>
 
+      <div class="dialgestures reveal">
+        <div class="dg">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Rotate the dial">
+            <g class="ac" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M83 25 A23 8 0 1 1 45 19"/>
+              <path d="M45 19 l5.4 -1.6 -.5 5.6"/>
+            </g>
+            <g class="acf"><circle cx="73" cy="31" r="2.2"/><circle cx="43" cy="29" r="2.2"/></g>
+            <g class="ik" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="60" cy="62" rx="27" ry="9.5"/>
+              <path d="M33 62 V84"/><path d="M87 62 V84"/>
+              <path d="M33 84 A27 9.5 0 0 0 87 84"/>
+              <path d="M44 66 V86" opacity=".4"/><path d="M52 67.5 V87.5" opacity=".4"/><path d="M60 68 V88" opacity=".4"/><path d="M68 67.5 V87.5" opacity=".4"/><path d="M76 66 V86" opacity=".4"/>
+              <path d="M54 88 V99"/><path d="M66 88 V99"/><path d="M54 99 A6 2 0 0 0 66 99"/>
+            </g>
+          </svg>
+          <div class="t">Rotate</div>
+          <div class="x">navigate · adjust</div>
+        </div>
+        <div class="dg">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Press the dial">
+            <g class="ac" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M60 10 V33"/><path d="M53 26 l7 7 7 -7"/>
+            </g>
+            <g class="ik" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="60" cy="62" rx="27" ry="9.5"/>
+              <path d="M33 62 V84"/><path d="M87 62 V84"/>
+              <path d="M33 84 A27 9.5 0 0 0 87 84"/>
+              <path d="M44 66 V86" opacity=".4"/><path d="M52 67.5 V87.5" opacity=".4"/><path d="M60 68 V88" opacity=".4"/><path d="M68 67.5 V87.5" opacity=".4"/><path d="M76 66 V86" opacity=".4"/>
+              <path d="M54 88 V99"/><path d="M66 88 V99"/><path d="M54 99 A6 2 0 0 0 66 99"/>
+            </g>
+          </svg>
+          <div class="t">Press</div>
+          <div class="x">select · confirm</div>
+        </div>
+        <div class="dg">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Double-press the dial">
+            <g class="ac" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M51 10 V33"/><path d="M44 26 l7 7 7 -7"/>
+              <path d="M69 10 V33"/><path d="M62 26 l7 7 7 -7"/>
+            </g>
+            <g class="ik" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="60" cy="62" rx="27" ry="9.5"/>
+              <path d="M33 62 V84"/><path d="M87 62 V84"/>
+              <path d="M33 84 A27 9.5 0 0 0 87 84"/>
+              <path d="M44 66 V86" opacity=".4"/><path d="M52 67.5 V87.5" opacity=".4"/><path d="M60 68 V88" opacity=".4"/><path d="M68 67.5 V87.5" opacity=".4"/><path d="M76 66 V86" opacity=".4"/>
+              <path d="M54 88 V99"/><path d="M66 88 V99"/><path d="M54 99 A6 2 0 0 0 66 99"/>
+            </g>
+          </svg>
+          <div class="t">Press × 2</div>
+          <div class="x">back · cancel</div>
+        </div>
+      </div>
+
       <div class="plates two reveal">
         <div class="plate">
           <div class="ph"><span><span class="dot" aria-hidden="true"></span>screen · clock</span><span class="tnum">rotate</span></div>
@@ -281,24 +352,6 @@
         <span class="r"><span class="tnum">04</span> — outcome</span>
       </div>
 
-      <div class="metrics">
-        <div class="metric reveal">
-          <div class="big tnum">1<span class="u">dial</span></div>
-          <div class="lab">rotate · press · double-press</div>
-          <div class="x">the single input the whole product is built around.</div>
-        </div>
-        <div class="metric reveal">
-          <div class="big tnum">3<span class="u">builds</span></div>
-          <div class="lab">working wooden prototypes</div>
-          <div class="x">each with a custom board and hand-shaped housing.</div>
-        </div>
-        <div class="metric reveal">
-          <div class="big tnum">4<span class="u">screens</span></div>
-          <div class="lab">clock · radio · alarm · settings</div>
-          <div class="x">one coherent gesture language across all of them.</div>
-        </div>
-      </div>
-
       <div class="plate reveal">
         <div class="ph"><span><span class="dot" aria-hidden="true"></span>final_build.jpg</span><span>display unit</span></div>
         <img loading="lazy" src="../assets/img/dawn/display-large.jpg" alt="DAWN final build, on display">
@@ -313,23 +366,6 @@
         <div class="plate">
           <div class="ph"><span><span class="dot" aria-hidden="true"></span>display_detail.jpg</span><span class="tnum">detail</span></div>
           <img loading="lazy" src="../assets/img/dawn/display-bottom.jpg" alt="DAWN display, detail">
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== 05 · REFLECTION ==================== -->
-    <section class="sec" id="reflection" data-sec="05 reflection">
-      <span class="secno">05</span>
-      <div class="sechead reveal">
-        <span class="l"><span class="sq" aria-hidden="true"></span>what i learned</span>
-        <span class="r"><span class="tnum">05</span> — reflection</span>
-      </div>
-
-      <div class="reflect reveal">
-        <div class="k"><span class="sq" aria-hidden="true"></span>reflection</div>
-        <div>
-          <p>Dawn demanded expertise across product design, electronics engineering, firmware and interface design — and none of those decisions could be made alone. The board shaped the body; the body shaped the gesture set; the gesture set shaped the firmware. <b>Every domain pulled on the others.</b></p>
-          <p>Carrying one idea through all of them — that a single dial could be enough — is what made the project hard, and what made it whole.</p>
         </div>
       </div>
     </section>
@@ -358,7 +394,7 @@
         <h2 class="reveal">let’s cross<br>paths</h2>
         <div class="links reveal">
           <a class="btn accent" href="mailto:daniel@colcock.com">Email <span class="gl" aria-hidden="true">→</span></a>
-          <a class="btn ghost" href="../assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Résumé <span class="gl" aria-hidden="true">↓</span></a>
+          <a class="btn ghost" href="../assets/Daniel_Colcock_Resume_2026.pdf" target="_blank" rel="noopener">Resume <span class="gl" aria-hidden="true">↓</span></a>
           <a class="btn ghost" href="https://www.linkedin.com/in/daniel-colcock/" target="_blank" rel="noopener">LinkedIn <span class="gl" aria-hidden="true">↗︎</span></a>
           <a class="btn ghost" href="../gallery/">More work <span class="gl" aria-hidden="true">→</span></a>
         </div>

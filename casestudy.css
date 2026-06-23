@@ -64,7 +64,14 @@ a{color:inherit;text-decoration:none}
 .navlinks a:hover::after{right:0}
 
 /* reading progress bar (sits at base of nav) */
-.nav .progress{position:absolute;left:0;bottom:-1.5px;height:1.5px;width:0;background:var(--accent);z-index:2;transition:width .1s linear}
+/* reading progress bar — confined to the content column (.wrap) so it lines
+   up with the page's content rules and collapses with them on smaller windows.
+   Scaled via transform so the JS only sets a 0–1 fraction. */
+.nav .progress{position:absolute;bottom:-1.5px;height:1.5px;
+  left:max(32px,calc(50% - 588px));right:max(32px,calc(50% - 588px));
+  background:var(--accent);z-index:2;transform:scaleX(0);transform-origin:left;
+  transition:transform .1s linear}
+@media (max-width:720px){.nav .progress{left:18px;right:18px}}
 
 /* ---------- buttons ---------- */
 .btn{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;padding:11px 17px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);display:inline-flex;align-items:center;gap:9px;cursor:pointer;transition:background .18s,color .18s,transform .15s}

@@ -55,27 +55,10 @@
     }
   }
 
-  /* dial gesture row — the three inputs the whole interface maps to.
-     Centred columns split by dashed hairlines, knob drawn as line art. */
-  .dialgestures{ display:grid; grid-template-columns:repeat(3,1fr);
-    margin-top:calc(40px * var(--air)); }
-  .dialgestures .dg{ display:flex; flex-direction:column; align-items:center;
-    text-align:center; gap:5px; padding:18px 18px 6px; border-right:1px dashed var(--hair); }
-  .dialgestures .dg:last-child{ border-right:none; }
-  .dialgestures .dg svg{ width:118px; height:118px; display:block; margin-bottom:6px; }
-  .dialgestures svg .ac{ fill:none; stroke:var(--accent); }
-  .dialgestures svg .ik{ fill:none; stroke:var(--ink); }
-  .dialgestures svg .acf{ fill:var(--accent); }
-  .dialgestures .dg .t{ font-size:13px; font-weight:700; letter-spacing:.04em;
-    text-transform:uppercase; }
-  .dialgestures .dg .x{ font-family:var(--mono); font-size:10px; color:var(--muted);
-    letter-spacing:.06em; text-transform:uppercase; }
-  @media (max-width:720px){
-    .dialgestures{ grid-template-columns:1fr; }
-    .dialgestures .dg{ border-right:none; border-bottom:1px dashed var(--hair);
-      padding:22px 18px; }
-    .dialgestures .dg:last-child{ border-bottom:none; }
-  }
+  /* dial gesture row — the three inputs the whole interface maps to */
+  .dialgestures{ margin:calc(40px * var(--air)) 0 0; }
+  .dialgestures img{ display:block; width:100%; max-width:1000px; height:auto;
+    margin:0 auto; }
 
   /* full-width pull statement, ruled top and bottom (closes section 01) */
   .statementband{ border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line);
@@ -268,59 +251,9 @@
         <p class="lead">The whole interface — clock, radio, alarm and settings — maps to just three inputs on the dial: <b>rotate, press, and double-press.</b> A contextual gesture language, carried by smooth animation, keeps that small vocabulary legible across every screen.</p>
       </div>
 
-      <div class="dialgestures reveal">
-        <div class="dg">
-          <svg viewBox="0 0 120 120" role="img" aria-label="Rotate the dial">
-            <g class="ac" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M83 25 A23 8 0 1 1 45 19"/>
-              <path d="M45 19 l5.4 -1.6 -.5 5.6"/>
-            </g>
-            <g class="acf"><circle cx="73" cy="31" r="2.2"/><circle cx="43" cy="29" r="2.2"/></g>
-            <g class="ik" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <ellipse cx="60" cy="62" rx="27" ry="9.5"/>
-              <path d="M33 62 V84"/><path d="M87 62 V84"/>
-              <path d="M33 84 A27 9.5 0 0 0 87 84"/>
-              <path d="M44 66 V86" opacity=".4"/><path d="M52 67.5 V87.5" opacity=".4"/><path d="M60 68 V88" opacity=".4"/><path d="M68 67.5 V87.5" opacity=".4"/><path d="M76 66 V86" opacity=".4"/>
-              <path d="M54 88 V99"/><path d="M66 88 V99"/><path d="M54 99 A6 2 0 0 0 66 99"/>
-            </g>
-          </svg>
-          <div class="t">Rotate</div>
-          <div class="x">navigate · adjust</div>
-        </div>
-        <div class="dg">
-          <svg viewBox="0 0 120 120" role="img" aria-label="Press the dial">
-            <g class="ac" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M60 10 V33"/><path d="M53 26 l7 7 7 -7"/>
-            </g>
-            <g class="ik" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <ellipse cx="60" cy="62" rx="27" ry="9.5"/>
-              <path d="M33 62 V84"/><path d="M87 62 V84"/>
-              <path d="M33 84 A27 9.5 0 0 0 87 84"/>
-              <path d="M44 66 V86" opacity=".4"/><path d="M52 67.5 V87.5" opacity=".4"/><path d="M60 68 V88" opacity=".4"/><path d="M68 67.5 V87.5" opacity=".4"/><path d="M76 66 V86" opacity=".4"/>
-              <path d="M54 88 V99"/><path d="M66 88 V99"/><path d="M54 99 A6 2 0 0 0 66 99"/>
-            </g>
-          </svg>
-          <div class="t">Press</div>
-          <div class="x">select · confirm</div>
-        </div>
-        <div class="dg">
-          <svg viewBox="0 0 120 120" role="img" aria-label="Double-press the dial">
-            <g class="ac" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M51 10 V33"/><path d="M44 26 l7 7 7 -7"/>
-              <path d="M69 10 V33"/><path d="M62 26 l7 7 7 -7"/>
-            </g>
-            <g class="ik" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <ellipse cx="60" cy="62" rx="27" ry="9.5"/>
-              <path d="M33 62 V84"/><path d="M87 62 V84"/>
-              <path d="M33 84 A27 9.5 0 0 0 87 84"/>
-              <path d="M44 66 V86" opacity=".4"/><path d="M52 67.5 V87.5" opacity=".4"/><path d="M60 68 V88" opacity=".4"/><path d="M68 67.5 V87.5" opacity=".4"/><path d="M76 66 V86" opacity=".4"/>
-              <path d="M54 88 V99"/><path d="M66 88 V99"/><path d="M54 99 A6 2 0 0 0 66 99"/>
-            </g>
-          </svg>
-          <div class="t">Press × 2</div>
-          <div class="x">back · cancel</div>
-        </div>
-      </div>
+      <figure class="dialgestures reveal">
+        <img src="../assets/img/dawn/gestures.png" alt="The three dial gestures — rotate to navigate and adjust, press to select and confirm, double-press to go back and cancel.">
+      </figure>
 
       <div class="plates two reveal">
         <div class="plate">
